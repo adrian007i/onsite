@@ -1,14 +1,12 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse 
+ 
 
-def profile(request):
-    return HttpResponse("my profile")
-
-def apply(request):
-    return HttpResponse("apply to a job")
+def profile(request): 
+    return render(request , "public/register.html") 
 
 def applications(request):
-    return HttpResponse("list of my applications ")
+    return render(request , "public/companies.html") 
 
 def saved(request):
-    return HttpResponse("list of saved jobs")
+    return render(request , "public/companies.html") 
