@@ -1,14 +1,20 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 
-def dashboard(request):
-    return HttpResponse("my profile")
+def index(request):
+     return HttpResponseRedirect("/recruiter/dashboard/") 
 
-def post_job(request):
-    return HttpResponse("apply to a job")
+def dashboard(request): 
+    return render(request , "recruiter/dashboard.html") 
 
-def applicant_pool(request):
-    return HttpResponse("list of my applications ")
+def post_job(request): 
+    return render(request , "public/post_job.html") 
 
-def payments(request):
-    return HttpResponse("list of saved jobs")
+def listings(request):
+    return render(request , "recruiter/listings.html") 
+
+def applicants(request):
+    return render(request , "recruiter/applicants.html") 
+
+def profile(request):
+    return render(request , "recruiter/profile.html") 

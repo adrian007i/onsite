@@ -3,8 +3,9 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path("dashboard", views.dashboard, name="profile"),
-    path("post_job", views.post_job, name="apply"),
-    path("applicants", views.applicant_pool, name="applications"), 
-    path("payments", views.payments, name="saved"), 
+    path("dashboard", views.dashboard, name="dashboard"), 
+    path("post_job", views.post_job, name="post_job"),
+    path("listings", views.listings, name="listings"),
+    path("applicants", views.applicants, name="applicants"), 
+    path("profile", views.profile, name="profile"), 
 ]

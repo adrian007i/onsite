@@ -23,12 +23,7 @@
                 class="fas fa-bars"></i></button>
         <!-- Navbar Search-->
         <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-            <div class="input-group">
-                <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..."
-                    aria-describedby="btnNavbarSearch" />
-                <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i
-                        class="fas fa-search"></i></button>
-            </div>
+            <div class="input-group"> </div>
         </form>
         <!-- Navbar-->
         <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
@@ -66,7 +61,7 @@
 
                         {% endif %}
 
-                        {% if not request.user.role == "user" %}
+                        {% if request.user.role == "user" %}
                         <a class="nav-link" href="/jobs">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Jobs
@@ -86,7 +81,29 @@
                         <a class="nav-link" href="/user/profile">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             My Profile
-                        </a>   
+                        </a> 
+                          
+
+                        {% endif %}
+
+                        {% if request.user.role == "recruiter" %}
+                        <a class="nav-link" href="/recruiter/dashboard">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Dashboard
+                        </a>
+                        <a class="nav-link" href="/recruiter/listings">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            My Listings
+                        </a>
+                        <a class="nav-link" href="/recruiter/applicants">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Applicant Pool
+                        </a>  
+                        <a class="nav-link" href="/recruiter/profile">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            My Profile
+                        </a> 
+                          
 
                         {% endif %}
 
