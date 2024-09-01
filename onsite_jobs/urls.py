@@ -7,3 +7,4 @@ urlpatterns = [
     path('user/', include("app.user.urls")),
     path('recruiter/', include("app.recuiter.urls")),
 ]
+ 
