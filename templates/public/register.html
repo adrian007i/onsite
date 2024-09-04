@@ -15,58 +15,52 @@
                                     <form id="registerForm" novalidate method="post">
                                         {% csrf_token %}
                                         <input type="hidden" name="role" value="user">
-                                        <div class="form-floating mb-3">
+                                        <div class="form-floating mb-3" id="headline">
                                             <input class="form-control" type="text" name="headline" placeholder=""
                                                 required />
                                             <label for="headline">Headline</label>
-                                            <div class="invalid-feedback">
-                                                Required
-                                            </div>
+                                            <div class="invalid-feedback"></div>
                                         </div>
                                         <div class="row mb-3">
                                             <div class="col-md-6">
-                                                <div class="form-floating mb-3 mb-md-0">
+                                                <div class="form-floating mb-3 mb-md-0" id="first_name">
                                                     <input class="form-control" type="text" placeholder="" required
                                                         name="first_name" />
                                                     <label for="inputFirstName">First name</label>
-                                                    <div class="invalid-feedback">
-                                                        Required
-                                                    </div>
+                                                    <div class="invalid-feedback"></div>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <div class="form-floating">
+                                                <div class="form-floating" id="last_name">
                                                     <input class="form-control" type="text" placeholder="" required
                                                         name="last_name" />
                                                     <label for="inputLastName">Last name</label>
-                                                    <div class="invalid-feedback">
-                                                        Required
-                                                    </div>
+                                                    <div class="invalid-feedback" id="last_name_error"></div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="form-floating mb-3">
-                                            <input class="form-control" name="email" type="email" placeholder=""
-                                                required />
-                                            <label for="inputEmail">Email addresss</label>
-                                            <div class="invalid-feedback">
-                                                Invalid
-                                            </div>
-                                        </div>
-                                        <div class="form-floating mb-3">
-                                            <input class="form-control" name="password" type="password" placeholder=""
-                                                required />
-                                            <label for="inputPassword">Password</label>
 
-                                            <input type="checkbox" name="" id=""> <small class="text-secondary"> Show
-                                                Password</small>
-                                            <div class="invalid-feedback">
-                                                Required
+                                        <div class="form-floating mb-3" id="email">
+                                            <input name="email" type="email" placeholder="" class="form-control"
+                                                required>
+                                            <label for="email">Email Address</label>
+                                            <div class="invalid-feedback"></div>
+                                        </div>
+
+
+                                        <div class="form-floating mb-3" id="password">
+                                            <input class="form-control" id="passwordInput" name="password" type="password" placeholder="" required />
+                                            <label for="inputPassword">Password</label>
+                                            <div class="invalid-feedback" id="password_error"></div>
+
+                                            <div>
+                                                <input type="checkbox" id="show" onchange="passwordToggle('passwordInput')"> <label for="show" class="text-secondary"> Show Password</label>
                                             </div>
+
+                                           
                                         </div>
                                         <div class="col-sm-12">
-                                            <button class="btn btn-primary w-100" id="submit_btn" type="submit">Create
-                                                Account</button>
+                                            <button class="btn btn-primary w-100" id="submit_btn" type="submit">CreateAccount</button>
                                         </div>
                                     </form>
                                 </div>
@@ -84,32 +78,46 @@
 
 <script>
 
+    let errors = {
+        headline: "Required",
+        first_name: "Required",
+        last_name: "Required",
+        email: "Invalid Email",
+        password: "Required"
+    }
+
     // on submit of registration form
-    document.getElementById('registerForm').addEventListener('submit', function (event) {
+    document.getElementById('registerForm').addEventListener('submit', async function (event) {
         event.preventDefault();
- 
-        // form validation
+
+        setErrors(errors, false);
+
+        // check validation
         if (this.checkValidity()) {
 
-            const submit_btn = document.getElementById("submit_btn"); 
-            submit_btn.innerText = "Registering ...";
-            submit_btn.disabled = true;
+            pending("submit_btn", "Registering ... ", true)
 
             // ajax reqeust to submit form
-            const response = fetch("/register_ajax",
+            fetch("/register_ajax",
                 {
                     body: new FormData(this),
                     method: 'POST'
                 }).then(res => {
 
-                    submit_btn.innerText = "Create Account";
-                    submit_btn.disabled = true;
+                    pending("submit_btn", "Create Account", false)
 
-                    if (res.ok) {
-                        window.location.href = "/login";
-                    } else {
-                        // TODO, DISPLAY SERVERSIDE ERRRORS
-                    }
+                    if (!res.ok)
+                        return res.text().then(text => { throw new Error(text) })
+                    else
+                        return res.json(); 
+
+                }).then(data => {
+                    window.location.href = data.redirect;
+
+                }).catch(err => { 
+                    const serverErrors = JSON.parse(err.message);                    
+                    setErrors(serverErrors , true);
+
                 });
         }
 

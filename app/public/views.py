@@ -1,13 +1,14 @@
 from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseRedirect, JsonResponse
-
+from django.db import IntegrityError
+from django.core.exceptions import BadRequest
 from app.models import *
-from django.contrib.auth import get_user_model
+from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout ,get_user_model
 
 def index(request):
      return HttpResponseRedirect("/jobs") 
 
-def user_login(request):
+def user_login(request): 
     return render(request , "public/login.html") 
 
 def user_logout(request):
@@ -18,20 +19,23 @@ def register(request):
 
 def register_ajax(request):
 
-    try:
-        # model = get_user_model() 
-        User.objects.create(
+    try: 
+        user = User.objects.create(
         email = request.POST.get("email"), 
         first_name = request.POST.get("first_name"), 
         last_name = request.POST.get("last_name"), 
         headline = request.POST.get("headline"), 
         role = request.POST.get("role"),
-        password= request.POST.get("password")
-        )
-        return JsonResponse({"success" : True})
+        password= request.POST.get("password")) 
+        
+        auth_login(request,user)
+ 
+        return JsonResponse ({'redirect' : f'/{user.role}/profile'})
+     
+    except IntegrityError as ie: 
+        return JsonResponse({"email" : "This email already exist!"} , status=400)
     except Exception as e:
-        print(str(e)) 
-        return JsonResponse({"success" : False})
+        return JsonResponse({"server" : "Something went wrong. Try Later!"} , status=400)
     
 
 def companies(request):
