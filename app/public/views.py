@@ -5,6 +5,7 @@ from django.core.exceptions import BadRequest
 from app.models import *
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout ,get_user_model
 from django.contrib.auth.hashers import make_password
+from django.urls import reverse
 
 def index(request):
      return HttpResponseRedirect("/jobs") 
@@ -15,12 +16,11 @@ def user_login(request):
 def login_ajax(request):
      
     try:
-        print(request.POST.get("password") , request.POST.get("email"))
-        user = authenticate(request, username=request.POST.get("email"), password=request.POST.get("password"))  
-        print(user)
+        user = authenticate(request, username=request.POST.get("email"), password=request.POST.get("password"))
+
         if user:
             auth_login(request,user)
-            return JsonResponse ({'redirect' : f'/{user.role}/profile'})
+            return JsonResponse ({'redirect' : f'/jobs'})
         else:
             return JsonResponse({"server" : "Invalid Credentials"} , status=400) 
         
@@ -29,7 +29,8 @@ def login_ajax(request):
  
 
 def user_logout(request):
-    return HttpResponse("logout")
+    auth_logout(request)
+    return HttpResponseRedirect(reverse('login'))
 
 def register(request): 
     return render(request , "public/register.html") 
