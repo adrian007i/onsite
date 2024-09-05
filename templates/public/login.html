@@ -13,22 +13,35 @@
                             <div class="card shadow-lg border-0 rounded-lg mt-5">
                                 <div class="card-header"><h3 class="text-center font-weight-light my-4">Login</h3></div>
                                 <div class="card-body">
-                                    <form>
-                                        <div class="form-floating mb-3">
-                                            <input class="form-control" id="inputEmail" type="email" placeholder="name@example.com" />
-                                            <label for="inputEmail">Email address</label>
+                                    <form id="loginForm" novalidate >
+                                        {% csrf_token %}
+                                        <div class="form-floating mb-3" id="email">
+                                            <input name="email" type="email" placeholder="" class="form-control"
+                                                required>
+                                            <label for="email">Email Address</label>
+                                            <div class="invalid-feedback"></div>
                                         </div>
-                                        <div class="form-floating mb-3">
-                                            <input class="form-control" id="inputPassword" type="password" placeholder="Password" />
+
+
+                                        <div class="form-floating mb-3" id="password">
+                                            <input class="form-control" id="passwordInput" name="password" type="password" placeholder="" required />
                                             <label for="inputPassword">Password</label>
+                                            <div class="invalid-feedback" id="password_error"></div>
+
+                                            <div>
+                                                <input type="checkbox" id="show" onchange="passwordToggle('passwordInput')"> <label for="show" class="text-secondary"> Show Password</label>
+                                            </div> 
                                         </div>
-                                        <div class="form-check mb-3">
-                                            <input class="form-check-input" id="inputRememberPassword" type="checkbox" value="" />
-                                            <label class="form-check-label" for="inputRememberPassword">Remember Password</label>
+
+                                        <div class="form-floating mb-3" id="server">
+                                            <input name="server" type="hidden" class="form-control is-invalid"> 
+                                            <div class="invalid-feedback"></div>
                                         </div>
+                                         
+
                                         <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
                                             <a class="small" href="password.html">Forgot Password?</a>
-                                            <a class="btn btn-primary" href="index.html">Login</a>
+                                            <button class="btn btn-primary" id="submit_btn" type="submit">Login</button> 
                                         </div>
                                     </form>
                                 </div>
@@ -40,23 +53,56 @@
                     </div>
                 </div>
             </main>
-        </div>
-        <div id="layoutAuthentication_footer">
-            <footer class="py-4 bg-light mt-auto">
-                <div class="container-fluid px-4">
-                    <div class="d-flex align-items-center justify-content-between small">
-                        <div class="text-muted">Copyright &copy; Your Website 2023</div>
-                        <div>
-                            <a href="#">Privacy Policy</a>
-                            &middot;
-                            <a href="#">Terms &amp; Conditions</a>
-                        </div>
-                    </div>
-                </div>
-            </footer>
-        </div>
+        </div> 
     </div>
 </div>
+
+
+<script>
+
+    let errors = { 
+        email: "Invalid Email",
+        password: "Required",
+        server: ""
+    }
+
+    // on submit of registration form
+    document.getElementById('loginForm').addEventListener('submit', async function (event) {
+        event.preventDefault();
+
+        setErrors(errors, false);
+
+        // check validation
+        if (this.checkValidity()) {
+
+            pending("submit_btn", "Authenticating ... ", true)
+
+            // ajax reqeust to submit form
+            fetch("/login_ajax",
+                {
+                    body: new FormData(this),
+                    method: 'POST'
+                }).then(res => {
+
+                    pending("submit_btn", "Login", false)
+
+                    if (!res.ok)
+                        return res.text().then(text => { throw new Error(text) })
+                    else
+                        return res.json(); 
+
+                }).then(data => {
+                    window.location.href = data.redirect;
+
+                }).catch(err => { 
+                    const serverErrors = JSON.parse(err.message);                    
+                    setErrors(serverErrors , true); 
+                });
+        }
+
+        this.classList.add('was-validated')
+    }, false)
+</script>
 
 
 {% endblock %} 
