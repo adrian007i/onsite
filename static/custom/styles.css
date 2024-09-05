@@ -8,3 +8,27 @@
 .sb-nav-link-icon{
     font-size: 1.2rem !important;
 }
+
+#btn_toggle{
+    display: flex;
+}
+
+.btn_toggle{
+    padding: 10px;
+    border: none;
+    transition: flex .5s ease-out; 
+    color: #fff; 
+    background-color: #fd0d0d;
+    text-wrap: nowrap;
+    opacity: .5;
+}
+ 
+#rec_toggle{
+    color: #fff;
+}
+ 
+.focus{ 
+    flex: 1; 
+    opacity: 1!important;
+    background-color: #222;
+} 

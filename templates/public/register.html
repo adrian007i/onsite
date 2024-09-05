@@ -10,15 +10,21 @@
                 <div class="container">
                     <div class="row justify-content-center">
                         <div class="col-lg-7">
+
                             <div class="card shadow-lg border-0 rounded-lg mt-5">
-                                <div class="card-body">
-                                    <form id="registerForm" novalidate method="post">
+
+                                <div id="btn_toggle">
+                                    <button class="btn_toggle focus" onclick="toggleForm('user')" id="js_toggle">Job Seeker</button>
+                                    <button class="btn_toggle" onclick="toggleForm('recruiter')" id="rec_toggle">Recruiter</button>
+                                </div> 
+                                <div class="card-body" id="userForm">
+                                    <form  novalidate method="post">
                                         {% csrf_token %}
                                         <input type="hidden" name="role" value="user">
                                         <div class="form-floating mb-3" id="headline">
                                             <input class="form-control" type="text" name="headline" placeholder=""
                                                 required />
-                                            <label for="headline">Headline</label>
+                                            <label for="headline">Job Title</label>
                                             <div class="invalid-feedback"></div>
                                         </div>
                                         <div class="row mb-3">
@@ -49,18 +55,85 @@
 
 
                                         <div class="form-floating mb-3" id="password">
-                                            <input class="form-control" id="passwordInput" name="password" type="password" placeholder="" required />
+                                            <input class="form-control" id="passwordInput" name="password"
+                                                type="password" placeholder="" required />
                                             <label for="inputPassword">Password</label>
                                             <div class="invalid-feedback" id="password_error"></div>
 
                                             <div>
-                                                <input type="checkbox" id="show" onchange="passwordToggle('passwordInput')"> <label for="show" class="text-secondary"> Show Password</label>
+                                                <input type="checkbox" id="show"
+                                                    onchange="passwordToggle('passwordInput')"> <label for="show"
+                                                    class="text-secondary"> Show Password</label>
                                             </div>
 
-                                           
+
                                         </div>
                                         <div class="col-sm-12">
-                                            <button class="btn btn-primary w-100" id="submit_btn" type="submit">CreateAccount</button>
+                                            <button class="btn btn-primary w-100" id="submit_btn"
+                                                type="submit">CreateAccount</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="card-body d-none" id="recruiterForm">
+                                    <form novalidate method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="role" value="user">
+                                        <div class="form-floating mb-3" id="headline">
+                                            <input class="form-control" type="text" name="headline" placeholder=""
+                                                required />
+                                            <label for="headline">Company Name</label>
+                                            <div class="invalid-feedback"></div>
+                                        </div>
+                                        <div class="form-floating mb-3" id="headline">
+                                            <input class="form-control" type="text" name="headline" placeholder=""
+                                                required />
+                                            <label for="headline">Company Website</label>
+                                            <div class="invalid-feedback"></div>
+                                        </div> 
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <div class="form-floating mb-3 mb-md-0" id="first_name">
+                                                    <input class="form-control" type="text" placeholder="" required
+                                                        name="first_name" />
+                                                    <label for="inputFirstName">First name</label>
+                                                    <div class="invalid-feedback"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating" id="last_name">
+                                                    <input class="form-control" type="text" placeholder="" required
+                                                        name="last_name" />
+                                                    <label for="inputLastName">Last name</label>
+                                                    <div class="invalid-feedback" id="last_name_error"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-floating mb-3" id="email">
+                                            <input name="email" type="email" placeholder="" class="form-control"
+                                                required>
+                                            <label for="email">Email Address</label>
+                                            <div class="invalid-feedback"></div>
+                                        </div>
+
+
+                                        <div class="form-floating mb-3" id="password">
+                                            <input class="form-control" id="passwordInput" name="password"
+                                                type="password" placeholder="" required />
+                                            <label for="inputPassword">Password</label>
+                                            <div class="invalid-feedback" id="password_error"></div>
+
+                                            <div>
+                                                <input type="checkbox" id="show"
+                                                    onchange="passwordToggle('passwordInput')"> <label for="show"
+                                                    class="text-secondary"> Show Password</label>
+                                            </div>
+
+
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <button class="btn btn-primary w-100" id="submit_btn"
+                                                type="submit">CreateAccount</button>
                                         </div>
                                     </form>
                                 </div>
@@ -77,6 +150,29 @@
 </div>
 
 <script>
+
+    const toggleForm = (formFocused) =>{ 
+        
+        const userToggle = document.getElementById("js_toggle");
+        const recruiterToggle = document.getElementById("rec_toggle");
+        const userForm = document.getElementById("userForm");
+        const recruiterForm = document.getElementById("recruiterForm");
+
+        userToggle.classList.remove("focus");
+        recruiterToggle.classList.remove("focus");
+        userForm.classList.remove("d-none");
+        recruiterForm.classList.remove("d-none");
+
+        if (formFocused === "user"){
+            userToggle.classList.add("focus");
+            recruiterForm.classList.add("d-none");
+        }            
+        else{
+            recruiterToggle.classList.add("focus");
+            userForm.classList.add("d-none");
+        }
+         
+    }
 
     let errors = {
         headline: "Required",
@@ -109,14 +205,14 @@
                     if (!res.ok)
                         return res.text().then(text => { throw new Error(text) })
                     else
-                        return res.json(); 
+                        return res.json();
 
                 }).then(data => {
                     window.location.href = data.redirect;
 
-                }).catch(err => { 
-                    const serverErrors = JSON.parse(err.message);                    
-                    setErrors(serverErrors , true);
+                }).catch(err => {
+                    const serverErrors = JSON.parse(err.message);
+                    setErrors(serverErrors, true);
 
                 });
         }
