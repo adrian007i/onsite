@@ -8,7 +8,11 @@ from django.contrib.auth.hashers import make_password
 from django.urls import reverse
 
 def index(request):
-     return HttpResponseRedirect("/jobs") 
+     if request.user.role == "recruiter":
+        return HttpResponseRedirect("/recruiter/dashboard")
+     else:
+        return HttpResponseRedirect("/jobs")
+         
 
 def user_login(request): 
     return render(request , "public/login.html") 

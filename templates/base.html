@@ -11,6 +11,7 @@
     <title>Dashboard - SB Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
     <link href="{% static  '/css/styles.css' %}" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static '/custom/styles.css/' %}">
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <script>
         const getFormData = (selector) => Object.fromEntries(new FormData(document.querySelector(selector)));
@@ -48,7 +49,7 @@
 <body class="sb-nav-fixed">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <!-- Navbar Brand-->
-        <a class="navbar-brand ps-3" href="index.html">OnSite</a>
+        <a class="navbar-brand ps-3" href="/">OnSite</a>
         <!-- Sidebar Toggle-->
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
                 class="fas fa-bars"></i></button>
@@ -71,46 +72,47 @@
         <div id="layoutSidenav_nav">
             <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                 <div class="sb-sidenav-menu">
+                    {% with request.resolver_match as url_name %} 
                     <div class="nav">
                         {% if not request.user.is_authenticated %}
-                        <a class="nav-link" href="/jobs">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        <a class="nav-link {% if 'jobs' == url_name.url_name %}active{% endif %}" href="/jobs">
+                            <div class="sb-nav-link-icon"><i class="fas fa-briefcase"></i></div>
                             Jobs
                         </a>
-                        <a class="nav-link" href="/companies">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        <a class="nav-link {% if 'companies' == url_name.url_name %}active{% endif %}" href="/companies">
+                            <div class="sb-nav-link-icon"><i class="fas fa-building"></i></div>
                             Companies
                         </a>
-                        <a class="nav-link" href="/register">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        <a class="nav-link {% if 'register' == url_name.url_name %}active{% endif %}" href="/register">
+                            <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
                             Register
                         </a>
-                        <a class="nav-link" href="/login">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        <a class="nav-link {% if 'login' == url_name.url_name %}active{% endif %}" href="/login">
+                            <div class="sb-nav-link-icon"><i class="fas fa-sign-in-alt"></i></div>
                             Login
                         </a>
 
                         {% endif %}
 
                         {% if request.user.role == "user" %}
-                        <a class="nav-link" href="/jobs">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        <a class="nav-link {% if 'jobs' == url_name.url_name %}active{% endif %}" href="/jobs">
+                            <div class="sb-nav-link-icon"><i class="fas fa-briefcase"></i></div>
                             Jobs
                         </a>
-                        <a class="nav-link" href="/companies">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        <a class="nav-link {% if 'companies' == url_name.url_name %}active{% endif %}" href="/companies">
+                            <div class="sb-nav-link-icon"><i class="fas fa-building"></i></div>
                             Companies
                         </a>
-                        <a class="nav-link" href="/user/saved">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        <a class="nav-link {% if 'saved' == url_name.url_name %}active{% endif %}" href="/user/saved">
+                            <div class="sb-nav-link-icon"><i class="fas fa-star"></i></div>
                             Saved
                         </a>
-                        <a class="nav-link" href="/user/applications">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        <a class="nav-link {% if 'applications' == url_name.url_name %}active{% endif %}" href="/user/applications">
+                            <div class="sb-nav-link-icon"><i class="fas fa-folder"></i></div>
                             Applications
                         </a>
-                        <a class="nav-link" href="/user/profile">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        <a class="nav-link {% if 'profile' == url_name.url_name %}active{% endif %}" href="/user/profile">
+                            <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
                             My Profile
                         </a>
 
@@ -118,20 +120,20 @@
                         {% endif %}
 
                         {% if request.user.role == "recruiter" %}
-                        <a class="nav-link" href="/recruiter/dashboard">
+                        <a class="nav-link {% if 'dashboard' == url_name.url_name %}active{% endif %}" href="/recruiter/dashboard">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Dashboard
                         </a>
-                        <a class="nav-link" href="/recruiter/listings">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        <a class="nav-link {% if 'listings' == url_name.url_name %}active{% endif %}" href="/recruiter/listings">
+                            <div class="sb-nav-link-icon"><i class="fas fa-folder"></i></div>
                             My Listings
                         </a>
-                        <a class="nav-link" href="/recruiter/applicants">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        <a class="nav-link {% if 'applicants' == url_name.url_name %}active{% endif %}" href="/recruiter/applicants">
+                            <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                             Applicant Pool
                         </a>
-                        <a class="nav-link" href="/recruiter/profile">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        <a class="nav-link {% if 'profile' == url_name.url_name %}active{% endif %}" href="/recruiter/profile">
+                            <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
                             My Profile
                         </a>
 
@@ -197,6 +199,7 @@
                                 Tables
                             </a> -->
                     </div>
+                    {% endwith %}
                 </div>
                 <div class="sb-sidenav-footer">
                     {% if request.user.is_authenticated %}

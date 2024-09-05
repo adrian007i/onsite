@@ -1,0 +1,10 @@
+.nav .active{
+    background-color: #111!important;
+}
+.nav .active .sb-nav-link-icon{
+    color: #0d6efd !important;
+}
+
+.sb-nav-link-icon{
+    font-size: 1.2rem !important;
+}
