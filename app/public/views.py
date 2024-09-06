@@ -8,7 +8,7 @@ from django.contrib.auth.hashers import make_password
 from django.urls import reverse
 
 def index(request):
-     if request.user.role == "recruiter":
+     if request.user.is_authenticated and request.user.role == "recruiter":
         return HttpResponseRedirect("/recruiter/dashboard")
      else:
         return HttpResponseRedirect("/jobs")
@@ -48,6 +48,7 @@ def register_ajax(request):
         last_name = request.POST.get("last_name"), 
         headline = request.POST.get("headline"), 
         role = request.POST.get("role"),
+        company = request.POST.get("company"),
         password= make_password(request.POST.get("password"))) 
               
         auth_login(request,user)

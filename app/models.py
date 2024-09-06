@@ -25,6 +25,7 @@ class UserManager(auth_models.BaseUserManager):
 class User(auth_models.AbstractBaseUser, auth_models.PermissionsMixin):
     email = models.EmailField(unique=True) 
     headline = models.CharField(max_length=250, default = "") 
+    company = models.CharField(max_length=250, null=True, default = None) 
     first_name = models.CharField(max_length=30, blank=True)
     last_name = models.CharField(max_length=30, blank=True) 
     is_active = models.BooleanField(default=True)
