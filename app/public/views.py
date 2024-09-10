@@ -65,6 +65,8 @@ def register_ajax(request):
     
 @login_required 
 def profile(request):
+    for f in request.user._meta.fields:
+        print(f.name, getattr(request.user, f.name))
     return render(request , "public/profile.html")
 
 @login_required

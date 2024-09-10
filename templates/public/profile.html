@@ -11,15 +11,13 @@
                     <div class="row justify-content-center">
                         <div class="col-lg-7">
 
-                            <div class="card shadow-lg border-0 rounded-lg mt-5"> 
-                                <div class="card-body"> 
-
+                            <div class="card shadow-lg border-0 rounded-lg mt-5">
+                                <div class="card-body">
                                     {% if request.user.role == "user" %}
                                     <form novalidate method="post" id="profileForm">
                                         {% csrf_token %}
-                                        <input type="hidden" name="role" value="user">
                                         <div class="form-floating mb-3" id="headline">
-                                            <input class="form-control" type="text" name="headline" placeholder="" required  value="{{request.user.headline}}"/>
+                                            <input class="form-control" type="text" name="headline" placeholder="" required value="{{request.user.headline}}" />
                                             <label for="headline">Job Title</label>
                                             <div class="invalid-feedback"></div>
                                         </div>
@@ -49,41 +47,43 @@
 
                                         <div class="form-floating mb-3" id="password">
                                             <input class="form-control" name="password" type="password" placeholder="" />
-                                            <label for="inputPassword">Password</label> 
+                                            <label for="inputPassword">Password</label>
 
                                             <div>
                                                 <label class="text-secondary"><input type="checkbox" onchange="passwordToggle('profileForm')"> Show Password</label>
-                                            </div> 
+                                            </div>
                                         </div>
                                         <div class="col-sm-12">
                                             <button class="btn btn-primary w-100 submit_btn" type="submit">Update Profile</button>
                                         </div>
                                     </form>
                                     {% else %}
-                                    <form novalidate method="post" id="recruiterForm">
-                                        {% csrf_token %}
+                                    <form novalidate method="post" id="profileForm">
+                                        {% csrf_token %} 
                                         <input type="hidden" name="role" value="user">
-                                        <div class="form-floating mb-3" id="headline">
-                                            <input class="form-control" type="text" name="headline" placeholder="" required />
-                                            <label for="headline">Company Name</label>
+                                        <div class="form-floating mb-3" id="company">
+                                            <input class="form-control" type="text" name="company" placeholder="" required value="{{request.user.company}}" />
+                                            <label for="company">Company Name</label>
                                             <div class="invalid-feedback"></div>
                                         </div>
+
+
                                         <div class="form-floating mb-3" id="headline">
-                                            <input class="form-control" type="text" name="headline" placeholder="" required />
-                                            <label for="headline">Position</label>
+                                            <input class="form-control" type="text" name="headline" placeholder="" required value="{{request.user.headline}}" />
+                                            <label for="headline">Job Title</label>
                                             <div class="invalid-feedback"></div>
                                         </div>
                                         <div class="row mb-3">
                                             <div class="col-md-6">
                                                 <div class="form-floating mb-3 mb-md-0" id="first_name">
-                                                    <input class="form-control" type="text" placeholder="" required name="first_name" />
+                                                    <input class="form-control" type="text" placeholder="" required name="first_name" value="{{request.user.first_name}}" />
                                                     <label for="inputFirstName">First name</label>
                                                     <div class="invalid-feedback"></div>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-floating" id="last_name">
-                                                    <input class="form-control" type="text" placeholder="" required name="last_name" />
+                                                    <input class="form-control" type="text" placeholder="" required name="last_name" value="{{request.user.last_name}}" />
                                                     <label for="inputLastName">Last name</label>
                                                     <div class="invalid-feedback" id="last_name_error"></div>
                                                 </div>
@@ -91,28 +91,26 @@
                                         </div>
 
                                         <div class="form-floating mb-3" id="email">
-                                            <input name="email" type="email" placeholder="" class="form-control" required>
+                                            <input name="email" type="email" placeholder="" class="form-control" required value="{{request.user.email}}">
                                             <label for="email">Email Address</label>
                                             <div class="invalid-feedback"></div>
                                         </div>
 
 
                                         <div class="form-floating mb-3" id="password">
-                                            <input class="form-control" name="password" type="password" placeholder="" required />
+                                            <input class="form-control" name="password" type="password" placeholder="" />
                                             <label for="inputPassword">Password</label>
-                                            <div class="invalid-feedback" id="password_error"></div>
 
                                             <div>
-                                                <label class="text-secondary"><input type="checkbox" onchange="passwordToggle('recruiterForm')"> Show Password</label>
-                                            </div> 
-
+                                                <label class="text-secondary"><input type="checkbox" onchange="passwordToggle('profileForm')"> Show Password</label>
+                                            </div>
                                         </div>
                                         <div class="col-sm-12">
-                                            <button class="btn btn-primary w-100 submit_btn" type="submit">CreateAccount</button>
+                                            <button class="btn btn-primary w-100 submit_btn" type="submit">Update Profile</button>
                                         </div>
                                     </form>
                                     {% endif %}
-                                </div> 
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -123,10 +121,10 @@
 </div>
 
 <script>
- 
+
 
     let errors = {
-        company_name: "Required",
+        company: "Required",
         headline: "Required",
         first_name: "Required",
         last_name: "Required",
@@ -135,7 +133,7 @@
 
     // on submit of registration form
     const submitProfileForm = async (event) => {
-        event.preventDefault(); 
+        event.preventDefault();
         setErrors(errors, false, event.target.id);
 
         // check validation
@@ -167,8 +165,7 @@
 
         event.target.classList.add('was-validated')
     }
-
-
+ 
     document.getElementById('profileForm').addEventListener('submit', submitProfileForm, false); 
 
 </script>

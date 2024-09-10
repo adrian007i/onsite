@@ -66,10 +66,10 @@
                                     </form>
                                     <form novalidate method="post" class=" d-none" id="recruiterForm">
                                         {% csrf_token %}
-                                        <input type="hidden" name="role" value="user">
-                                        <div class="form-floating mb-3" id="headline">
-                                            <input class="form-control" type="text" name="headline" placeholder="" required />
-                                            <label for="headline">Company Name</label>
+                                        <input type="hidden" name="role" value="recruiter">
+                                        <div class="form-floating mb-3" id="company">
+                                            <input class="form-control" type="text" name="company" placeholder="" required />
+                                            <label for="company">Company Name</label>
                                             <div class="invalid-feedback"></div>
                                         </div>
                                         <div class="form-floating mb-3" id="headline">
@@ -154,7 +154,7 @@
     }
 
     let errors = {
-        company_name: "Required",
+        company: "Required",
         headline: "Required",
         first_name: "Required",
         last_name: "Required",
