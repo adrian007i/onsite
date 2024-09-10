@@ -2,12 +2,14 @@ from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseRedirect, JsonResponse
 from django.db import IntegrityError
 from django.core.exceptions import BadRequest
-from app.models import *
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout ,get_user_model
 from django.contrib.auth.hashers import make_password
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from app.decorators import role_required
+
+from app.models.user import *
+from app.models.job import *
 
 
 def index(request):
