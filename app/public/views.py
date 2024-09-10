@@ -6,6 +6,9 @@ from app.models import *
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout ,get_user_model
 from django.contrib.auth.hashers import make_password
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
+from app.decorators import role_required
+
 
 def index(request):
      if request.user.is_authenticated and request.user.role == "recruiter":
@@ -53,7 +56,39 @@ def register_ajax(request):
               
         auth_login(request,user)
  
-        return JsonResponse ({'redirect' : f'/{user.role}/profile'})
+        return JsonResponse ({'redirect' : '/profile'})
+     
+    except IntegrityError as ie: 
+        return JsonResponse({"email" : "This email already exist!"} , status=400)
+    except Exception as e:
+        return JsonResponse({"server" : "Something went wrong. Try Later!"} , status=400)
+    
+@login_required 
+def profile(request):
+    return render(request , "public/profile.html")
+
+@login_required
+def profile_ajax(request):
+
+    try: 
+        user = User.objects.get(id = request.user.id) 
+
+        user.email = request.POST.get("email")
+        user.first_name = request.POST.get("first_name")
+        user.last_name = request.POST.get("last_name")
+        user.headline = request.POST.get("headline")
+
+        
+        if request.user.role == "recruiter":
+            user.company = request.POST.get("company")
+
+        if request.POST.get("password"):
+            user.password= make_password(request.POST.get("password"))
+            auth_login(request,user)
+
+        user.save()
+               
+        return JsonResponse ({})
      
     except IntegrityError as ie: 
         return JsonResponse({"email" : "This email already exist!"} , status=400)

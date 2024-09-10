@@ -25,10 +25,4 @@ def listings(request):
 def applicants(request):
     return render(request , "recruiter/applicants.html") 
 
-@login_required
-@role_required(role)
-def profile(request):
-    return render(request , "recruiter/profile.html") 
-
-
  

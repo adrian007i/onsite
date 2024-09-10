@@ -6,11 +6,6 @@ role = "user"
 
 @login_required
 @role_required(role)
-def profile(request): 
-    return render(request , "public/register.html") 
-
-@login_required
-@role_required(role)
 def applications(request):
     return render(request , "public/companies.html") 
 
