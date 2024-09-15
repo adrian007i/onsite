@@ -57,8 +57,11 @@ def register_ajax(request):
         password= make_password(request.POST.get("password"))) 
               
         auth_login(request,user)
- 
-        return JsonResponse ({'redirect' : '/profile'})
+
+        if user.role == "recruiter":
+            return HttpResponseRedirect("/recruiter/dashboard")
+        else:
+            return HttpResponseRedirect("/jobs") 
      
     except IntegrityError as ie: 
         return JsonResponse({"email" : "This email already exist!"} , status=400)
