@@ -14,4 +14,7 @@ urlpatterns = [
     path("jobs", views.jobs, name="jobs"), 
     path("profile", views.profile, name = "profile"),
     path("profile_ajax", views.profile_ajax,),
+
+    path("search_location_ajax", views.search_location_ajax, ),
+    path("search_job_title_ajax", views.search_job_title_ajax,),
 ] 

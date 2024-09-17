@@ -23,7 +23,7 @@
                                         {% csrf_token %}
                                         <input type="hidden" name="role" value="user">
                                         <div class="form-floating mb-3" id="headline">
-                                            <input class="form-control" type="text" name="headline" placeholder="" required />
+                                            <input class="form-control" type="text" name="headline" placeholder=""  onkeyup="debouncedOnInput(this, 'search_job_title_ajax')" required />
                                             <label for="headline">Job Title</label>
                                             <div class="invalid-feedback"></div>
                                         </div>
@@ -50,6 +50,10 @@
                                             <div class="invalid-feedback"></div>
                                         </div>
 
+                                        <div class="form-floating mb-3" id="location">
+                                            <input name="location" type="location" placeholder="" class="form-control" onkeyup="debouncedOnInput(this, 'search_location_ajax')">
+                                            <label for="email">Location</label>
+                                        </div>
 
                                         <div class="form-floating mb-3" id="password">
                                             <input class="form-control" name="password" type="password" placeholder="" required />
@@ -58,8 +62,9 @@
 
                                             <div>
                                                 <label class="text-secondary"><input type="checkbox" onchange="passwordToggle('userForm')"> Show Password</label>
-                                            </div> 
+                                            </div>
                                         </div>
+
                                         <div class="col-sm-12">
                                             <button class="btn btn-primary w-100 submit_btn" type="submit">CreateAccount</button>
                                         </div>
@@ -108,8 +113,7 @@
 
                                             <div>
                                                 <label class="text-secondary"><input type="checkbox" onchange="passwordToggle('recruiterForm')"> Show Password</label>
-                                            </div> 
-
+                                            </div>
                                         </div>
                                         <div class="col-sm-12">
                                             <button class="btn btn-primary w-100 submit_btn" type="submit">CreateAccount</button>
@@ -152,6 +156,17 @@
         }
 
     }
+
+    const dropDownSearch = (e, endpoint) => {
+        let val = e.value.toLowerCase().trim();
+
+        if (val.length > 2)
+            fetch(`/${endpoint}?query=${e.value}`)
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                });
+    } 
 
     let errors = {
         company: "Required",

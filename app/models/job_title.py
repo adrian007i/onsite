@@ -8,3 +8,7 @@ class JobTitle(models.Model):
         indexes = [
             models.Index(fields=['name']),
         ]
+
+    
+    def __str__(self):
+        return self.name 

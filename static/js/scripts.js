@@ -24,3 +24,16 @@ window.addEventListener('DOMContentLoaded', event => {
     }
 
 });
+
+const debounce = (func, wait = 0) => {
+    let timeoutID = null;
+
+    return (...args) => {
+        clearTimeout(timeoutID);
+        timeoutID = setTimeout(() => {
+            func(...args);
+        }, wait);
+    };
+};
+
+const debouncedOnInput = debounce(dropDownSearch, 400);

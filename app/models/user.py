@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth import models as auth_models  
+from app.models.job_title import JobTitle
+from app.models.location import Location
 
 ROLE_CHOICES = (
         ("user", "user"),
@@ -24,7 +26,9 @@ class UserManager(auth_models.BaseUserManager):
 
 class User(auth_models.AbstractBaseUser, auth_models.PermissionsMixin):
     email = models.EmailField(unique=True) 
-    headline = models.CharField(max_length=250, default = "") 
+    headline = models.ForeignKey(JobTitle, on_delete=models.DO_NOTHING)
+    location = models.ForeignKey(Location, on_delete=models.DO_NOTHING)
+    other_headline = models.CharField(max_length=250, null=True, blank="")
     company = models.CharField(max_length=250, null=True, default = None) 
     first_name = models.CharField(max_length=30, blank=True)
     last_name = models.CharField(max_length=30, blank=True) 
@@ -32,7 +36,8 @@ class User(auth_models.AbstractBaseUser, auth_models.PermissionsMixin):
     is_superuser = models.BooleanField(default=False) 
     is_staff = models.BooleanField(default=True)
     date_joined = models.DateTimeField(auto_now_add=True) 
-    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default="user") 
+    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default="user")
+     
 
     objects = UserManager()
 

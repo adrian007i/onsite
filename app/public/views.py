@@ -10,14 +10,33 @@ from app.decorators import role_required
 
 from app.models.user import *
 from app.models.job import *
-
+from app.models.job_title import JobTitle
+from app.models.location import Location
 
 def index(request):
-     if request.user.is_authenticated and request.user.role == "recruiter":
+    if request.user.is_authenticated and request.user.role == "recruiter":
         return HttpResponseRedirect("/recruiter/dashboard")
-     else:
+    else:
         return HttpResponseRedirect("/jobs")
          
+def search_job_title_ajax(request): 
+
+    try:  
+        if request.GET.get("query"):
+            job_titles = JobTitle.objects.filter(name__contains =  request.GET.get("query").lower()).values()
+            return JsonResponse (({'job_titles' : list(job_titles)}) ) 
+      
+    except Exception as e:
+        return JsonResponse({"server" : "Something went wrong. Try Later!"} , status=400)
+
+def search_location_ajax(request):  
+
+    try:  
+        if request.GET.get("query"):
+            job_titles = Location.objects.filter(name__startswith  =  request.GET.get("query").lower()).values()
+            return JsonResponse (({'locations' : list(job_titles)}) ) 
+    except Exception as e:
+        return JsonResponse({"server" : "Something went wrong. Try Later!"} , status=400)
 
 def user_login(request): 
     return render(request , "public/login.html") 
