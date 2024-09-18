@@ -24,7 +24,7 @@ def search_job_title_ajax(request):
     try:  
         if request.GET.get("query"):
             job_titles = JobTitle.objects.filter(name__contains =  request.GET.get("query").lower()).values()
-            return JsonResponse (({'job_titles' : list(job_titles)}) ) 
+            return JsonResponse (({'data' : list(job_titles)}) ) 
       
     except Exception as e:
         return JsonResponse({"server" : "Something went wrong. Try Later!"} , status=400)
@@ -34,7 +34,7 @@ def search_location_ajax(request):
     try:  
         if request.GET.get("query"):
             job_titles = Location.objects.filter(name__startswith  =  request.GET.get("query").lower()).values()
-            return JsonResponse (({'locations' : list(job_titles)}) ) 
+            return JsonResponse (({'data' : list(job_titles)}) ) 
     except Exception as e:
         return JsonResponse({"server" : "Something went wrong. Try Later!"} , status=400)
 

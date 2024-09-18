@@ -21,12 +21,18 @@
                                 <div class="card-body">
                                     <form novalidate method="post" id="userForm">
                                         {% csrf_token %}
-                                        <input type="hidden" name="role" value="user">
+                                        <input type="hidden" name="role" value="user"> 
+
                                         <div class="form-floating mb-3" id="headline">
-                                            <input class="form-control" type="text" name="headline" placeholder=""  onkeyup="debouncedOnInput(this, 'search_job_title_ajax')" required />
-                                            <label for="headline">Job Title</label>
+                                            <input type="hidden" name="headline">
+                                            <input type="text" placeholder="" class="form-control capitalize" onfocus="focusDrop(this)" onkeyup="debouncedOnInput(this, 'search_job_title_ajax')" required>
+                                            <label for="email">Job Title</label>
                                             <div class="invalid-feedback"></div>
+                                            <div class="dropdown">
+                                                <ul class="dropdown-menu dropdown-menu-dark w-100"> </ul>
+                                            </div>
                                         </div>
+
                                         <div class="row mb-3">
                                             <div class="col-md-6">
                                                 <div class="form-floating mb-3 mb-md-0" id="first_name">
@@ -51,8 +57,12 @@
                                         </div>
 
                                         <div class="form-floating mb-3" id="location">
-                                            <input name="location" type="location" placeholder="" class="form-control" onkeyup="debouncedOnInput(this, 'search_location_ajax')">
+                                            <input type="hidden" name="location">
+                                            <input type="text" placeholder="" class="form-control capitalize" onfocus="focusDrop(this)" onkeyup="debouncedOnInput(this, 'search_location_ajax')">
                                             <label for="email">Location</label>
+                                            <div class="dropdown">
+                                                <ul class="dropdown-menu dropdown-menu-dark w-100"> </ul>
+                                            </div>
                                         </div>
 
                                         <div class="form-floating mb-3" id="password">
@@ -159,14 +169,36 @@
 
     const dropDownSearch = (e, endpoint) => {
         let val = e.value.toLowerCase().trim();
+        const dropdown = e.parentElement.querySelector(".dropdown>ul");
 
-        if (val.length > 2)
+        let items = "";
+
+        if (val.length > 2) {
             fetch(`/${endpoint}?query=${e.value}`)
                 .then(res => res.json())
-                .then(data => {
-                    console.log(data);
+                .then(res => {
+
+                    res.data.forEach(item => {
+                        items += `<li><button type="button" class="dropdown-item" onclick="selectDropItem(this, ${item.id},'${item.name}')">${item.name}</button></li>`;
+                    });
+                    dropdown.innerHTML = items;
                 });
-    } 
+        }
+    }
+
+    const selectDropItem = (e, id, name) => {
+        let root = e.parentElement.parentElement.parentElement.parentElement;
+        let hidden = root.querySelector("input[type='hidden']").value = id;
+        let text = root.querySelector("input[type='text']").value = name;
+
+        e.parentElement.parentElement.classList.remove("show");
+
+    }
+
+    const focusDrop = (e, focused) => {
+        const dropdown = e.parentElement.querySelector(".dropdown>ul");
+        dropdown.classList.add("show")
+    }
 
     let errors = {
         company: "Required",
