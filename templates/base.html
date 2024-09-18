@@ -13,43 +13,7 @@
     <link href="{% static  '/css/styles.css' %}" rel="stylesheet" />
     <link rel="stylesheet" href="{% static '/custom/styles.css/' %}">
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-    <script>
-        const getFormData = (selector) => Object.fromEntries(new FormData(document.querySelector(selector)));
-
-        const setErrors = (errors, server, form_id) => {
-            const form = document.getElementById(form_id);   
-            
-            for (err in errors) { 
-                
-                try {
-                    const element = form.querySelector(`#${err}`);
-                    element.querySelector("div").innerText = errors[err];
-                    element.querySelector("input").classList.remove("is-invalid");
-                    
-                    if (server)
-                        element.querySelector("input").classList.add("is-invalid"); 
-
-                } catch(e) {}
-            }
-        }
-
-        const pending = (element, text, pending) => {
-            const submit_btn = document.getElementsByClassName(element)[0];
-            submit_btn.innerText = text;
-            submit_btn.disabled = pending;
-        }
-
-        function passwordToggle(form) {
-            var x = document.getElementById(form).querySelector("#password").querySelector("input"); 
-            
-            if (x.type === "password") {
-                x.type = "text";
-            } else {
-                x.type = "password";
-            }
-        }
-
-    </script>
+    <script src="{% static '/js/customScripts.js'%}"></script>
 </head>
 
 <body class="sb-nav-fixed">
