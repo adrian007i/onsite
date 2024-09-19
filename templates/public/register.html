@@ -25,7 +25,7 @@
 
                                         <div class="form-floating mb-3" id="headline">
                                             <input type="hidden" name="headline">
-                                            <input type="text" placeholder="" class="form-control capitalize" onfocus="focusDrop(this)" onkeyup="debouncedOnInput(this, 'search_job_title_ajax')" required>
+                                            <input type="text" placeholder="" class="form-control capitalize" onblur="setTimeout(() => {blurDrop('headline')}, 500);" onfocus="focusDrop(this)" onkeyup="debouncedOnInput(this, 'search_job_title_ajax')" required>
                                             <label for="email">Job Title</label>
                                             <div class="invalid-feedback"></div>
                                             <div class="dropdown">
@@ -58,7 +58,7 @@
 
                                         <div class="form-floating mb-3" id="location">
                                             <input type="hidden" name="location">
-                                            <input type="text" placeholder="" class="form-control capitalize" onfocus="focusDrop(this)" onkeyup="debouncedOnInput(this, 'search_location_ajax')">
+                                            <input type="text" placeholder="" class="form-control capitalize" onfocus="focusDrop(this)"  onblur="setTimeout(() => {blurDrop('location')}, 500);"  onkeyup="debouncedOnInput(this, 'search_location_ajax')">
                                             <label for="email">Location</label>
                                             <div class="dropdown">
                                                 <ul class="dropdown-menu dropdown-menu-dark w-100"> </ul>

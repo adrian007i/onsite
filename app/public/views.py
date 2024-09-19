@@ -23,7 +23,7 @@ def search_job_title_ajax(request):
 
     try:  
         if request.GET.get("query"):
-            job_titles = JobTitle.objects.filter(name__contains =  request.GET.get("query").lower()).values()
+            job_titles = JobTitle.objects.filter(name__contains =  request.GET.get("query").lower()).values()[:10]
             return JsonResponse (({'data' : list(job_titles)}) ) 
       
     except Exception as e:
@@ -33,7 +33,7 @@ def search_location_ajax(request):
 
     try:  
         if request.GET.get("query"):
-            job_titles = Location.objects.filter(name__startswith  =  request.GET.get("query").lower()).values()
+            job_titles = Location.objects.filter(name__startswith  =  request.GET.get("query").lower()).values()[:10]
             return JsonResponse (({'data' : list(job_titles)}) ) 
     except Exception as e:
         return JsonResponse({"server" : "Something went wrong. Try Later!"} , status=400)
@@ -63,28 +63,34 @@ def user_logout(request):
 def register(request): 
     return render(request , "public/register.html") 
 
-def register_ajax(request):
+def register_ajax(request):  
 
     try: 
+        location_id = request.POST.get("location")
+        if not request.POST.get("location"):
+            location_id = None 
+
         user = User.objects.create(
         email = request.POST.get("email"), 
         first_name = request.POST.get("first_name"), 
         last_name = request.POST.get("last_name"), 
-        headline = request.POST.get("headline"), 
+        headline_id = request.POST.get("headline"), 
         role = request.POST.get("role"),
         company = request.POST.get("company"),
+        location_id = location_id,
         password= make_password(request.POST.get("password"))) 
               
         auth_login(request,user)
 
         if user.role == "recruiter":
-            return HttpResponseRedirect("/recruiter/dashboard")
+            return JsonResponse({"redirect" : "/recruiter/dashboard"}) 
         else:
-            return HttpResponseRedirect("/jobs") 
+            return JsonResponse({"redirect" : "/jobs"})
      
     except IntegrityError as ie: 
         return JsonResponse({"email" : "This email already exist!"} , status=400)
     except Exception as e:
+        print(str(e))
         return JsonResponse({"server" : "Something went wrong. Try Later!"} , status=400)
     
 @login_required 
