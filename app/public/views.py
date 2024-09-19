@@ -105,11 +105,15 @@ def profile_ajax(request):
     try: 
         user = User.objects.get(id = request.user.id) 
 
+        location_id = request.POST.get("location")
+        if not request.POST.get("location"):
+            location_id = None 
+
         user.email = request.POST.get("email")
         user.first_name = request.POST.get("first_name")
         user.last_name = request.POST.get("last_name")
-        user.headline = request.POST.get("headline")
-
+        user.headline_id = request.POST.get("headline")
+        user.location_id = location_id
         
         if request.user.role == "recruiter":
             user.company = request.POST.get("company")

@@ -87,11 +87,17 @@
                                             <label for="company">Company Name</label>
                                             <div class="invalid-feedback"></div>
                                         </div>
+                                        
                                         <div class="form-floating mb-3" id="headline">
-                                            <input class="form-control" type="text" name="headline" placeholder="" required />
-                                            <label for="headline">Position</label>
+                                            <input type="hidden" name="headline">
+                                            <input type="text" placeholder="" class="form-control capitalize" onblur="setTimeout(() => {blurDrop('headline')}, 500);" onfocus="focusDrop(this)" onkeyup="debouncedOnInput(this, 'search_job_title_ajax')" required>
+                                            <label for="email">Job Title</label>
                                             <div class="invalid-feedback"></div>
+                                            <div class="dropdown">
+                                                <ul class="dropdown-menu dropdown-menu-dark w-100"> </ul>
+                                            </div>
                                         </div>
+
                                         <div class="row mb-3">
                                             <div class="col-md-6">
                                                 <div class="form-floating mb-3 mb-md-0" id="first_name">
@@ -113,6 +119,15 @@
                                             <input name="email" type="email" placeholder="" class="form-control" required>
                                             <label for="email">Email Address</label>
                                             <div class="invalid-feedback"></div>
+                                        </div>
+
+                                        <div class="form-floating mb-3" id="location">
+                                            <input type="hidden" name="location">
+                                            <input type="text" placeholder="" class="form-control capitalize" onfocus="focusDrop(this)"  onblur="setTimeout(() => {blurDrop('location')}, 500);"  onkeyup="debouncedOnInput(this, 'search_location_ajax')">
+                                            <label for="email">Location</label>
+                                            <div class="dropdown">
+                                                <ul class="dropdown-menu dropdown-menu-dark w-100"> </ul>
+                                            </div>
                                         </div>
 
 
