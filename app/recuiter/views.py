@@ -12,8 +12,8 @@ def dashboard(request):
 
 @login_required
 @role_required(role)
-def post_job(request): 
-    return render(request , "public/post_job.html") 
+def new_job(request): 
+    return render(request , "recruiter/job_template.html") 
 
 @login_required
 @role_required(role)

@@ -1,5 +1,5 @@
 from django.db import models
-from app.models.user import *
+from app.models.user import User
 from app.models.job import JobHead
 
 class Saved(models.Model):

@@ -8,10 +8,11 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from app.decorators import role_required
 
-from app.models.user import *
-from app.models.job import *
+from app.models.user import User
+# from app.models.job import 
 from app.models.job_title import JobTitle
 from app.models.location import Location
+from app.models.department import Department
 
 def index(request):
     if request.user.is_authenticated and request.user.role == "recruiter":
@@ -37,6 +38,17 @@ def search_location_ajax(request):
             return JsonResponse (({'data' : list(job_titles)}) ) 
     except Exception as e:
         return JsonResponse({"server" : "Something went wrong. Try Later!"} , status=400)
+
+def search_department_ajax(request):  
+    try:  
+        if request.GET.get("query"):
+            departments = Department.objects.filter(name__contains =  request.GET.get("query").lower()).values()[:10]
+            return JsonResponse (({'data' : list(departments)}) ) 
+      
+    except Exception as e:
+        return JsonResponse({"server" : "Something went wrong. Try Later!"} , status=400)
+
+
 
 def user_login(request): 
     return render(request , "public/login.html") 
@@ -89,14 +101,11 @@ def register_ajax(request):
      
     except IntegrityError as ie: 
         return JsonResponse({"email" : "This email already exist!"} , status=400)
-    except Exception as e:
-        print(str(e))
+    except Exception as e: 
         return JsonResponse({"server" : "Something went wrong. Try Later!"} , status=400)
     
 @login_required 
-def profile(request):
-    for f in request.user._meta.fields:
-        print(f.name, getattr(request.user, f.name))
+def profile(request): 
     return render(request , "public/profile.html")
 
 @login_required

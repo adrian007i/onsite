@@ -1,0 +1,146 @@
+{% extends "../base.html"%}
+{%load static%}
+
+{% block body_block %}
+
+<div id="layoutSidenav_content">
+    <main>
+        <div class="container-fluid px-4">
+            <h1 class="mt-4">Jobs
+                <a class="float-end btn btn-primary p-3" href="/recruiter/listings"><i class="fa fa-arrow-left" aria-hidden="true"></i> My Listings</a>
+            </h1>
+            <ol class="breadcrumb mb-4">
+                <li class="breadcrumb-item active">New Listing</li>
+            </ol>
+            <div class="mb-4">
+                <div>
+                    <form novalidate method="post" id="jobForm">
+                        {% csrf_token %}
+
+                        <div class="form-floating mb-3" id="headline">
+                            <input type="hidden" name="headline">
+                            <input type="text" placeholder="" class="form-control capitalize" onblur="setTimeout(() => {blurDrop('headline')}, 500);" onfocus="focusDrop(this)" onkeyup="debouncedOnInput(this, 'search_job_title_ajax')" required>
+                            <label for="email">Job Title</label>
+                            <div class="invalid-feedback"></div>
+                            <div class="dropdown">
+                                <ul class="dropdown-menu dropdown-menu-dark w-100"> </ul>
+                            </div>
+                        </div>
+
+                        <div class="form-floating mb-3" id="department">
+                            <input type="hidden" name="department">
+                            <input type="text" placeholder="" class="form-control capitalize" onblur="setTimeout(() => {blurDrop('department')}, 500);" onfocus="focusDrop(this)" onkeyup="debouncedOnInput(this, 'search_department_ajax')" required>
+                            <label for="email">Department</label>
+                            <div class="invalid-feedback"></div>
+                            <div class="dropdown">
+                                <ul class="dropdown-menu dropdown-menu-dark w-100"> </ul>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <div class="form-floating" id="experience">
+                                    <select class="form-control form-select" name="" id="">
+                                        <option value="">Any</option>
+                                        <option value="internship">Internship</option>
+                                        <option value="entry">Entry</option>
+                                        <option value="associate">Associate</option>
+                                        <option value="mid">Mid</option>
+                                        <option value="senior">Aenior</option>
+                                        <option value="director">Sirector</option>
+                                        <option value="executive">Executive</option>
+                                    </select>
+                                    <label>Experience</label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-floating" id="salary_min">
+                                    <input class="form-control" type="number" placeholder="" name="salary_min" />
+                                    <label>Min Salary</label>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-floating" id="salary_max">
+                                    <input class="form-control" type="number" placeholder="" name="salary_max" />
+                                    <label>Max Salary</label>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-floating mb-3" id="summary">
+                            <textarea class="form-control" name="summary" placeholder="Job Summary" style="height: 150px;" required></textarea>
+                            <label for="summary">Job Summary</label>
+                            <div class="invalid-feedback"></div>
+                        </div>
+
+                        <div class="form-floating mb-3" id="duties">
+                            <textarea class="form-control" name="duties" placeholder="Job Duties" style="height: 150px;" required>{{ job.details.duties }}</textarea>
+                            <label for="duties">Job Duties</label>
+                            <div class="invalid-feedback"></div>
+                        </div>
+
+                        <div class="form-floating mb-3" id="qualifications">
+                            <textarea class="form-control" name="qualifications" placeholder="Job Qualifications" style="height: 150px;" required>{{ job.details.qualifications }}</textarea>
+                            <label for="qualifications">Job Qualifications</label>
+                            <div class="invalid-feedback"></div>
+                        </div>
+
+                        <div class="form-floating mb-3" id="compensation">
+                            <textarea class="form-control" name="compensation" placeholder="Compensation" style="height: 150px;" required>{{ job.details.compensation }}</textarea>
+                            <label for="compensation">Other Compensation</label>
+                            <div class="invalid-feedback"></div>
+                        </div>
+
+
+                        <div class="form-floating mb-3" id="location">
+                            <input type="hidden" name="location">
+                            <input type="text" placeholder="" class="form-control capitalize" onfocus="focusDrop(this)" onblur="setTimeout(() => {blurDrop('location')}, 500);" onkeyup="debouncedOnInput(this, 'search_location_ajax')">
+                            <label for="email">Location</label>
+                            <div class="dropdown">
+                                <ul class="dropdown-menu dropdown-menu-dark w-100"> </ul>
+                            </div>
+                        </div>
+
+                        <div class="form-floating mb-3" id="application_deadline">
+                            <input class="form-control" type="date" required name="application_deadline" />
+                            <label for="application_deadline">Application Deadline</label>
+                            <div class="invalid-feedback"></div>
+                        </div>
+
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="form-floating" id="active_from">
+                                    <input class="form-control" type="date" placeholder="" name="active_from" />
+                                    <label>Active fron</label>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating" id="active_to">
+                                    <input class="form-control" type="date" placeholder="" name="salary_min" />
+                                    <label>Active To</label>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-sm-12 text-center">
+                            <button class="btn btn-success p-3" type="submit">Post Job</button>
+                            <button class="btn btn-primary p-3" type="submit">Save Draft</button>
+                            <button class="btn btn-danger p-3" type="submit">Cancel</button>
+                        </div>
+
+
+                    </form>
+                </div>
+            </div>
+    </main>
+</div>
+
+
+{% endblock %}

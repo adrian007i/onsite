@@ -17,4 +17,5 @@ urlpatterns = [
 
     path("search_location_ajax", views.search_location_ajax, ),
     path("search_job_title_ajax", views.search_job_title_ajax,),
+    path("search_department_ajax", views.search_department_ajax,),
 ] 
