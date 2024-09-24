@@ -23,17 +23,17 @@ class JobHead(models.Model):
     other_department =  models.CharField(max_length=255, null=True)
     posted_on = models.DateTimeField(auto_now_add=True)
     salary_min = models.IntegerField(null=True)
-    salary_max = models.IntegerField(null=True)
-    application_deadline = models.DateTimeField()
-    experience_level =   models.IntegerField(choices=EXP_LEVEL, default="any")
-    active_from = models.DateTimeField(null=True)
-    active_to = models.DateTimeField(null=True)
+    salary_max = models.IntegerField(null=True) 
+    experience_level =   models.CharField(max_length=15, choices=EXP_LEVEL, default="any")
+    active_from = models.DateField(null=True)
+    active_to = models.DateField(null=True)
+    draft = models.BooleanField(default=False)
     
     def __str__(self):
         return self.title
 
 
-class JobDetails(models.Model):
+class JobDetail(models.Model):
     job_head = models.OneToOneField(JobHead, on_delete=models.CASCADE, related_name="details")
     summary = models.TextField()
     duties = models.TextField()

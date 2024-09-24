@@ -14,13 +14,13 @@
             </ol>
             <div class="mb-4">
                 <div>
-                    <form novalidate method="post" id="jobForm">
+                    <form novalidate method="post" onsubmit="return false;" id="jobForm">
                         {% csrf_token %}
 
-                        <div class="form-floating mb-3" id="headline">
-                            <input type="hidden" name="headline">
+                        <div class="form-floating mb-3" id="title">
+                            <input type="hidden" name="title">
                             <input type="text" placeholder="" class="form-control capitalize" onblur="setTimeout(() => {blurDrop('headline')}, 500);" onfocus="focusDrop(this)" onkeyup="debouncedOnInput(this, 'search_job_title_ajax')" required>
-                            <label for="email">Job Title</label>
+                            <label>Job Title</label>
                             <div class="invalid-feedback"></div>
                             <div class="dropdown">
                                 <ul class="dropdown-menu dropdown-menu-dark w-100"> </ul>
@@ -29,8 +29,8 @@
 
                         <div class="form-floating mb-3" id="department">
                             <input type="hidden" name="department">
-                            <input type="text" placeholder="" class="form-control capitalize" onblur="setTimeout(() => {blurDrop('department')}, 500);" onfocus="focusDrop(this)" onkeyup="debouncedOnInput(this, 'search_department_ajax')" required>
-                            <label for="email">Department</label>
+                            <input type="text" placeholder="" class="form-control capitalize" onblur="setTimeout(() => {blurDrop('department')}, 500);" onfocus="focusDrop(this)" onkeyup="debouncedOnInput(this, 'search_department_ajax')">
+                            <label>Department</label>
                             <div class="invalid-feedback"></div>
                             <div class="dropdown">
                                 <ul class="dropdown-menu dropdown-menu-dark w-100"> </ul>
@@ -39,9 +39,9 @@
 
                         <div class="row mb-3">
                             <div class="col-md-4">
-                                <div class="form-floating" id="experience">
-                                    <select class="form-control form-select" name="" id="">
-                                        <option value="">Any</option>
+                                <div class="form-floating" id="experience_level">
+                                    <select class="form-control form-select" name="experience_level"  >
+                                        <option value="any">Any</option>
                                         <option value="internship">Internship</option>
                                         <option value="entry">Entry</option>
                                         <option value="associate">Associate</option>
@@ -71,25 +71,25 @@
                         </div>
 
                         <div class="form-floating mb-3" id="summary">
-                            <textarea class="form-control" name="summary" placeholder="Job Summary" style="height: 150px;" required></textarea>
+                            <textarea class="form-control" name="summary" placeholder="Job Summary" style="height: 150px;"></textarea>
                             <label for="summary">Job Summary</label>
                             <div class="invalid-feedback"></div>
                         </div>
 
                         <div class="form-floating mb-3" id="duties">
-                            <textarea class="form-control" name="duties" placeholder="Job Duties" style="height: 150px;" required>{{ job.details.duties }}</textarea>
+                            <textarea class="form-control" name="duties" placeholder="Job Duties" style="height: 150px;">{{ job.details.duties }}</textarea>
                             <label for="duties">Job Duties</label>
                             <div class="invalid-feedback"></div>
                         </div>
 
                         <div class="form-floating mb-3" id="qualifications">
-                            <textarea class="form-control" name="qualifications" placeholder="Job Qualifications" style="height: 150px;" required>{{ job.details.qualifications }}</textarea>
+                            <textarea class="form-control" name="qualifications" placeholder="Job Qualifications" style="height: 150px;">{{ job.details.qualifications }}</textarea>
                             <label for="qualifications">Job Qualifications</label>
                             <div class="invalid-feedback"></div>
                         </div>
 
                         <div class="form-floating mb-3" id="compensation">
-                            <textarea class="form-control" name="compensation" placeholder="Compensation" style="height: 150px;" required>{{ job.details.compensation }}</textarea>
+                            <textarea class="form-control" name="compensation" placeholder="Compensation" style="height: 150px;">{{ job.details.compensation }}</textarea>
                             <label for="compensation">Other Compensation</label>
                             <div class="invalid-feedback"></div>
                         </div>
@@ -97,19 +97,12 @@
 
                         <div class="form-floating mb-3" id="location">
                             <input type="hidden" name="location">
-                            <input type="text" placeholder="" class="form-control capitalize" onfocus="focusDrop(this)" onblur="setTimeout(() => {blurDrop('location')}, 500);" onkeyup="debouncedOnInput(this, 'search_location_ajax')">
-                            <label for="email">Location</label>
+                            <input type="text" placeholder="" class="form-control capitalize" onfocus="focusDrop(this)" onblur="setTimeout(() => {blurDrop('location')}, 500);" onkeyup="debouncedOnInput(this, 'search_location_ajax')" required>
+                            <label>Location</label>
                             <div class="dropdown">
                                 <ul class="dropdown-menu dropdown-menu-dark w-100"> </ul>
                             </div>
                         </div>
-
-                        <div class="form-floating mb-3" id="application_deadline">
-                            <input class="form-control" type="date" required name="application_deadline" />
-                            <label for="application_deadline">Application Deadline</label>
-                            <div class="invalid-feedback"></div>
-                        </div>
-
 
                         <div class="row mb-3">
                             <div class="col-md-6">
@@ -121,7 +114,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating" id="active_to">
-                                    <input class="form-control" type="date" placeholder="" name="salary_min" />
+                                    <input class="form-control" type="date" placeholder="" name="active_to" />
                                     <label>Active To</label>
                                     <div class="invalid-feedback"></div>
                                 </div>
@@ -129,18 +122,85 @@
 
                         </div>
 
-                        <div class="col-sm-12 text-center">
-                            <button class="btn btn-success p-3" type="submit">Post Job</button>
-                            <button class="btn btn-primary p-3" type="submit">Save Draft</button>
-                            <button class="btn btn-danger p-3" type="submit">Cancel</button>
+                        <div class="col-sm-12 text-center" id="submit_section">
+                            <input class="btn btn-success p-3" onclick="this.form.submitted=this.value;" type="submit" value="Post Job" />
+                            <input class="btn btn-primary p-3" onclick="this.form.submitted=this.value;" type="submit" value="Save Draft" />
+                            <a href="/recruiter/listings" class="btn btn-danger p-3">Cancel</a>
                         </div>
-
-
+                        <div id="saving" class="d-none">
+                            <h2 class="text-center text-primary">Saving ...</h2>
+                        </div> 
                     </form>
                 </div>
             </div>
     </main>
 </div>
+
+<script>
+
+
+
+    let errors = {
+        title: "Required",
+        department: "",
+        experience: "",
+        last_name: "",
+        min_salary: "",
+        max_salary: "",
+        summary: "",
+        duties: "",
+        qualifications: "",
+        compensation: "",
+        active_from: "Invalid Date",
+        active_to: "Invalid Date"
+    }
+
+    document.getElementById("jobForm").addEventListener("submit", async (event) => {
+        event.preventDefault();
+        setErrors(errors, false, event.target.id);
+
+        // Check if the user is saving as draft of posting
+        if (event.target.submitted === "Post Job") {
+            document.getElementById("active_to").querySelector("input").setAttribute("required", true);
+            document.getElementById("active_from").querySelector("input").setAttribute("required", true);
+        } else {
+            document.getElementById("active_to").querySelector("input").removeAttribute("required");
+            document.getElementById("active_from").querySelector("input").removeAttribute("required");
+        } 
+
+        // check validation
+        if (event.target.checkValidity()) {
+            const saving = document.getElementById("saving");
+            const submit_section = document.getElementById("submit_section");
+
+            // ajax reqeust to submit form
+            fetch("/recruiter/new_job_ajax",
+                {
+                    body:  new FormData(event.target),
+                    method: 'POST'
+                }).then(res => {
+
+                    saving.classList.remove("d-none");
+                    submit_section.classList.add("d-none");
+
+                    if (!res.ok)
+                        return res.text().then(text => { throw new Error(text) })
+                    else
+                        return res.json();
+
+                }).then(data => {
+                    location.reload()
+
+                })
+                // .catch(err => {
+                //     const serverErrors = JSON.parse(err.message); 
+                //     setErrors(serverErrors, true, event.target.id);
+                // });
+        }
+
+        event.target.classList.add('was-validated')
+    });
+</script>
 
 
 {% endblock %}
