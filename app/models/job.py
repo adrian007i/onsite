@@ -29,8 +29,8 @@ class JobHead(models.Model):
     active_to = models.DateField(null=True)
     draft = models.BooleanField(default=False)
     
-    def __str__(self):
-        return self.title
+    # def __str__(self):
+    #     return self.title
 
 
 class JobDetail(models.Model):

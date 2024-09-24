@@ -6,20 +6,35 @@
 <div id="layoutSidenav_content">
     <main>
         <div class="container-fluid px-4">
-            <h1 class="mt-4">Jobs
-                <a class="float-end btn btn-primary p-3" href="/recruiter/listings"><i class="fa fa-arrow-left" aria-hidden="true"></i> My Listings</a>
+            <h1 class="mt-4">Jobs 
+
+                <span class="float-end">
+                    {% if request.resolver_match.view_name == "view_job" %} 
+                        <a class="btn btn-warning p-3 ml-3" href="/recruiter/edit_job/{{job.id}}"><i class="fa-solid fa-pen-to-square"></i>Edit</a>
+                        <a class="btn btn-success p-3" href="/recruiter/new_job"><i class="fa-regular fa-clone"></i> Clone</a>
+                    {% endif %}
+                    <a class="btn btn-primary p-3" href="/recruiter/listings"><i class="fa fa-arrow-left" aria-hidden="true"></i> My Listings</a>
+                </span>
             </h1>
             <ol class="breadcrumb mb-4">
-                <li class="breadcrumb-item active">New Listing</li>
+                <li class="breadcrumb-item active">
+                    {% if request.resolver_match.view_name == "new_job" %} 
+                    New Listing
+                    {% elif request.resolver_match.view_name == "view_job" %}
+                    Viewing Job #{{job.id}} - {{job.title.name}}
+                    {% else %}
+                    Editing Job #{{job.id}} - {{job.title.name}}
+                    {% endif %}
+                </li>
             </ol>
             <div class="mb-4">
-                <div>
+                <div class="{% if request.resolver_match.view_name == 'view_job' %}disabled{% endif %}"  >
                     <form novalidate method="post" onsubmit="return false;" id="jobForm">
                         {% csrf_token %}
-
+                        <input type="hidden" name="id" value="{{job.id}}">
                         <div class="form-floating mb-3" id="title">
-                            <input type="hidden" name="title">
-                            <input type="text" placeholder="" class="form-control capitalize" onblur="setTimeout(() => {blurDrop('headline')}, 500);" onfocus="focusDrop(this)" onkeyup="debouncedOnInput(this, 'search_job_title_ajax')" required>
+                            <input type="hidden" name="title" value="{{job.title_id|default_if_none:''}}">
+                            <input type="text" placeholder="" value="{{job.title.name|default_if_none:''}}" class="form-control capitalize" onblur="setTimeout(() => {blurDrop('headline')}, 500);" onfocus="focusDrop(this)" onkeyup="debouncedOnInput(this, 'search_job_title_ajax')" required>
                             <label>Job Title</label>
                             <div class="invalid-feedback"></div>
                             <div class="dropdown">
@@ -28,8 +43,8 @@
                         </div>
 
                         <div class="form-floating mb-3" id="department">
-                            <input type="hidden" name="department">
-                            <input type="text" placeholder="" class="form-control capitalize" onblur="setTimeout(() => {blurDrop('department')}, 500);" onfocus="focusDrop(this)" onkeyup="debouncedOnInput(this, 'search_department_ajax')">
+                            <input type="hidden" name="department" value="{{job.department_id|default_if_none:''}}">
+                            <input type="text" placeholder="" value="{{job.department.name|default_if_none:''}}" class="form-control capitalize" onblur="setTimeout(() => {blurDrop('department')}, 500);" onfocus="focusDrop(this)" onkeyup="debouncedOnInput(this, 'search_department_ajax')">
                             <label>Department</label>
                             <div class="invalid-feedback"></div>
                             <div class="dropdown">
@@ -40,38 +55,38 @@
                         <div class="row mb-3">
                             <div class="col-md-4">
                                 <div class="form-floating" id="experience_level">
-                                    <select class="form-control form-select" name="experience_level"  >
-                                        <option value="any">Any</option>
-                                        <option value="internship">Internship</option>
-                                        <option value="entry">Entry</option>
-                                        <option value="associate">Associate</option>
-                                        <option value="mid">Mid</option>
-                                        <option value="senior">Aenior</option>
-                                        <option value="director">Sirector</option>
-                                        <option value="executive">Executive</option>
+                                    <select class="form-control form-select" name="experience_level">
+                                        <option {% if job.experience_level == 'any' %}selected{% endif %} value="any">Any</option>
+                                        <option {% if job.experience_level == 'internship' %}selected{% endif %} value="internship">Internship</option>
+                                        <option {% if job.experience_level == 'entry' %}selected{% endif %} value="entry">Entry</option>
+                                        <option {% if job.experience_level == 'associate' %}selected{% endif %} value="associate">Associate</option>
+                                        <option {% if job.experience_level == 'mid' %}selected{% endif %} value="mid">Mid</option>
+                                        <option {% if job.experience_level == 'senior' %}selected{% endif %} value="senior">Aenior</option>
+                                        <option {% if job.experience_level == 'director' %}selected{% endif %} value="director">Sirector</option>
+                                        <option {% if job.experience_level == 'executive' %}selected{% endif %} value="executive">Executive</option>
                                     </select>
                                     <label>Experience</label>
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <div class="form-floating" id="salary_min">
-                                    <input class="form-control" type="number" placeholder="" name="salary_min" />
+                                <div class="form-floating" id="salary_min" >
+                                    <input class="form-control" type="number" placeholder="" name="salary_min" value="{{job.salary_min|default_if_none:''}}"/>
                                     <label>Min Salary</label>
                                     <div class="invalid-feedback"></div>
                                 </div>
                             </div>
 
                             <div class="col-md-4">
-                                <div class="form-floating" id="salary_max">
-                                    <input class="form-control" type="number" placeholder="" name="salary_max" />
-                                    <label>Max Salary</label>
+                                <div class="form-floating" id="salary_max" >
+                                    <input class="form-control" type="number" placeholder="" name="salary_max" value="{{job.salary_max|default_if_none:''}}" />
+                                    <label>Max Salary </label>
                                     <div class="invalid-feedback"></div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="form-floating mb-3" id="summary">
-                            <textarea class="form-control" name="summary" placeholder="Job Summary" style="height: 150px;"></textarea>
+                            <textarea class="form-control" name="summary" placeholder="Job Summary" style="height: 150px;">{{job.details.summary}}</textarea>
                             <label for="summary">Job Summary</label>
                             <div class="invalid-feedback"></div>
                         </div>
@@ -83,7 +98,7 @@
                         </div>
 
                         <div class="form-floating mb-3" id="qualifications">
-                            <textarea class="form-control" name="qualifications" placeholder="Job Qualifications" style="height: 150px;">{{ job.details.qualifications }}</textarea>
+                            <textarea class="form-control" name="qualifications" placeholder="Job Qualifications" style="height: 150px;">{{ job.details.qualification }}</textarea>
                             <label for="qualifications">Job Qualifications</label>
                             <div class="invalid-feedback"></div>
                         </div>
@@ -96,8 +111,8 @@
 
 
                         <div class="form-floating mb-3" id="location">
-                            <input type="hidden" name="location">
-                            <input type="text" placeholder="" class="form-control capitalize" onfocus="focusDrop(this)" onblur="setTimeout(() => {blurDrop('location')}, 500);" onkeyup="debouncedOnInput(this, 'search_location_ajax')" required>
+                            <input type="hidden" name="location" value="{{job.location.id|default_if_none:''}}">
+                            <input type="text" placeholder="" value="{{job.location.name|default_if_none:''}}" class="form-control capitalize" onfocus="focusDrop(this)" onblur="setTimeout(() => {blurDrop('location')}, 500);" onkeyup="debouncedOnInput(this, 'search_location_ajax')" required>
                             <label>Location</label>
                             <div class="dropdown">
                                 <ul class="dropdown-menu dropdown-menu-dark w-100"> </ul>
@@ -107,20 +122,22 @@
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <div class="form-floating" id="active_from">
-                                    <input class="form-control" type="date" placeholder="" name="active_from" />
+                                    <input class="form-control" type="date" placeholder="" name="active_from" value="{{job.active_from |date:'Y-m-d'}}" />
                                     <label>Active fron</label>
                                     <div class="invalid-feedback"></div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating" id="active_to">
-                                    <input class="form-control" type="date" placeholder="" name="active_to" />
+                                    <input class="form-control" type="date" placeholder="" name="active_to" value="{{job.active_to |date:'Y-m-d'}}"/>
                                     <label>Active To</label>
                                     <div class="invalid-feedback"></div>
                                 </div>
                             </div>
 
                         </div>
+
+                        {% if request.resolver_match.view_name != "view_job" %}
 
                         <div class="col-sm-12 text-center" id="submit_section">
                             <input class="btn btn-success p-3" onclick="this.form.submitted=this.value;" type="submit" value="Post Job" />
@@ -130,6 +147,8 @@
                         <div id="saving" class="d-none">
                             <h2 class="text-center text-primary">Saving ...</h2>
                         </div> 
+
+                        {% endif %}
                     </form>
                 </div>
             </div>
@@ -189,7 +208,7 @@
                         return res.json();
 
                 }).then(data => {
-                    location.reload()
+                    window.location.replace("/recruiter/view_job/"+data.job_id);
 
                 })
                 // .catch(err => {

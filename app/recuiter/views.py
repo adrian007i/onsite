@@ -14,6 +14,18 @@ def dashboard(request):
 
 @login_required
 @role_required(role)
+def view_job(request, job_id): 
+    job = JobHead.objects.get(id = job_id) 
+    return render(request , "recruiter/job_template.html", {"job": job}) 
+
+@login_required
+@role_required(role)
+def edit_job(request, job_id): 
+    job = JobHead.objects.get(id = job_id) 
+    return render(request , "recruiter/job_template.html", {"job": job}) 
+
+@login_required
+@role_required(role)
 def new_job(request): 
     return render(request , "recruiter/job_template.html") 
 
@@ -31,38 +43,43 @@ def applicants(request):
 @login_required
 @role_required(role)
 def new_job_ajax(request):  
-
-    jh = None
-    jd = None
-    
-    print(formatDate(request.POST.get('active_to')))
+ 
     try:   
-
-        jh = JobHead.objects.create(
-        title_id = request.POST.get('title'),
-        location_id = request.POST.get('location'), 
-        department_id = request.POST.get('department'),
-        posted_on = request.POST.get('posted_on'),
-        salary_min = formatNumber(request.POST.get('salary_min')),
-        salary_max = formatNumber(request.POST.get('salary_max')),
-        experience_level = request.POST.get('experience_level'),
-        active_from = formatDate(request.POST.get('active_from')),
-        active_to = formatDate(request.POST.get('active_to'))) 
-
-        if jh: 
-            jd = JobDetail.objects.create(
-            job_head_id = jh.id,
-            summary =  request.POST.get('summary'),
-            duties = request.POST.get('duties'), 
-            qualifications = request.POST.get('qualifications'),
-            compensation = request.POST.get('compensation'))
-
-        if jh and jd:
-            return JsonResponse ({}) 
-        
+        if request.POST.get("id"): 
+            jh = JobHead.objects.get(id = request.POST.get("id"))
         else:
-            jh.delete()
-            jd.delete()
+            jh = JobHead()  
+
+        print(request.POST)
+ 
+        # print(request.POST['summary'])
+
+        jh.title_id = request.POST.get('title')
+        jh.location_id = request.POST.get('location')
+        jh.department_id = request.POST.get('department')
+        jh.salary_min = formatNumber(request.POST.get('salary_min'))
+        jh.salary_max = formatNumber(request.POST.get('salary_max'))
+        jh.experience_level = request.POST.get('experience_level')
+        jh.active_from = formatDate(request.POST.get('active_from'))
+        jh.active_to = formatDate(request.POST.get('active_to'))
+            
+        jh.save()
+        
+        if request.POST.get("id"): 
+            jd = JobDetail.objects.filter(job_head_id = jh.id).first()
+        else:
+            jd = JobDetail()
+            jd.job_head_id = jh.id 
+ 
+        jd.summary = request.POST.get('summary')
+        jd.duties = request.POST.get('duties')
+        jd.qualifications = request.POST.get('qualifications')
+        jd.compensation = request.POST.get('compensation')
+        jd.save()
+        
+        print
+        return JsonResponse ({"job_id" : jh.id}) 
+        
  
 
     except Exception as e: 

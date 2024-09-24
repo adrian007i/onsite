@@ -4,7 +4,9 @@ from . import views
 
 urlpatterns = [
     path("dashboard", views.dashboard, name="dashboard"), 
-    path("new_job", views.new_job, name="listings"),
+    path("view_job/<int:job_id>", views.view_job, name="view_job"),
+    path("edit_job/<int:job_id>", views.edit_job, name="edit_job"),
+    path("new_job", views.new_job, name="new_job"),
     path("new_job_ajax", views.new_job_ajax ),
     path("listings", views.listings, name="listings"),
     path("applicants", views.applicants, name="applicants")
