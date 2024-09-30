@@ -17,6 +17,7 @@ def dashboard(request):
 def view_job(request, job_id): 
     job = JobHead.objects.get(id = job_id) 
     return render(request , "recruiter/job_template.html", {"job": job}) 
+    
 
 @login_required
 @role_required(role)
@@ -33,6 +34,17 @@ def new_job(request):
 @role_required(role)
 def listings(request):
     return render(request , "recruiter/listings.html") 
+
+@login_required
+@role_required(role)
+def listings_ajax(request):
+    
+    query = ""
+    start = 0
+    end = 10 
+
+    listings = JobHead.objects.all().values()[start : end]
+    return JsonResponse ({"listings" : list(listings)})  
 
 @login_required
 @role_required(role)
