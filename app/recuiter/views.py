@@ -66,7 +66,7 @@ def listings_ajax(request):
 
     # Filter by search value if provided
     if search_value:
-        listings = listings.filter(experience_level__icontains=search_value) 
+        listings = listings.filter(id__icontains=search_value) 
 
     # Apply sorting and pagination
     listings = listings.order_by(order_field)[start:start + length]

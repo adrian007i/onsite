@@ -13,16 +13,13 @@
                 <li class="breadcrumb-item active">Your Listings</li>
             </ol>
             <div class="card mb-4">
-                <div class="card-header">
-                    <i class="fas fa-table me-1"></i>
-                    DataTable Example
-                </div>
                 <div class="card-body">
                     <table id="listings" class="table table-striped" style="width:100%">
-                        <thead>
+                        <thead class="thead-dark">
                             <tr>
                                 <th>#</th>
                                 <th>Experience</th>
+                                <th>View/Edit</th>
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -44,8 +41,17 @@
         serverSide: true,
         columns: [
             { data: 'id' },
-            { data: 'experience_level' }
-        ]
+            { data: 'experience_level' },
+            {
+                data: 'id',
+                render: function (data, type, row) {
+                    return `<a href="/recruiter/view_job/${data}"><i class="fa-solid fa-file-lines"></i></a> <a href="/recruiter/edit_job/${data}"><i class="fa-solid fa-pen-to-square"></i></a>`;
+                }
+            }
+        ],
+        columnDefs: [ 
+        { orderable: false, targets: [1,2] }
+    ]
     });
 </script>
 
