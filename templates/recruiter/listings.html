@@ -18,24 +18,36 @@
                     DataTable Example
                 </div>
                 <div class="card-body">
-                    <table id="datatablesSimple">
+                    <table id="listings" class="table table-striped" style="width:100%">
                         <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Position</th>
-                                <th>Office</th>
-                                <th>Age</th>
-                                <th>Start date</th>
-                                <th>Salary</th>
+                                <th>#</th>
+                                <th>Experience</th>
                             </tr>
                         </thead>
                         <tbody></tbody>
                     </table>
                 </div>
             </div>
-        </div> 
+        </div>
     </main>
 </div>
+
+<script>
+    new DataTable('#listings', {
+        "ajax": {
+            "url": '/recruiter/listings_ajax',
+            "type": "POST",
+            "headers": { "X-CSRFToken": "{{ csrf_token }}" }
+        },
+        processing: true,
+        serverSide: true,
+        columns: [
+            { data: 'id' },
+            { data: 'experience_level' }
+        ]
+    });
+</script>
 
 
 {% endblock %}

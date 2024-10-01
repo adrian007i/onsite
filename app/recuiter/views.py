@@ -39,12 +39,49 @@ def listings(request):
 @role_required(role)
 def listings_ajax(request):
     
-    query = ""
-    start = 0
-    end = 10 
+    draw = int(request.POST.get('draw', 0))
+    start = int(request.POST.get('start', 0))
+    length = int(request.POST.get('length', 10))
+    
+    # Get the column and direction for sorting
+    order_column = int(request.POST.get('order[0][column]', 0))
+    order_dir = request.POST.get('order[0][dir]', 'asc')
+    
+    # Get search value
+    search_value = request.POST.get('search[value]', '')
 
-    listings = JobHead.objects.all().values()[start : end]
-    return JsonResponse ({"listings" : list(listings)})  
+    # Columns data (name, email, etc.)
+    columns = ['id', 'experience_level']
+    
+    # Order by the requested column and direction
+    order_field = columns[order_column]
+    if order_dir == 'desc':
+        order_field = '-' + order_field
+
+    # Query users
+    listings = JobHead.objects.all().values("id","experience_level","salary_min", "salary_max" , "active_from", "active_to")
+
+    # Get total count before filtering
+    total_records = listings.count()
+
+    # Filter by search value if provided
+    if search_value:
+        listings = listings.filter(experience_level__icontains=search_value) 
+
+    # Apply sorting and pagination
+    listings = listings.order_by(order_field)[start:start + length]
+
+    
+ 
+    response = {
+        'draw': draw,
+        'recordsTotal': total_records,
+        'recordsFiltered': total_records,
+        'data': list(listings)
+    } 
+
+    print(listings)
+    return JsonResponse (response)  
 
 @login_required
 @role_required(role)
