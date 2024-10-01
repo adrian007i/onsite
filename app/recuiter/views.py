@@ -59,14 +59,14 @@ def listings_ajax(request):
         order_field = '-' + order_field
 
     # Query users
-    listings = JobHead.objects.all().values("id","experience_level","salary_min", "salary_max" , "active_from", "active_to")
+    listings = JobHead.objects.all().values("id","experience_level","salary_min", "salary_max" , "active_from", "active_to","title__name", "department__name")
 
     # Get total count before filtering
     total_records = listings.count()
 
     # Filter by search value if provided
     if search_value:
-        listings = listings.filter(id__icontains=search_value) 
+        listings = listings.filter(id__icontains=search_value) | listings.filter(title__name__icontains=search_value)
 
     # Apply sorting and pagination
     listings = listings.order_by(order_field)[start:start + length]
@@ -79,8 +79,7 @@ def listings_ajax(request):
         'recordsFiltered': total_records,
         'data': list(listings)
     } 
-
-    print(listings)
+ 
     return JsonResponse (response)  
 
 @login_required

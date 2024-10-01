@@ -43,7 +43,7 @@ const debounce = (func, wait = 0) => {
         }, wait);
     };
 };
- 
+
 const dropDownSearch = (e, endpoint) => {
     let val = e.value.toLowerCase().trim();
     const dropdown = e.parentElement.querySelector(".dropdown>ul");
@@ -66,12 +66,12 @@ const dropDownSearch = (e, endpoint) => {
 const debouncedOnInput = debounce(dropDownSearch, 400);
 
 
-const selectDropItem = (e, id, name) => { 
+const selectDropItem = (e, id, name) => {
     let root = e.parentElement.parentElement.parentElement.parentElement;
     let hidden = root.querySelector("input[type='hidden']").value = id;
     let text = root.querySelector("input[type='text']").value = name;
 
-    e.parentElement.parentElement.classList.remove("show");   
+    e.parentElement.parentElement.classList.remove("show");
     e.parentElement.parentElement.innerHTML = e.parentElement.outerHTML;
 
 }
@@ -79,20 +79,26 @@ const selectDropItem = (e, id, name) => {
 const focusDrop = (e) => {
     const dropdown = e.parentElement.querySelector(".dropdown>ul");
     dropdown.innerHTML = "";
-    dropdown.classList.add("show"); 
+    dropdown.classList.add("show");
 
-    e.value = ""; 
-    e.parentElement.querySelector("input[type='hidden']").value = "";  
+    e.value = "";
+    e.parentElement.querySelector("input[type='hidden']").value = "";
 }
 
-const blurDrop = (e_id) => {   
-    
-    const element = document.getElementById(e_id);
-    const hidden_value = element.querySelector("input[type='hidden']").value; 
+const blurDrop = (e_id) => {
 
-    if (!hidden_value){
-        element.querySelector(".dropdown>ul").classList.remove("show"); 
+    const element = document.getElementById(e_id);
+    const hidden_value = element.querySelector("input[type='hidden']").value;
+
+    if (!hidden_value) {
+        element.querySelector(".dropdown>ul").classList.remove("show");
         element.querySelector("input[type='hidden']").value = "";
         element.querySelector("input[type='text']").value = "";
     }
 }
+
+const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    maximumFractionDigits: 0
+});

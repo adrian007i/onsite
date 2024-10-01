@@ -33,11 +33,20 @@
     background-color: #222;
 } 
 
-.dropdown-item, .capitalize{
+.capitalize{
     text-transform: capitalize;
 }
 
 .disabled{
     pointer-events: none;
     opacity: .8;
+}
+
+.job_active{
+    color:rgb(4, 180, 4);
+    font-weight: bold;
+}
+
+.job_inactive{
+    color:red;
 }
