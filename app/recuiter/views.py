@@ -4,6 +4,7 @@ from app.decorators import role_required
 from django.http import HttpResponse,HttpResponseRedirect, JsonResponse 
 from app.models.job import JobHead, JobDetail
 from app.utils import *
+from django.db.models import Q
 
 role = "recruiter"
 
@@ -15,15 +16,21 @@ def dashboard(request):
 @login_required
 @role_required(role)
 def view_job(request, job_id): 
-    job = JobHead.objects.get(id = job_id) 
-    return render(request , "recruiter/job_template.html", {"job": job}) 
+    try:
+        job = JobHead.objects.get(Q(id = job_id) & Q(created_by_id = request.user.id))
+        return render(request , "recruiter/job_template.html", {"job": job}) 
+    except:
+        return HttpResponseRedirect('/')
     
 
 @login_required
-@role_required(role)
+@role_required(role) 
 def edit_job(request, job_id): 
-    job = JobHead.objects.get(id = job_id) 
-    return render(request , "recruiter/job_template.html", {"job": job}) 
+    try:
+        job = JobHead.objects.get(Q(id = job_id) & Q(created_by_id = request.user.id))
+        return render(request , "recruiter/job_template.html", {"job": job}) 
+    except:
+        return HttpResponseRedirect('/')
 
 @login_required
 @role_required(role)
