@@ -13,6 +13,7 @@ from app.models.user import User
 from app.models.job_title import JobTitle
 from app.models.location import Location
 from app.models.department import Department
+from app.models.job import JobHead
 
 def index(request):
     if request.user.is_authenticated and request.user.role == "recruiter":
@@ -145,4 +146,5 @@ def companies(request):
     return render(request , "public/companies.html") 
 
 def jobs(request):
-    return render(request , "public/jobs.html")  
+    jobs = JobHead.objects.all() 
+    return render(request , "public/jobs.html", {"jobs" : jobs})  
