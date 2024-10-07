@@ -3,6 +3,7 @@ from django.db import models
 from app.models.job_title import JobTitle
 from app.models.location import Location
 from app.models.department import Department
+from app.models.user import User
 
 EXP_LEVEL = (
         ("any", "any"),
@@ -28,6 +29,7 @@ class JobHead(models.Model):
     active_from = models.DateField(null=True)
     active_to = models.DateField(null=True)
     draft = models.BooleanField(default=False)
+    created_by =  models.ForeignKey(User, on_delete=models.CASCADE, related_name="created_by" ,null=True)
     
     # def __str__(self):
     #     return self.title

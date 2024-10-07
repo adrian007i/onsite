@@ -59,7 +59,7 @@ def listings_ajax(request):
         order_field = '-' + order_field
 
     # Query users
-    listings = JobHead.objects.all().values("id","experience_level","salary_min", "salary_max" , "active_from", "active_to","title__name", "department__name")
+    listings = JobHead.objects.filter(created_by_id = request.user.id).values("id","experience_level","salary_min", "salary_max" , "active_from", "active_to","title__name", "department__name")
 
     # Get total count before filtering
     total_records = listings.count()
