@@ -71,19 +71,40 @@
 
 .job_apply_head{
     border-bottom: 1px solid #ddd;
+    display: flex;
 }
 
 .job_apply_head .title{
     margin-bottom: 0px !important; 
     color: #0a66c2;
-}
+    font-size: 1.1rem;
+} 
 .job_apply_head{
     color: #777;
     font-size: .8rem;
-    margin-top: 5px;
-    margin-bottom: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .job_apply_head div{
     margin-bottom: 3px;
+    
 } 
+
+.job_apply_head .icon{ 
+    margin-right: 15px;
+}
+
+.icon svg{
+    font-size: 26px;
+    background-color: #eee;
+    color: #333; 
+    padding: 10px;
+}
+
+.jd_section div{
+    margin-bottom: 20px;
+    font-size: .8rem;
+    border-bottom: 1px solid #ccc;
+}
+

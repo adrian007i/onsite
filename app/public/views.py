@@ -13,7 +13,7 @@ from app.models.user import User
 from app.models.job_title import JobTitle
 from app.models.location import Location
 from app.models.department import Department
-from app.models.job import JobHead
+from app.models.job import JobHead, JobDetail
 
 def index(request):
     if request.user.is_authenticated and request.user.role == "recruiter":
@@ -145,6 +145,8 @@ def profile_ajax(request):
 def companies(request):
     return render(request , "public/companies.html") 
 
-def jobs(request):
+def jobs(request, id):
     jobs = JobHead.objects.all() 
-    return render(request , "public/jobs.html", {"jobs" : jobs})  
+    
+    jd = JobDetail.objects.get(id = id) 
+    return render(request , "public/jobs.html", {"jobs" : jobs , "jd" : jd})  
