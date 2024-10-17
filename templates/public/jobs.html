@@ -5,7 +5,7 @@
 
 <div id="layoutSidenav_content">
     <main>
-        <div class="container-fluid">
+        <div class="job_section">
             <div id="jobs">
                 <div id="left">
                     {% for x in jobs %}
@@ -24,15 +24,18 @@
 
                 </div>
                 <div id="right">
-                    <div class="icon"><i class="fa-brands fa-slack"></i></div>
-                    <div>
-                        <h6 class="title capitalize">{{jd.job_head.title.name}} </h6>
+                    <div class="employer">
+                        <div class="icon"><i class="fa-brands fa-slack"></i></div> 
                         <div class="company">{{jd.job_head.created_by.company}} </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="title capitalize">{{jd.job_head.title.name}} </h3>
                         <div class="type">Level {{jd.job_head.experience_level}}</div>
                         <div class="location "><em>{{jd.job_head.location.name}}</em> </div>
                         <div class="location "><em> Salary: {{jd.job_head.salary_min}} - {{jd.job_head.salary_max}}</em> </div>
                     </div>
-                    <br><hr>
+                    <br>
                     <div class="jd_section">
                         <h6>Summary</h6>
                         <div>{{jd.summary|linebreaks}}</div>
