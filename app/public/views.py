@@ -145,8 +145,12 @@ def profile_ajax(request):
 def companies(request):
     return render(request , "public/companies.html") 
 
-def jobs(request, id):
+def jobs_listing(request, id):
     jobs = JobHead.objects.all() 
-    
-    jd = JobDetail.objects.get(id = id) 
+    jd = JobDetail.objects.get(job_head_id = id) 
     return render(request , "public/jobs.html", {"jobs" : jobs , "jd" : jd})  
+
+def jobs(request):
+    first_job = JobHead.objects.first()  
+    return HttpResponseRedirect("/jobs/listing/" + str(first_job.id))
+
