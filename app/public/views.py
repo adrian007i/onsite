@@ -154,3 +154,48 @@ def jobs(request):
     first_job = JobHead.objects.first()  
     return HttpResponseRedirect("/jobs/listing/" + str(first_job.id))
 
+
+def companies_ajax(request): 
+    
+    draw = int(request.POST.get('draw', 0))
+    start = int(request.POST.get('start', 0))
+    length = int(request.POST.get('length', 10))
+    
+    # Get the column and direction for sorting
+    order_column = int(request.POST.get('order[0][column]', 0))
+    order_dir = request.POST.get('order[0][dir]', 'asc')
+    
+    # Get search value
+    search_value = request.POST.get('search[value]', '')
+
+    # Columns data (name, email, etc.)
+    columns = ['company', 'location_id']
+    
+    # Order by the requested column and direction
+    order_field = columns[order_column]
+    if order_dir == 'desc':
+        order_field = '-' + order_field
+
+    # Query users
+    companies = User.objects.filter(company__isnull = False).values("company" , "location__name")
+
+    # Get total count before filtering
+    total_records = companies.count()
+
+    # Filter by search value if provided
+    if search_value:
+        companies = companies.filter(company__icontains=search_value) | companies.filter(locatiion__name__icontains=search_value)
+
+    # Apply sorting and pagination
+    companies = companies.order_by(order_field)[start:start + length]
+
+    
+ 
+    response = {
+        'draw': draw,
+        'recordsTotal': total_records,
+        'recordsFiltered': total_records,
+        'data': list(companies)
+    } 
+ 
+    return JsonResponse (response)  
