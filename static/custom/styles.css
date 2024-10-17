@@ -108,3 +108,20 @@
     border-bottom: 1px solid #ccc;
 }
 
+
+main{
+    height: calc(100vh - 80px);
+    overflow-y: scroll;
+}
+
+.card-header{
+    background: #333;
+    color: #eee;
+    margin-bottom: 10px;
+}
+
+.page_header{
+    background: #333;
+    color: #eee;
+    padding: 10px;
+}

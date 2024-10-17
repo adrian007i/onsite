@@ -4,59 +4,55 @@
 {% block body_block %}
 
 <div id="layoutSidenav_content">
-    <div id="layoutAuthentication">
-        <div id="layoutAuthentication_content">
-            <main>
-                <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-5">
-                            <div class="card shadow-lg border-0 rounded-lg mt-5">
-                                <div class="card-header">
-                                    <h3 class="text-center font-weight-light my-4">Login</h3>
+    <main>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-5">
+                    <div class="card shadow-lg border-0 rounded-lg mt-5">
+                        <div class="card-header">
+                            <h3 class="text-center font-weight-light my-4">Login</h3>
+                        </div>
+                        <div class="card-body">
+                            <form id="loginForm" novalidate>
+                                {% csrf_token %}
+                                <div class="form-floating mb-3" id="email">
+                                    <input name="email" type="email" placeholder="" class="form-control" required>
+                                    <label for="email">Email Address</label>
+                                    <div class="invalid-feedback"></div>
                                 </div>
-                                <div class="card-body">
-                                    <form id="loginForm" novalidate>
-                                        {% csrf_token %}
-                                        <div class="form-floating mb-3" id="email">
-                                            <input name="email" type="email" placeholder="" class="form-control" required>
-                                            <label for="email">Email Address</label>
-                                            <div class="invalid-feedback"></div>
-                                        </div>
 
 
-                                        <div class="form-floating mb-3" id="password">
-                                            <input class="form-control" name="password" type="password" placeholder="" required />
-                                            <label for="inputPassword">Password</label>
-                                            <div class="invalid-feedback" id="password_error"></div>
+                                <div class="form-floating mb-3" id="password">
+                                    <input class="form-control" name="password" type="password" placeholder="" required />
+                                    <label for="inputPassword">Password</label>
+                                    <div class="invalid-feedback" id="password_error"></div>
 
-                                            <div>
-                                                <label class="text-secondary"><input type="checkbox" onchange="passwordToggle('userForm')"> Show Password</label>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-floating mb-3" id="server">
-                                            <input name="server" type="hidden" class="form-control is-invalid">
-                                            <div class="invalid-feedback" id="server_error"></div>
-                                        </div>
-
-
-                                        <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
-                                            <a class="small" href="password.html">Forgot Password?</a>
-                                            <button class="btn btn-primary submit_btn" type="submit">Login</button>
-                                        </div>
-                                    </form>
+                                    <div>
+                                        <label class="text-secondary"><input type="checkbox" onchange="passwordToggle('userForm')"> Show Password</label>
+                                    </div>
                                 </div>
-                                
-                                <div class="card-footer text-center py-3">
-                                    <div class="small"><a href="/register">Need an account? Sign up!</a></div>
+
+                                <div class="form-floating mb-3" id="server">
+                                    <input name="server" type="hidden" class="form-control is-invalid">
+                                    <div class="invalid-feedback" id="server_error"></div>
                                 </div>
-                            </div>
+
+
+                                <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                                    <a class="small" href="password.html">Forgot Password?</a>
+                                    <button class="btn btn-primary submit_btn" type="submit">Login</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="card-footer text-center py-3">
+                            <div class="small"><a href="/register">Need an account? Sign up!</a></div>
                         </div>
                     </div>
                 </div>
-            </main>
+            </div>
         </div>
-    </div>
+    </main>
 </div>
 
 

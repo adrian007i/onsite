@@ -4,160 +4,156 @@
 {% block body_block %}
 
 <div id="layoutSidenav_content">
-    <div id="layoutAuthentication">
-        <div id="layoutAuthentication_content">
-            <main>
-                <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-7">
+    <main>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-7">
 
-                            <div class="card shadow-lg border-0 rounded-lg mt-5">
-                                <div class="card-header">
-                                    <h3 class="text-center font-weight-light my-4">Register</h3>
+                    <div class="card shadow-lg border-0 rounded-lg mt-5">
+                        <div class="card-header">
+                            <h3 class="text-center font-weight-light my-4">Register</h3>
+                        </div>
+
+                        <div id="btn_toggle">
+                            <button class="btn_toggle focus" onclick="toggleForm('user')" id="js_toggle">Job
+                                Seeker</button>
+                            <button class="btn_toggle" onclick="toggleForm('recruiter')" id="rec_toggle">Recruiter</button>
+                        </div>
+                        <div class="card-body">
+                            <form novalidate method="post" id="userForm">
+                                {% csrf_token %}
+                                <input type="hidden" name="role" value="user">
+
+                                <div class="form-floating mb-3" id="headline">
+                                    <input type="hidden" name="headline">
+                                    <input type="text" placeholder="" class="form-control capitalize" onblur="setTimeout(() => {blurDrop('headline')}, 500);" onfocus="focusDrop(this)" onkeyup="debouncedOnInput(this, 'search_job_title_ajax')" required>
+                                    <label>Job Title</label>
+                                    <div class="invalid-feedback"></div>
+                                    <div class="dropdown">
+                                        <ul class="dropdown-menu dropdown-menu-dark w-100"> </ul>
+                                    </div>
                                 </div>
 
-                                <div id="btn_toggle">
-                                    <button class="btn_toggle focus" onclick="toggleForm('user')" id="js_toggle">Job
-                                        Seeker</button>
-                                    <button class="btn_toggle" onclick="toggleForm('recruiter')" id="rec_toggle">Recruiter</button>
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <div class="form-floating mb-3 mb-md-0" id="first_name">
+                                            <input class="form-control" type="text" placeholder="" required name="first_name" />
+                                            <label>First name</label>
+                                            <div class="invalid-feedback"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating" id="last_name">
+                                            <input class="form-control" type="text" placeholder="" required name="last_name" />
+                                            <label>Last name</label>
+                                            <div class="invalid-feedback" id="last_name_error"></div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="card-body">
-                                    <form novalidate method="post" id="userForm">
-                                        {% csrf_token %}
-                                        <input type="hidden" name="role" value="user"> 
 
-                                        <div class="form-floating mb-3" id="headline">
-                                            <input type="hidden" name="headline">
-                                            <input type="text" placeholder="" class="form-control capitalize" onblur="setTimeout(() => {blurDrop('headline')}, 500);" onfocus="focusDrop(this)" onkeyup="debouncedOnInput(this, 'search_job_title_ajax')" required>
-                                            <label>Job Title</label>
-                                            <div class="invalid-feedback"></div>
-                                            <div class="dropdown">
-                                                <ul class="dropdown-menu dropdown-menu-dark w-100"> </ul>
-                                            </div>
-                                        </div>
-
-                                        <div class="row mb-3">
-                                            <div class="col-md-6">
-                                                <div class="form-floating mb-3 mb-md-0" id="first_name">
-                                                    <input class="form-control" type="text" placeholder="" required name="first_name" />
-                                                    <label >First name</label>
-                                                    <div class="invalid-feedback"></div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-floating" id="last_name">
-                                                    <input class="form-control" type="text" placeholder="" required name="last_name" />
-                                                    <label>Last name</label>
-                                                    <div class="invalid-feedback" id="last_name_error"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-floating mb-3" id="email">
-                                            <input name="email" type="email" placeholder="" class="form-control" required>
-                                            <label>Email Address</label>
-                                            <div class="invalid-feedback"></div>
-                                        </div>
-
-                                        <div class="form-floating mb-3" id="location">
-                                            <input type="hidden" name="location">
-                                            <input type="text" placeholder="" class="form-control capitalize" onfocus="focusDrop(this)"  onblur="setTimeout(() => {blurDrop('location')}, 500);"  onkeyup="debouncedOnInput(this, 'search_location_ajax')">
-                                            <label>Location</label>
-                                            <div class="dropdown">
-                                                <ul class="dropdown-menu dropdown-menu-dark w-100"> </ul>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-floating mb-3" id="password">
-                                            <input class="form-control" name="password" type="password" placeholder="" required />
-                                            <label>Password</label>
-                                            <div class="invalid-feedback" id="password_error"></div>
-
-                                            <div>
-                                                <label class="text-secondary"><input type="checkbox" onchange="passwordToggle('userForm')"> Show Password</label>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-sm-12">
-                                            <button class="btn btn-primary w-100 submit_btn" type="submit">CreateAccount</button>
-                                        </div>
-                                    </form>
-                                    <form novalidate method="post" class=" d-none" id="recruiterForm">
-                                        {% csrf_token %}
-                                        <input type="hidden" name="role" value="recruiter">
-                                        <div class="form-floating mb-3" id="company">
-                                            <input class="form-control" type="text" name="company" placeholder="" required />
-                                            <label>Company Name</label>
-                                            <div class="invalid-feedback"></div>
-                                        </div>
-                                        
-                                        <div class="form-floating mb-3" id="headline">
-                                            <input type="hidden" name="headline">
-                                            <input type="text" placeholder="" class="form-control capitalize" onblur="setTimeout(() => {blurDrop('headline')}, 500);" onfocus="focusDrop(this)" onkeyup="debouncedOnInput(this, 'search_job_title_ajax')" required>
-                                            <label>Job Title</label>
-                                            <div class="invalid-feedback"></div>
-                                            <div class="dropdown">
-                                                <ul class="dropdown-menu dropdown-menu-dark w-100"> </ul>
-                                            </div>
-                                        </div>
-
-                                        <div class="row mb-3">
-                                            <div class="col-md-6">
-                                                <div class="form-floating mb-3 mb-md-0" id="first_name">
-                                                    <input class="form-control" type="text" placeholder="" required name="first_name" />
-                                                    <label >First name</label>
-                                                    <div class="invalid-feedback"></div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-floating" id="last_name">
-                                                    <input class="form-control" type="text" placeholder="" required name="last_name" />
-                                                    <label>Last name</label>
-                                                    <div class="invalid-feedback" id="last_name_error"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-floating mb-3" id="email">
-                                            <input name="email" type="email" placeholder="" class="form-control" required>
-                                            <label>Email Address</label>
-                                            <div class="invalid-feedback"></div>
-                                        </div>
-
-                                        <div class="form-floating mb-3" id="location">
-                                            <input type="hidden" name="location">
-                                            <input type="text" placeholder="" class="form-control capitalize" onfocus="focusDrop(this)"  onblur="setTimeout(() => {blurDrop('location')}, 500);"  onkeyup="debouncedOnInput(this, 'search_location_ajax')">
-                                            <label>Location</label>
-                                            <div class="dropdown">
-                                                <ul class="dropdown-menu dropdown-menu-dark w-100"> </ul>
-                                            </div>
-                                        </div>
-
-
-                                        <div class="form-floating mb-3" id="password">
-                                            <input class="form-control" name="password" type="password" placeholder="" required />
-                                            <label>Password</label>
-                                            <div class="invalid-feedback" id="password_error"></div>
-
-                                            <div>
-                                                <label class="text-secondary"><input type="checkbox" onchange="passwordToggle('recruiterForm')"> Show Password</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-12">
-                                            <button class="btn btn-primary w-100 submit_btn" type="submit">CreateAccount</button>
-                                        </div>
-                                    </form>
+                                <div class="form-floating mb-3" id="email">
+                                    <input name="email" type="email" placeholder="" class="form-control" required>
+                                    <label>Email Address</label>
+                                    <div class="invalid-feedback"></div>
                                 </div>
-                                <div class="card-footer text-center py-3">
-                                    <div class="small"><a href="/login">Have an account? Go to login</a></div>
+
+                                <div class="form-floating mb-3" id="location">
+                                    <input type="hidden" name="location">
+                                    <input type="text" placeholder="" class="form-control capitalize" onfocus="focusDrop(this)" onblur="setTimeout(() => {blurDrop('location')}, 500);" onkeyup="debouncedOnInput(this, 'search_location_ajax')">
+                                    <label>Location</label>
+                                    <div class="dropdown">
+                                        <ul class="dropdown-menu dropdown-menu-dark w-100"> </ul>
+                                    </div>
                                 </div>
-                            </div>
+
+                                <div class="form-floating mb-3" id="password">
+                                    <input class="form-control" name="password" type="password" placeholder="" required />
+                                    <label>Password</label>
+                                    <div class="invalid-feedback" id="password_error"></div>
+
+                                    <div>
+                                        <label class="text-secondary"><input type="checkbox" onchange="passwordToggle('userForm')"> Show Password</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-12">
+                                    <button class="btn btn-primary w-100 submit_btn" type="submit">CreateAccount</button>
+                                </div>
+                            </form>
+                            <form novalidate method="post" class=" d-none" id="recruiterForm">
+                                {% csrf_token %}
+                                <input type="hidden" name="role" value="recruiter">
+                                <div class="form-floating mb-3" id="company">
+                                    <input class="form-control" type="text" name="company" placeholder="" required />
+                                    <label>Company Name</label>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+
+                                <div class="form-floating mb-3" id="headline">
+                                    <input type="hidden" name="headline">
+                                    <input type="text" placeholder="" class="form-control capitalize" onblur="setTimeout(() => {blurDrop('headline')}, 500);" onfocus="focusDrop(this)" onkeyup="debouncedOnInput(this, 'search_job_title_ajax')" required>
+                                    <label>Job Title</label>
+                                    <div class="invalid-feedback"></div>
+                                    <div class="dropdown">
+                                        <ul class="dropdown-menu dropdown-menu-dark w-100"> </ul>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <div class="form-floating mb-3 mb-md-0" id="first_name">
+                                            <input class="form-control" type="text" placeholder="" required name="first_name" />
+                                            <label>First name</label>
+                                            <div class="invalid-feedback"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating" id="last_name">
+                                            <input class="form-control" type="text" placeholder="" required name="last_name" />
+                                            <label>Last name</label>
+                                            <div class="invalid-feedback" id="last_name_error"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-floating mb-3" id="email">
+                                    <input name="email" type="email" placeholder="" class="form-control" required>
+                                    <label>Email Address</label>
+                                    <div class="invalid-feedback"></div>
+                                </div>
+
+                                <div class="form-floating mb-3" id="location">
+                                    <input type="hidden" name="location">
+                                    <input type="text" placeholder="" class="form-control capitalize" onfocus="focusDrop(this)" onblur="setTimeout(() => {blurDrop('location')}, 500);" onkeyup="debouncedOnInput(this, 'search_location_ajax')">
+                                    <label>Location</label>
+                                    <div class="dropdown">
+                                        <ul class="dropdown-menu dropdown-menu-dark w-100"> </ul>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-floating mb-3" id="password">
+                                    <input class="form-control" name="password" type="password" placeholder="" required />
+                                    <label>Password</label>
+                                    <div class="invalid-feedback" id="password_error"></div>
+
+                                    <div>
+                                        <label class="text-secondary"><input type="checkbox" onchange="passwordToggle('recruiterForm')"> Show Password</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <button class="btn btn-primary w-100 submit_btn" type="submit">CreateAccount</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="card-footer text-center py-3">
+                            <div class="small"><a href="/login">Have an account? Go to login</a></div>
                         </div>
                     </div>
                 </div>
-            </main>
+            </div>
         </div>
-    </div>
+    </main>
 </div>
 
 <script>
@@ -183,7 +179,7 @@
             userForm.classList.add("d-none");
         }
 
-    } 
+    }
 
     let errors = {
         company: "Required",
