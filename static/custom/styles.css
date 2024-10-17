@@ -90,6 +90,7 @@
 .job_apply_head {
     border-bottom: 1px solid #ddd;
     display: flex;
+    align-items: center;
 }
 
 .job_apply_head .title {
@@ -119,6 +120,7 @@
     background-color: #eee;
     color: #333;
     padding: 10px;
+    height: 40px;
 }
 
 .jd_section div {
@@ -130,6 +132,7 @@
 main {
     height: calc(100vh - 80px);
     overflow-y: scroll;
+    background-color: #eee;
 }
 
 .card-header {
@@ -150,6 +153,7 @@ main {
     max-width: 1000px;
     margin: 10px;
     margin: auto;
+    padding-left: 10px;
 }
 
 .employer{
