@@ -56,7 +56,7 @@ const dropDownSearch = (e, endpoint) => {
             .then(res => {
 
                 res.data.forEach(item => {
-                    items += `<li><button type="button" class="dropdown-item" onclick="selectDropItem(this, ${item.id},'${item.name}')">${item.name}</button></li>`;
+                    items += `<li><button type="button" class="dropdown-item capitalize" onclick="selectDropItem(this, ${item.id},'${item.name}')">${item.name}</button></li>`;
                 });
                 dropdown.innerHTML = items;
             });

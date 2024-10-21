@@ -6,18 +6,15 @@
 <div id="layoutSidenav_content">
     <main>
         <div class="container-fluid px-4">
-            <h1 class="mt-4">Jobs
+            <h1 class="mt-4 banner">My Listings
                 <a class="float-end btn btn-primary p-3" href="/recruiter/new_job">+ New Job</a>
-            </h1>
-            <ol class="breadcrumb mb-4">
-                <li class="breadcrumb-item active">Your Listings</li>
-            </ol>
+            </h1> 
             <div class="card mb-4">
                 <div class="card-body">
                     <table id="listings" class="table table-striped capitalize" style="width:100%">
                         <thead class="thead-dark">
                             <tr>
-                                <th>#</th>
+                                <th>JOB_ID</th>
                                 <th>Position</th>
                                 <th>Department</th>
                                 <th>Experience</th>
@@ -88,13 +85,14 @@
             },
             {
                 data: 'id',
+                className: 'dt-body-right',
                 render: function (data, type, row) {
                     return `<a href="/recruiter/view_job/${data}"><i class="fa-solid fa-file-lines"></i></a> <a href="/recruiter/edit_job/${data}"><i class="fa-solid fa-pen-to-square"></i></a>`;
                 }
             }
         ],
         columnDefs: [
-            { orderable: false, targets: [2, 3, 4, 5] }
+            { orderable: false, targets: [2, 3, 4, 6] }
         ]
     });
 </script>

@@ -67,7 +67,6 @@ def listings_ajax(request):
 
     # Query users
     listings = JobHead.objects.filter(created_by_id = request.user.id).values("id","experience_level","salary_min", "salary_max" , "active_from", "active_to","title__name", "department__name")
-
     # Get total count before filtering
     total_records = listings.count()
 
@@ -104,11 +103,7 @@ def new_job_ajax(request):
             jh = JobHead.objects.get(id = request.POST.get("id"))
         else:
             jh = JobHead()  
-
-        print(request.POST)
  
-        # print(request.POST['summary'])
-
         jh.title_id = request.POST.get('title')
         jh.location_id = request.POST.get('location')
         jh.department_id = request.POST.get('department')
@@ -117,6 +112,7 @@ def new_job_ajax(request):
         jh.experience_level = request.POST.get('experience_level')
         jh.active_from = formatDate(request.POST.get('active_from'))
         jh.active_to = formatDate(request.POST.get('active_to'))
+        jh.created_by_id = request.user.id
             
         jh.save()
         
@@ -131,13 +127,11 @@ def new_job_ajax(request):
         jd.qualifications = request.POST.get('qualifications')
         jd.compensation = request.POST.get('compensation')
         jd.save()
-        
-        print
+         
         return JsonResponse ({"job_id" : jh.id}) 
         
  
 
-    except Exception as e: 
-        print(str(e))
+    except Exception as e:  
         return JsonResponse({"server" : "Something went wrong. Try Later!"} , status=400)
  

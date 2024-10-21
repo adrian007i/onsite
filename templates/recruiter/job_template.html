@@ -6,7 +6,7 @@
 <div id="layoutSidenav_content">
     <main>
         <div class="container-fluid px-4">
-            <h1 class="mt-4">Jobs 
+            <h1 class="mt-4 banner">Jobs 
 
                 <span class="float-end">
                     {% if request.resolver_match.view_name == "view_job" %} 
@@ -21,9 +21,9 @@
                     {% if request.resolver_match.view_name == "new_job" %} 
                     New Listing
                     {% elif request.resolver_match.view_name == "view_job" %}
-                    Viewing Job #{{job.id}} - {{job.title.name}}
+                    Viewing Job <b>#{{job.id}}</b> - {{job.title.name|title}}
                     {% else %}
-                    Editing Job #{{job.id}} - {{job.title.name}}
+                    Editing Job <b>#{{job.id}}</b> - {{job.title.name}}
                     {% endif %}
                 </li>
             </ol>
