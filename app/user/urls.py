@@ -6,4 +6,5 @@ urlpatterns = [
     # path("apply", views.apply, name="apply"),
     path("applications", views.applications, name="applications"), 
     path("saved", views.saved, name="saved"), 
+    path("ajax_apply/<int:id>", views.ajax_apply), 
 ]

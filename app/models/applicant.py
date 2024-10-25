@@ -5,3 +5,9 @@ from app.models.job import JobHead
 class Applicant(models.Model):
     job = models.OneToOneField(JobHead, on_delete=models.CASCADE, related_name="applicant_job")
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="applicanat_user")
+
+    # ensures the user cannot apply to the same job multiple times
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['job_id', 'user_id'], name='unique_applicant_job_user')
+        ]

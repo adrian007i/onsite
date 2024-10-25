@@ -5,7 +5,7 @@
 
 <div id="layoutSidenav_content">
     <main>
-        
+
         <br>
         <div class="job_section bg-white">
             <div id="jobs">
@@ -28,20 +28,23 @@
                 <div id="right">
                     <div id="right_head">
                         <div class="employer">
-                            <div class="icon"><i class="fa-brands fa-slack"></i></div> 
+                            <div class="icon"><i class="fa-brands fa-slack"></i></div>
                             <div class="company">{{jd.job_head.created_by.company}} </div>
                         </div>
-                        
+
                         <div>
                             <h3 class="title capitalize">{{jd.job_head.title.name}} </h3>
                             <div class="type">Level {{jd.job_head.experience_level}}</div>
-                            <div class="location "><em>{{jd.job_head.location.name}}</em> </div>
+                            <div class="location "><em>{{jd.job_head.location.name|title}}</em> </div>
                             <div class="location "><em> Salary: {{jd.job_head.salary_min}} - {{jd.job_head.salary_max}}</em> </div>
                         </div>
                         <br>
+
+                        {% if request.user.is_authenticated %}
+                            <button class="btn btn-success" onclick="apply_save('apply')">Apply</button>
+                            <button class="btn btn-primary" onclick="apply_save('save')">Save</button>
+                        {% endif %}
                         
-                        <button class="btn btn-success">Apply</button>
-                        <button class="btn btn-primary">Save Job</button>
                     </div>
                     <div id="jd_section">
                         <h6>Summary</h6>
@@ -58,6 +61,28 @@
         </div>
     </main>
 </div>
+
+
+<script>
+
+
+    const apply_save = type => {
+        fetch("/user/ajax_"+ type +"/{{jd.job_head.id}}",
+            { 
+                method: 'GET'
+            }).then(res => {
+
+                if (!res.ok)
+                    return res.text().then(text => { throw new Error(text) })
+                else
+                    return res.json();
+
+            }).then(data => {
+                console.log(data);
+                
+            })
+    }
+</script>
 
 
 {% endblock %}
