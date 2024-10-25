@@ -42,7 +42,7 @@
 
                         {% if request.user.is_authenticated %}
                             <button class="btn btn-success" onclick="apply_save('apply')">Apply</button>
-                            <button class="btn btn-primary" onclick="apply_save('saved')">Save</button>
+                            <button class="btn btn-primary" onclick="apply_save('save')">Save</button>
                         {% endif %}
                         
                     </div>
@@ -67,7 +67,7 @@
 
 
     const apply_save = type => {
-        fetch("/user/ajax_"+ type +"/{{jd.job_head.id}}",
+        fetch("/user/"+ type +"_ajax/{{jd.job_head.id}}",
             { 
                 method: 'GET'
             }).then(res => {

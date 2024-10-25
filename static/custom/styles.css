@@ -1,3 +1,6 @@
+body{
+    background-color: #eee;
+}
 .nav .active {
     background-color: #111 !important;
 }
