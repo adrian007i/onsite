@@ -65,10 +65,19 @@
 
 }
 
-#jobs #right {
-    flex: 3;
-    height: calc(100vh - 100px);
-    overflow-y: scroll;
+#jobs #right_head{ 
+    height: 250px; 
+}
+
+#right #jd_section{ 
+    height: calc(100vh - 350px);
+    overflow-y: scroll; 
+}
+
+#jobs #right { 
+    flex: 3; 
+    /* height: 100%;
+    overflow-y: hidden; */
     padding: 10px 20px;
 }
 
@@ -123,15 +132,14 @@
     height: 40px;
 }
 
-.jd_section div {
+#jd_section div {
     margin-bottom: 20px;
     font-size: .8rem; 
 }
 
 
-main {
-    height: calc(100vh - 80px);
-    overflow-y: scroll;
+main {  
+    overflow:hidden;
     background-color: #eee;
 }
 

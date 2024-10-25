@@ -5,6 +5,8 @@
 
 <div id="layoutSidenav_content">
     <main>
+        
+        <br>
         <div class="job_section bg-white">
             <div id="jobs">
                 <div id="left">
@@ -24,19 +26,24 @@
 
                 </div>
                 <div id="right">
-                    <div class="employer">
-                        <div class="icon"><i class="fa-brands fa-slack"></i></div> 
-                        <div class="company">{{jd.job_head.created_by.company}} </div>
+                    <div id="right_head">
+                        <div class="employer">
+                            <div class="icon"><i class="fa-brands fa-slack"></i></div> 
+                            <div class="company">{{jd.job_head.created_by.company}} </div>
+                        </div>
+                        
+                        <div>
+                            <h3 class="title capitalize">{{jd.job_head.title.name}} </h3>
+                            <div class="type">Level {{jd.job_head.experience_level}}</div>
+                            <div class="location "><em>{{jd.job_head.location.name}}</em> </div>
+                            <div class="location "><em> Salary: {{jd.job_head.salary_min}} - {{jd.job_head.salary_max}}</em> </div>
+                        </div>
+                        <br>
+                        
+                        <button class="btn btn-success">Apply</button>
+                        <button class="btn btn-primary">Save Job</button>
                     </div>
-                    
-                    <div>
-                        <h3 class="title capitalize">{{jd.job_head.title.name}} </h3>
-                        <div class="type">Level {{jd.job_head.experience_level}}</div>
-                        <div class="location "><em>{{jd.job_head.location.name}}</em> </div>
-                        <div class="location "><em> Salary: {{jd.job_head.salary_min}} - {{jd.job_head.salary_max}}</em> </div>
-                    </div>
-                    <br>
-                    <div class="jd_section">
+                    <div id="jd_section">
                         <h6>Summary</h6>
                         <div>{{jd.summary|linebreaks}}</div>
                         <h6>Duties</h6>
