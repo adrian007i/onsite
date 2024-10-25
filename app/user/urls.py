@@ -7,4 +7,5 @@ urlpatterns = [
     path("applications", views.applications, name="applications"), 
     path("saved", views.saved, name="saved"), 
     path("ajax_apply/<int:id>", views.ajax_apply), 
+    path("ajax_saved/<int:id>", views.ajax_saved), 
 ]
