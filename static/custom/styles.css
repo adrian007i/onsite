@@ -200,3 +200,7 @@ table thead{
     color: #eee;
     border-bottom: 2px solid red;
 }
+
+.vertical_centering td{
+    vertical-align: middle;
+}

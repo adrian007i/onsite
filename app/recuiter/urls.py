@@ -10,5 +10,6 @@ urlpatterns = [
     path("new_job_ajax", views.new_job_ajax ),
     path("listings", views.listings, name="listings"),
     path("listings_ajax", views.listings_ajax ),
-    path("applicants", views.applicants, name="applicants")
+    path("applicants", views.applicants, name="applicants"),
+    path("applications_ajax", views.applications_ajax)
 ]
