@@ -15,12 +15,12 @@
                     </div>
 
                     <br>
-                    <form action="">
+                    <form action="/jobs">
                         <div class="row">
                             <div class="col-sm-5">
                                 <br>
                                 <div>
-                                    <input type="text" name="keywork" class="form-control p-2" placeholder="Job Title or Keywords">
+                                    <input type="text" name="job_title" class="form-control p-2" placeholder="Job Title or Keywords">
                                 </div>
                             </div>
                             <div class="col-sm-5">
@@ -52,7 +52,7 @@
             <br>
 
             {% for x in jobs %}
-            <a href="/jobs/listing/{{x.id}}">
+            <a href="/jobs/job/{{x.id}}/{{x.title.name}}">
                 <div class="job">
                     <div class="row">
                         <div class="col sm-5 job_apply_head capitalize">

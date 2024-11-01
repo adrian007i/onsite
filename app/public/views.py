@@ -145,13 +145,21 @@ def companies(request):
     return render(request , "public/companies.html") 
 
 def jobs_listing(request, id):
-    jobs = JobHead.objects.all() 
-    jd = JobDetail.objects.get(job_head_id = id) 
-    return render(request , "public/jobs.html", {"jobs" : jobs , "jd" : jd})  
+    jobs = JobHead.objects.all()  
+    return render(request , "public/jobs.html", {"jobs" : jobs})  
 
 def jobs(request): 
-    return render(request , "public/landing.html")  
+    jobs = JobHead.objects.order_by('posted_on')[0:10] 
+    return render(request , "public/jobs.html", {"jobs" : jobs}) 
 
+def job(request,id,title): 
+ 
+    try:
+        job = JobDetail.objects.get(job_head_id = id)
+    except Exception as e:
+        job = None  
+ 
+    return render(request , "public/job.html", {"jd" : job}) 
 
 def companies_ajax(request): 
     

@@ -73,7 +73,7 @@ body{
 }
 
 #right #jd_section{ 
-    height: calc(100vh - 350px);
+    height: calc(100vh - 300px);
     overflow-y: scroll; 
 }
 
@@ -252,7 +252,7 @@ table thead{
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #59a440;
+    background-color: #4054a4;
     padding-top: 10px;
     padding-bottom: 10px;
     height: 100%;
@@ -260,7 +260,7 @@ table thead{
 }
 
 .job .deadline{
-    color: #a80101;
+    color: #ff0000;
     font-size: .8em;
 }
 

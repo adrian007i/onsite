@@ -5,84 +5,69 @@
 
 <div id="layoutSidenav_content">
     <main>
-
-        <br>
-        <div class="job_section bg-white">
-            <div id="jobs">
-                <div id="left">
-                    {% for x in jobs %}
-
-                    <div class="job_apply_head capitalize">
-                        <div class="icon"><i class="fa-brands fa-slack"></i></div>
-                        <div>
-                            <h6 class="title">{{x.title.name}} </h6>
-                            <div class="company">{{x.created_by.company}} </div>
-                            <div class="type">Level {{x.experience_level}}</div>
-                            <div class="location "><em>{{x.location.name}}</em> </div>
+        <div class="">
+            <div style="max-width: 500px; margin:auto;" >
+                <form action="/jobs">
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <br>
+                            <div>
+                                <input type="text" name="job_title" class="form-control p-2" placeholder="Job Title or Keywords">
+                            </div>
+                        </div>
+                        <div class="col-sm-5">
+                            <br>
+                            <div id="location">
+                                <input type="hidden" name="location">
+                                <input type="text" placeholder="State or Country" class="form-control capitalize p-2" onfocus="focusDrop(this)" onblur="setTimeout(() => {blurDrop('location')}, 500);" onkeyup="debouncedOnInput(this, 'search_location_ajax')">
+                                <div class="dropdown">
+                                    <ul class="dropdown-menu dropdown-menu-dark w-100"> </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <br>
+                            <button class="btn btn-success">Search</button>
                         </div>
                     </div>
-
-                    {% endfor %}
-
-                </div>
-                <div id="right">
-                    <div id="right_head">
-                        <div class="employer">
-                            <div class="icon"><i class="fa-brands fa-slack"></i></div>
-                            <div class="company">{{jd.job_head.created_by.company}} </div>
-                        </div>
-
-                        <div>
-                            <h3 class="title capitalize">{{jd.job_head.title.name}} </h3>
-                            <div class="type">Level {{jd.job_head.experience_level}}</div>
-                            <div class="location "><em>{{jd.job_head.location.name|title}}</em> </div>
-                            <div class="location "><em> Salary: {{jd.job_head.salary_min}} - {{jd.job_head.salary_max}}</em> </div>
-                        </div>
-                        <br>
-
-                        {% if request.user.is_authenticated %}
-                            <button class="btn btn-success" onclick="apply_save('apply')">Apply</button>
-                            <button class="btn btn-primary" onclick="apply_save('save')">Save</button>
-                        {% endif %}
-                        
-                    </div>
-                    <div id="jd_section">
-                        <h6>Summary</h6>
-                        <div>{{jd.summary|linebreaks}}</div>
-                        <h6>Duties</h6>
-                        <div>{{jd.duties|linebreaks }}</div>
-                        <h6>Qualifications</h6>
-                        <div>{{jd.qualifications|linebreaks }}</div>
-                        <h6>Compensation</h6>
-                        <div>{{jd.compensation|linebreaks }}</div>
-                    </div>
-                </div>
+                </form>
             </div>
+            <br>
+        </div>
+        <br>
+        <div class="container-fluid" id="recent_listings">
+           
+
+            {% for x in jobs %}
+            <a href="/jobs/job/{{x.id}}/{{x.title.name}}">
+                <div class="job">
+                    <div class="row">
+                        <div class="col sm-5 job_apply_head capitalize">
+                            <div class="icon"><i class="fa-brands fa-slack"></i></div>
+                            <div>
+                                <h6 class="title">{{x.title.name}} </h6>
+                                <div class="company">{{x.created_by.company}} </div>
+                                <div class="location "><em>{{x.location.name}}</em> </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-5 capitalize department">
+                            <b>{{x.department.name}}</b>
+                        </div>
+                        <div class="col-sm-2 apply">
+                            <div>
+                                <div>
+                                    <b>Apply</b> <br>
+                                    <div class="deadline">{{x.active_to|date:"dS M" }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
         </div>
     </main>
 </div>
-
-
-<script>
-
-
-    const apply_save = type => {
-        fetch("/user/"+ type +"_ajax/{{jd.job_head.id}}",
-            { 
-                method: 'GET'
-            }).then(res => {
-
-                if (!res.ok)
-                    return res.text().then(text => { throw new Error(text) })
-                else
-                    return res.json();
-
-            }).then(data => {
-                console.log(data);
-                
-            })
-    }
-</script>
 
 
 {% endblock %}
