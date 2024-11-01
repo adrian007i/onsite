@@ -1,0 +1,84 @@
+{% extends "../base.html"%}
+{%load static%}
+
+{% block body_block %}
+
+<div id="layoutSidenav_content">
+    <main>
+        <div class="container-fluid bg-dark text-white" id="landing">
+            <div class="row">
+                <div class="col-sm-7">
+                    <div class="content">
+                        <h1><b>Discover the best onsite and hybrid jobs to work.</b></h1>
+                        <br>
+                        <h4>Browse thousands of job listings to work at startups and leading companies.</h4>
+                    </div>
+
+                    <br>
+                    <form action="">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <br>
+                                <div>
+                                    <input type="text" name="keywork" class="form-control p-2" placeholder="Job Title or Keywords">
+                                </div>
+                            </div>
+                            <div class="col-sm-5">
+                                <br>
+                                <div id="location">
+                                    <input type="hidden" name="location">
+                                    <input type="text" placeholder="State or Country" class="form-control capitalize p-2" onfocus="focusDrop(this)" onblur="setTimeout(() => {blurDrop('location')}, 500);" onkeyup="debouncedOnInput(this, 'search_location_ajax')">
+                                    <div class="dropdown">
+                                        <ul class="dropdown-menu dropdown-menu-dark w-100"> </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <br>
+                                <button class="btn btn-success">Search</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-sm-5 text-center">
+                    <img src="https://static.vecteezy.com/system/resources/thumbnails/018/983/850/small_2x/business-man-run-isometric-png.png" alt="">
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid" id="recent_listings">
+            <br>
+            <h3><b>Recent Listings</b></h3>
+            <br>
+
+            {% for x in jobs %}
+            <a href="/jobs/listing/{{x.id}}">
+                <div class="job">
+                    <div class="row">
+                        <div class="col sm-5 job_apply_head capitalize">
+                            <div class="icon"><i class="fa-brands fa-slack"></i></div>
+                            <div>
+                                <h6 class="title">{{x.title.name}} </h6>
+                                <div class="company">{{x.created_by.company}} </div>
+                                <div class="location "><em>{{x.location.name}}</em> </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-5 capitalize department">
+                            <b>{{x.department.name}}</b>
+                        </div>
+                        <div class="col-sm-2 apply">
+                            <div>
+                                <div>
+                                    <b>Apply</b> <br>
+                                    <div class="deadline">{{x.active_to|date:"dS M" }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </main>
+</div>
+{% endblock %}

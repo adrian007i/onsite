@@ -16,10 +16,9 @@ from app.models.department import Department
 from app.models.job import JobHead, JobDetail
 
 def index(request):
-    if request.user.is_authenticated and request.user.role == "recruiter":
-        return HttpResponseRedirect("/recruiter/dashboard")
-    else:
-        return HttpResponseRedirect("/jobs")
+    # TODO - if user is logged in, provide their recommendations, else provide new listings
+    jobs = JobHead.objects.order_by('posted_on')[0:10] 
+    return render(request , "public/landing.html", {"jobs" : jobs})
          
 def search_job_title_ajax(request): 
 
@@ -150,9 +149,8 @@ def jobs_listing(request, id):
     jd = JobDetail.objects.get(job_head_id = id) 
     return render(request , "public/jobs.html", {"jobs" : jobs , "jd" : jd})  
 
-def jobs(request):
-    first_job = JobHead.objects.first()  
-    return HttpResponseRedirect("/jobs/listing/" + str(first_job.id))
+def jobs(request): 
+    return render(request , "public/landing.html")  
 
 
 def companies_ajax(request): 

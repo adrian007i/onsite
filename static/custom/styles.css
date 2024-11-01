@@ -99,8 +99,7 @@ body{
 }
  
 
-.job_apply_head {
-    border-bottom: 1px solid #ddd;
+.job_apply_head { 
     display: flex;
     align-items: center;
 }
@@ -124,6 +123,7 @@ body{
 }
 
 .job_apply_head .icon {
+    padding-left: 10px;
     margin-right: 15px;
 }
 
@@ -204,3 +204,81 @@ table thead{
 .vertical_centering td{
     vertical-align: middle;
 }
+
+/* #nav_filter{
+    margin: auto !important; 
+}
+#nav_filter>form>div{ 
+    display: inline !important;
+}
+
+#nav_filter input{
+    outline: none;
+    border-radius: 10px;
+    padding: 5px;
+} */
+ 
+#landing img{
+    height: 100%;
+}
+
+#landing h1{
+    color: #0d6efd;
+}
+
+#landing .left{
+    display: flex;
+    flex-direction: column;
+}
+
+#recent_listings a{
+    text-decoration: unset;
+    color: unset;
+}
+ 
+.job{
+    border-radius: 10px;
+    margin-bottom: 10px; 
+    background-color: #fff; 
+}
+
+.job:hover{
+    opacity: .7;
+}
+
+.job .apply>div{
+    border-radius: 10px 0px 0px 10px;
+    color: #ddd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #59a440;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    height: 100%;
+    flex-direction: column;
+}
+
+.job .deadline{
+    color: #a80101;
+    font-size: .8em;
+}
+
+.job .department{
+    display: flex;
+    align-items: center; 
+}
+
+.job .department>b{
+    background: #666;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 10px;
+}
+ 
+
+#recent_listings{
+    background-color: #eee;
+}
+
+
