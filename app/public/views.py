@@ -7,6 +7,7 @@ from django.contrib.auth.hashers import make_password
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from app.decorators import role_required
+from django.db.models import Q
 
 from app.models.user import User
 # from app.models.job import 
@@ -149,7 +150,21 @@ def jobs_listing(request, id):
     return render(request , "public/jobs.html", {"jobs" : jobs})  
 
 def jobs(request): 
-    jobs = JobHead.objects.order_by('posted_on')[0:10] 
+    try:
+        query = Q()
+
+        if "job_title" in request.GET and request.GET["job_title"] != "": 
+            query &= Q(title__name__icontains=request.GET["job_title"])
+
+        if "location" in request.GET and request.GET["location"] != "": 
+            query &= Q(location_id=request.GET["location"])
+
+        jobs = JobHead.objects.filter(query).order_by('posted_on')[:10]
+
+    except Exception as e:
+        print(str(e))
+        jobs = JobHead.objects.order_by('posted_on')[0:10]  
+    
     return render(request , "public/jobs.html", {"jobs" : jobs}) 
 
 def job(request,id,title): 

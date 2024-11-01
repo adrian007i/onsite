@@ -6,20 +6,20 @@
 <div id="layoutSidenav_content">
     <main>
         <div class="">
-            <div style="max-width: 500px; margin:auto;" >
+            <div style="max-width: 800px; margin:auto;" >
                 <form action="/jobs">
                     <div class="row">
-                        <div class="col-sm-5">
+                        <div class="col-sm-4">
                             <br>
                             <div>
-                                <input type="text" name="job_title" class="form-control p-2" placeholder="Job Title or Keywords">
+                                <input type="text" name="job_title" class="form-control p-2" placeholder="Job Title or Keywords" value="{{request.GET.job_title}}">
                             </div>
                         </div>
-                        <div class="col-sm-5">
+                        <div class="col-sm-6">
                             <br>
                             <div id="location">
-                                <input type="hidden" name="location">
-                                <input type="text" placeholder="State or Country" class="form-control capitalize p-2" onfocus="focusDrop(this)" onblur="setTimeout(() => {blurDrop('location')}, 500);" onkeyup="debouncedOnInput(this, 'search_location_ajax')">
+                                <input type="hidden" name="location" value="{{request.GET.location}}">
+                                <input type="text" name="location_name" value="{{request.GET.location_name}}" placeholder="State or Country" class="form-control capitalize p-2" onfocus="focusDrop(this)" onblur="setTimeout(() => {blurDrop('location')}, 500);" onkeyup="debouncedOnInput(this, 'search_location_ajax')">
                                 <div class="dropdown">
                                     <ul class="dropdown-menu dropdown-menu-dark w-100"> </ul>
                                 </div>
