@@ -18,7 +18,7 @@ from app.models.job import JobHead, JobDetail
 
 def index(request):
     # TODO - if user is logged in, provide their recommendations, else provide new listings
-    jobs = JobHead.objects.order_by('posted_on')[0:10] 
+    jobs = JobHead.objects.order_by('-id')[0:10] 
     return render(request , "public/landing.html", {"jobs" : jobs})
          
 def search_job_title_ajax(request): 
