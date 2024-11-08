@@ -17,10 +17,10 @@ EXP_LEVEL = (
 ) 
 
 class JobHead(models.Model):
-    title = models.ForeignKey(JobTitle, on_delete=models.DO_NOTHING)
+    title = models.ForeignKey(JobTitle, null=True, on_delete=models.SET_NULL)
     other_title =  models.CharField(max_length=255, null=True)
-    location = models.ForeignKey(Location, on_delete=models.DO_NOTHING, null=True)
-    department = models.ForeignKey(Department, on_delete=models.DO_NOTHING, null=True)
+    location = models.ForeignKey(Location, on_delete=models.SET_NULL, null=True)
+    department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True)
     other_department =  models.CharField(max_length=255, null=True)
     posted_on = models.DateTimeField(auto_now_add=True)
     salary_min = models.IntegerField(null=True)
@@ -29,14 +29,14 @@ class JobHead(models.Model):
     active_from = models.DateField(null=True)
     active_to = models.DateField(null=True)
     draft = models.BooleanField(default=False)
-    created_by =  models.ForeignKey(User, on_delete=models.CASCADE, related_name="created_by" ,null=True)
+    created_by =  models.ForeignKey(User, on_delete=models.SET_NULL,null=True,  related_name="created_by")
     
     # def __str__(self):
     #     return self.title
 
 
 class JobDetail(models.Model):
-    job_head = models.OneToOneField(JobHead, on_delete=models.CASCADE, related_name="details")
+    job_head = models.OneToOneField(JobHead, on_delete=models.SET_NULL,null=True,  related_name="details")
     summary = models.TextField()
     duties = models.TextField()
     qualifications = models.TextField()

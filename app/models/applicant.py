@@ -3,8 +3,8 @@ from app.models.user import User
 from app.models.job import JobHead
 
 class Applicant(models.Model):
-    job = models.OneToOneField(JobHead, on_delete=models.CASCADE, related_name="applicant_job")
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="applicanat_user")
+    job = models.OneToOneField(JobHead, on_delete=models.SET_NULL, null=True, related_name="applicant_job")
+    user = models.OneToOneField(User, on_delete=models.SET_NULL,null=True,related_name="applicanat_user")
     created_on = models.DateTimeField(auto_now_add=True, null=True)
 
     # ensures the user cannot apply to the same job multiple times

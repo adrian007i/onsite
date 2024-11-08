@@ -26,8 +26,8 @@ class UserManager(auth_models.BaseUserManager):
 
 class User(auth_models.AbstractBaseUser, auth_models.PermissionsMixin):
     email = models.EmailField(unique=True) 
-    headline = models.ForeignKey(JobTitle, on_delete=models.DO_NOTHING)
-    location = models.ForeignKey(Location, on_delete=models.DO_NOTHING, null=True)
+    headline = models.ForeignKey(JobTitle, on_delete=models.SET_NULL,null=True)
+    location = models.ForeignKey(Location, on_delete=models.SET_NULL, null=True)
     other_headline = models.CharField(max_length=250, null=True, blank="")
     company = models.CharField(max_length=250, null=True, default = None) 
     first_name = models.CharField(max_length=30, blank=True)
