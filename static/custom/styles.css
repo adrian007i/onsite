@@ -298,3 +298,17 @@ table thead{
     /* color: #eee; */
     font-size: 22px;
 }
+
+@media (max-width: 575px) {
+    
+    .job .department>b{
+        border-radius: unset;
+        text-align: center;
+        width: 100%;
+    }
+
+    .job .apply>div{
+        border-radius: 0px;
+        text-align: center;
+    }
+}
