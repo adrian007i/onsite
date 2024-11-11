@@ -4,14 +4,15 @@
 {% block body_block %}
 
 <div id="layoutSidenav_content">
-    <main>  
-        
+    <main>
+
         <div class="job_section bg-white">
             <div id="right">
                 <div id="right_head">
                     <div class="employer">
                         <div class="icon"><i class="fa-brands fa-slack"></i></div>
                         <div class="company">{{jd.job_head.created_by.company}} </div>
+                        <div class="back_btn" onclick="back()"> <button><i class="fas fa-arrow-alt-circle-left"></i></button></div>
                     </div>
 
                     <div>
@@ -64,6 +65,21 @@
 
             })
     }
+
+    const back = () => {
+        let referrer = document.referrer;
+        const myWebsite = window.location.hostname; 
+        
+        if (referrer) { 
+            referrer = new URL(referrer).hostname; 
+            
+            if (referrer === myWebsite)
+                window.history.back(); 
+                return
+        }
+        window.location.href = '/jobs';
+    }
+
 </script>
 
 

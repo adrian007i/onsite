@@ -286,3 +286,15 @@ table thead{
     /* padding: 10px; */
     border-radius: 0px;
 }
+
+.back_btn{
+    margin-left: auto;
+    padding: 10px;
+}
+
+.back_btn button{ 
+    border: unset;
+    /* background-color: ; */
+    /* color: #eee; */
+    font-size: 22px;
+}
