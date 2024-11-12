@@ -156,19 +156,25 @@ def jobs(request):
     try:
         query = Q()
 
+
         if "job_title" in request.GET and request.GET["job_title"] != "": 
             query &= Q(title__name__icontains=request.GET["job_title"])
 
         if "location" in request.GET and request.GET["location"] != "": 
             query &= Q(location_id=request.GET["location"])
 
-        jobs = JobHead.objects.filter(query).order_by('posted_on')[:10]
+        # offset = 0
+        # if "page" in request.GET:
+        #     offset = 10 * offset
+        jobs = JobHead.objects.filter(query).order_by('posted_on')
+        jobs_count = jobs.count() 
 
-    except Exception as e:
-        print(str(e))
+        jobs = jobs[:10]
+
+    except Exception as e: 
         jobs = JobHead.objects.order_by('posted_on')[0:10]  
     
-    return render(request , "public/jobs.html", {"jobs" : jobs}) 
+    return render(request , "public/jobs.html", {"jobs" : jobs, "count": jobs_count}) 
 
 def job(request,id,title): 
 
