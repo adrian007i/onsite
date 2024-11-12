@@ -176,12 +176,11 @@ def job(request,id,title):
     job_applied = False 
 
     if request.user.is_authenticated:
-        saved = Saved.objects.filter(user_id = request.user.id).first()
-
+        saved = Saved.objects.filter(Q(user_id = request.user.id) & Q(job_id = id)).first() 
         if saved:
             job_saved = True
 
-        applied = Applicant.objects.filter(user_id = request.user.id).first()
+        applied = Applicant.objects.filter(Q(user_id = request.user.id) & Q(job_id = id)).first()
         if applied:
             job_applied = True
 
