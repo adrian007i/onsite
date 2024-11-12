@@ -248,8 +248,8 @@ table thead{
 
 .job .apply>div{
     border-radius: 10px 0px 0px 10px;
-    background: #ccc;
-    color: #333;
+    color: #fff;
+    background-color: #0d6efd;
     display: flex;
     justify-content: center;
     align-items: center; 
@@ -260,7 +260,7 @@ table thead{
 }
 
 .job .deadline{
-    color: #999;
+    color: #aaa;
     font-size: .8em;
 }
 

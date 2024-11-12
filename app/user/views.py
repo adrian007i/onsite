@@ -87,7 +87,7 @@ def saved_ajax(request):
         order_field = '-' + order_field
 
     # Query users
-    listings = Applicant.objects.filter(user_id = request.user.id).values(*columns)
+    listings = Saved.objects.filter(user_id = request.user.id).values(*columns)
     # Get total count before filtering
     total_records = listings.count()
 
@@ -103,7 +103,7 @@ def saved_ajax(request):
         'recordsTotal': total_records,
         'recordsFiltered': total_records,
         'data': list(listings)
-    }  
+    }   
     return JsonResponse (response)   
 
 @login_required
@@ -117,7 +117,6 @@ def apply_ajax(request,id):
         app.save()
         return JsonResponse({}, status=200)
     except Exception as e:
-        print(str(e)) 
         return JsonResponse({"server" : "Something went wrong. Try Later!"} , status=400)
      
 @login_required

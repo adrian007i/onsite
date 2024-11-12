@@ -24,9 +24,22 @@
                     <br>
 
                     {% if request.user.is_authenticated %}
-                    <button class="btn btn-success" onclick="apply_save('apply')">Apply</button>
-                    <button class="btn btn-primary" onclick="apply_save('save')">Save</button>
+
+                    {% if not saved %}
+                    <button class="btn btn-primary" onclick="apply_save('save')"> Save </button>
+                    {% else %} 
+                    <button class="text-primary btn border-primary"> <i class="fas fa-star"></i> Saved </button>
                     {% endif %}
+
+                    {% if not applied %}
+                    <button class="btn btn-success" onclick="apply_save('apply')">Apply</button>
+                    {% else %}
+                    <button class="text-success btn border-success"> <i class="fas fa-check-circle"></i> Applied </button>
+                    {% endif %}
+                    {% endif %}
+
+
+                    <!--  -->
 
                 </div>
                 <div id="jd_section">
@@ -68,14 +81,14 @@
 
     const back = () => {
         let referrer = document.referrer;
-        const myWebsite = window.location.hostname; 
-        
-        if (referrer) { 
-            referrer = new URL(referrer).hostname; 
-            
+        const myWebsite = window.location.hostname;
+
+        if (referrer) {
+            referrer = new URL(referrer).hostname;
+
             if (referrer === myWebsite)
-                window.history.back(); 
-                return
+                window.history.back();
+            return
         }
         window.location.href = '/jobs';
     }

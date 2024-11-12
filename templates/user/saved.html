@@ -63,7 +63,7 @@
                 data: 'job_id',
                 className: 'dt-body-right',
                 render: function (data, type, row) { 
-                    return `<a href="/jobs/listing/${data}" target="_blank">view</a>`;
+                    return `<a href="/jobs/job/${data}/${row.job__title__name}" target="_blank">view</a>`;
                 }
             }
         ],  

@@ -15,6 +15,8 @@ from app.models.job_title import JobTitle
 from app.models.location import Location
 from app.models.department import Department
 from app.models.job import JobHead, JobDetail
+from app.models.saved import Saved
+from app.models.applicant import Applicant
 
 def index(request):
     # TODO - if user is logged in, provide their recommendations, else provide new listings
@@ -150,6 +152,7 @@ def jobs_listing(request, id):
     return render(request , "public/jobs.html", {"jobs" : jobs})  
 
 def jobs(request): 
+
     try:
         query = Q()
 
@@ -168,13 +171,27 @@ def jobs(request):
     return render(request , "public/jobs.html", {"jobs" : jobs}) 
 
 def job(request,id,title): 
- 
+
+    job_saved = False
+    job_applied = False 
+
+    if request.user.is_authenticated:
+        saved = Saved.objects.filter(user_id = request.user.id).first()
+
+        if saved:
+            job_saved = True
+
+        applied = Applicant.objects.filter(user_id = request.user.id).first()
+        if applied:
+            job_applied = True
+
     try:
         job = JobDetail.objects.get(job_head_id = id)
     except Exception as e:
         job = None  
  
-    return render(request , "public/job.html", {"jd" : job}) 
+ 
+    return render(request , "public/job.html", {"jd" : job, "applied" : job_applied, "saved":job_saved}) 
 
 def companies_ajax(request): 
     
