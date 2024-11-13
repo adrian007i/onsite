@@ -154,7 +154,7 @@ def jobs_listing(request, id):
 def jobs(request): 
 
     try:
-        query = Q()
+        query = Q() 
 
 
         if "job_title" in request.GET and request.GET["job_title"] != "": 
@@ -162,19 +162,54 @@ def jobs(request):
 
         if "location" in request.GET and request.GET["location"] != "": 
             query &= Q(location_id=request.GET["location"])
+        
+        if "page" in request.GET: 
+            page = int(request.GET["page"]) - 1
+ 
 
-        # offset = 0
-        # if "page" in request.GET:
-        #     offset = 10 * offset
-        jobs = JobHead.objects.filter(query).order_by('posted_on')
-        jobs_count = jobs.count() 
+        jobs = JobHead.objects.filter(query).order_by('id')
+        jobs_count = jobs.count()  
+        jobs = jobs[page * 10 : (page * 10) + 10]
 
-        jobs = jobs[:10]
+    except Exception as e:   
+        return HttpResponseRedirect('/jobs?page=0&job_title=&location=')
+ 
+    if len(jobs) != 0:
+        
+        pages = []
 
-    except Exception as e: 
-        jobs = JobHead.objects.order_by('posted_on')[0:10]  
-    
-    return render(request , "public/jobs.html", {"jobs" : jobs, "count": jobs_count}) 
+        # pages before
+        for i in range(page+1 ,page - 2, -1): 
+            if i < 1:
+                break
+            pages.append(i)   
+
+        last = -(-jobs_count // 10) + 1
+
+        # pages after
+        for j in range(page+2, page + 4): 
+            if j  == last:
+                break 
+
+            pages.append(j)
+        
+        pages.sort() 
+
+        last_page =  False
+        if page + 2 == last:
+            last_page = True
+
+    else:
+        pages = []
+        last_page = True
+ 
+    return render(request , 
+                  "public/jobs.html", 
+                  {"jobs" : jobs, 
+                   "count": jobs_count, 
+                   "pages":pages,
+                   "last_page" : last_page
+                   }) 
 
 def job(request,id,title): 
 

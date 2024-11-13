@@ -59,7 +59,7 @@
                     {% with request.resolver_match as url_name %}
                     <div class="nav">
                         {% if not request.user.is_authenticated %}
-                        <a class="nav-link {% if 'jobs' == url_name.url_name %}active{% endif %}" href="/jobs?page=0&job_title=&location=">
+                        <a class="nav-link {% if 'jobs' == url_name.url_name %}active{% endif %}" href="/jobs?page=1&job_title=&location=">
                             <div class="sb-nav-link-icon"><i class="fas fa-briefcase"></i></div>
                             Jobs
                         </a>
@@ -79,7 +79,7 @@
                         {% endif %}
 
                         {% if request.user.role == "user" %}
-                        <a class="nav-link {% if 'jobs' == url_name.url_name %}active{% endif %}" href="/jobs?page=0&job_title=&location=">
+                        <a class="nav-link {% if 'jobs' == url_name.url_name %}active{% endif %}" href="/jobs?page=1&job_title=&location=">
                             <div class="sb-nav-link-icon"><i class="fas fa-briefcase"></i></div>
                             Jobs
                         </a>
