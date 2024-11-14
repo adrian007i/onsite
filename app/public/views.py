@@ -172,7 +172,7 @@ def jobs(request):
         jobs = jobs[page * 10 : (page * 10) + 10]
 
     except Exception as e:   
-        return HttpResponseRedirect('/jobs?page=0&job_title=&location=')
+        return HttpResponseRedirect('/jobs?page=1&job_title=&location=')
  
     if len(jobs) != 0:
         
