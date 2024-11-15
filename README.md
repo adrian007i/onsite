@@ -26,7 +26,7 @@
 </details>
 </br>
 <div background="#eee">
-  <img src="./readme/demo.png" width="100%"/> 
+  <img src="./readme/onsite.gif"/> 
 </div>
 
 <!-- ABOUT THE PROJECT -->
@@ -37,10 +37,14 @@ While there are many apps for remote jobs, there are none solely dedicated to on
 This platform provides a centralized place for people seeking onsite or hybrid work environments, catering to a growing demand for such opportunities.
 <br /> 
 
-[Live App](#) ·
+[Live App](https://onsiteapp.pythonanywhere.com/) ·
 [Report Bug](mailto:adrianjohn.developer@gmail.com?subject=I%20found%20a%20bug) ·
 [Request Feature](mailto:adrianjohn.developer@gmail.com?subject=I%20want%20a%20feature)
 
+
+<div  align="center">
+    <img src="readme/onsite.png" alt="Logo">
+</div>
 
 
 ## Built With 
