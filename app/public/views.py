@@ -262,7 +262,7 @@ def companies_ajax(request):
 
     # Filter by search value if provided
     if search_value:
-        companies = companies.filter(company__icontains=search_value) | companies.filter(locatiion__name__icontains=search_value)
+        companies = companies.filter(company__icontains=search_value) | companies.filter(location__name__icontains=search_value)
 
     # Apply sorting and pagination
     companies = companies.order_by(order_field)[start:start + length]
