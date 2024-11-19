@@ -7,14 +7,30 @@ from django.db.models import Q
 
 
 from app.models.job import JobHead, JobDetail
-from app.models.applicant import Applicant
+from app.models.applicant import Applicant 
+from datetime import date
+
+
 
 role = "recruiter"
 
 @login_required
 @role_required(role)
 def dashboard(request): 
-    return render(request , "recruiter/dashboard.html") 
+
+    # jobs posted stats
+    jobs = JobHead.objects.filter(created_by_id = request.user.id)
+    today = date.today()
+    total = jobs.count()
+    active = jobs.filter(Q(draft = False) & (Q(active_from__lte=today) & Q(active_to__gte=today))).count()
+
+    # application stats
+    applications = Applicant.objects.filter(job__created_by_id = request.user.id)
+    total_applications = applications.count()
+    applicants = applications.values_list('user_id', flat=True).distinct().count()
+
+
+    return render(request , "recruiter/dashboard.html", {"total":total, "active":active, "applications": total_applications, "applicants":applicants }) 
 
 @login_required
 @role_required(role)
