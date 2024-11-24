@@ -8,7 +8,7 @@ from django.db.models import Count
 
 from app.models.job import JobHead, JobDetail
 from app.models.applicant import Applicant 
-from datetime import date
+from datetime import date,timedelta
 
 
 
@@ -30,8 +30,12 @@ def dashboard(request):
     applicants = applications.values_list('user_id', flat=True).distinct().count()
 
     # charts 
+    # jobs by department
     jobs_by_department = jobs.values("department_id","department__name").annotate(count=Count("department_id")).order_by("-count")[:10]
 
+    # job applications by month
+    one_year_ago = datetime.datetime.now(datetime.timezone.utc) + timedelta(days=-182) 
+    applications_by_month = applications.filter(created_on__gte = one_year_ago).values("created_on__month").annotate(count = Count("created_on__month"))
     return render(
         request , 
         "recruiter/dashboard.html", 
@@ -40,7 +44,8 @@ def dashboard(request):
                 "active":active, 
                 "applications": total_applications, 
                 "applicants":applicants,
-                "jobs_by_department":jobs_by_department
+                "jobs_by_department":jobs_by_department,
+                "applications_by_month":applications_by_month
             }
 
     )
