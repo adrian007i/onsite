@@ -4,7 +4,7 @@ from app.decorators import role_required
 from django.http import HttpResponseRedirect, JsonResponse 
 from app.utils import *
 from django.db.models import Q
-
+from django.db.models import Count
 
 from app.models.job import JobHead, JobDetail
 from app.models.applicant import Applicant 
@@ -29,8 +29,21 @@ def dashboard(request):
     total_applications = applications.count()
     applicants = applications.values_list('user_id', flat=True).distinct().count()
 
+    # charts 
+    jobs_by_department = jobs.values("department_id","department__name").annotate(count=Count("department_id")).order_by("-count")[:10]
 
-    return render(request , "recruiter/dashboard.html", {"total":total, "active":active, "applications": total_applications, "applicants":applicants }) 
+    return render(
+        request , 
+        "recruiter/dashboard.html", 
+            {
+                "total":total, 
+                "active":active, 
+                "applications": total_applications, 
+                "applicants":applicants,
+                "jobs_by_department":jobs_by_department
+            }
+
+    )
 
 @login_required
 @role_required(role)
