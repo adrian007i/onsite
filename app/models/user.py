@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth import models as auth_models  
 from app.models.job_title import JobTitle
 from app.models.location import Location
-
+from app.utils import error_messages
 ROLE_CHOICES = (
         ("user", "user"),
         ("recruiter", "recruiter"), 
@@ -25,18 +25,21 @@ class UserManager(auth_models.BaseUserManager):
         return user
 
 class User(auth_models.AbstractBaseUser, auth_models.PermissionsMixin):
-    email = models.EmailField(unique=True) 
-    headline = models.ForeignKey(JobTitle, on_delete=models.SET_NULL,null=True)
-    location = models.ForeignKey(Location, on_delete=models.SET_NULL, null=True)
-    other_headline = models.CharField(max_length=250, null=True, blank="")
-    company = models.CharField(max_length=250, null=True, default = None) 
-    first_name = models.CharField(max_length=30, blank=True)
-    last_name = models.CharField(max_length=30, blank=True) 
+    email = models.EmailField(unique=True, error_messages=error_messages) 
+    headline = models.ForeignKey(JobTitle, on_delete=models.SET_NULL,null=True, error_messages=error_messages)
+    location = models.ForeignKey(Location, on_delete=models.SET_NULL,blank=True, null=True, error_messages=error_messages)
+    other_headline = models.CharField(max_length=250, null=True, blank=True, error_messages=error_messages)
+    company = models.CharField(max_length=250, null=True, default = None, blank=True, error_messages=error_messages) 
+    first_name = models.CharField(max_length=30, blank=False, error_messages=error_messages)
+    last_name = models.CharField(max_length=30, blank=False, error_messages=error_messages) 
     is_active = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False) 
     is_staff = models.BooleanField(default=True)
     date_joined = models.DateTimeField(auto_now_add=True) 
     role = models.CharField(max_length=10, choices=ROLE_CHOICES, default="user")
+    password = models.CharField(max_length=100, null=False,blank=False, error_messages=error_messages)
+
+    
      
 
     objects = UserManager()

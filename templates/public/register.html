@@ -20,7 +20,7 @@
                             <button class="btn_toggle" onclick="toggleForm('recruiter')" id="rec_toggle">Recruiter</button>
                         </div>
                         <div class="card-body">
-                            <form novalidate method="post" id="userForm">
+                            <form novalidate method="post" id="userForm" enctype="multipart/form-data">
                                 {% csrf_token %}
                                 <input type="hidden" name="role" value="user">
 
@@ -74,6 +74,14 @@
                                     <div>
                                         <label class="text-secondary"><input type="checkbox" onchange="passwordToggle('userForm')"> Show Password</label>
                                     </div>
+                                </div>
+
+                                <div class="input-group mb-3">
+                                    <label for="inputGroupFile01" class="input-group-text bg-secondary text-white">
+                                        Upload Resume
+                                    </label>
+                                    <input type="file" accept="application/pdf" name="resume" class="form-control visually-hidden" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" onchange="updateFileName(this,'fileNameDisplay')">
+                                    <span class="form-control bg-light text-secondary" id="fileNameDisplay">No File Selected</span>
                                 </div>
 
                                 <div class="col-sm-12">
@@ -157,6 +165,7 @@
 </div>
 
 <script>
+    
 
     const toggleForm = (formFocused) => {
 
@@ -186,7 +195,7 @@
         headline: "Required",
         first_name: "Required",
         last_name: "Required",
-        email: "Invalid Email",
+        email: "Invalid",
         password: "Required"
     }
 

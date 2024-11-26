@@ -102,3 +102,18 @@ const formatter = new Intl.NumberFormat('en-US', {
     currency: 'USD',
     maximumFractionDigits: 0
 });
+
+
+function updateFileName(input, display) {
+    let file_Name_Display = document.getElementById(display);
+    if (input.files.length > 0) {
+        file_Name_Display.innerText = input.files[0].name;
+        file_Name_Display.classList.remove("bg-light");
+        file_Name_Display.classList.add("bg-success", "text-white");
+    }
+    else {
+        file_Name_Display.innerText = "No File Selected";
+        file_Name_Display.classList.remove("bg-success", "text-white");
+        file_Name_Display.classList.add("bg-light", "text-secondary");
+    }
+}

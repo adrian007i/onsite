@@ -17,4 +17,19 @@ def formatDate(value):
         return value
     except ValueError:
         return None
-            
+
+def is_empty(value): 
+
+    if value is None:
+        return True
+    if isinstance(value, str) and value.strip() == "":
+        return True 
+    return False    
+
+error_messages =  {
+    'unique': 'This email is already registered.',
+    'invalid': 'Invalid',
+    'invalid_choice': 'Invalid',
+    'null': 'Required',
+    'blank': 'Required',
+} 

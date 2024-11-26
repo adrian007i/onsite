@@ -1,22 +1,27 @@
 from django.shortcuts import render
-from django.http import HttpResponse,HttpResponseRedirect, JsonResponse
-from django.db import IntegrityError
-from django.core.exceptions import BadRequest
+from django.http import HttpResponseRedirect, JsonResponse
+from django.db import IntegrityError 
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout ,get_user_model
 from django.contrib.auth.hashers import make_password
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from app.decorators import role_required
 from django.db.models import Q
+from django.core.exceptions import ValidationError
+from dotenv import load_dotenv
+import boto3
+import os
+
 
 from app.models.user import User
-# from app.models.job import 
 from app.models.job_title import JobTitle
 from app.models.location import Location
 from app.models.department import Department
 from app.models.job import JobHead, JobDetail
 from app.models.saved import Saved
 from app.models.applicant import Applicant
+
+load_dotenv() 
 
 def index(request):
     # TODO - if user is logged in, provide their recommendations, else provide new listings
@@ -79,33 +84,69 @@ def register(request):
     return render(request , "public/register.html") 
 
 def register_ajax(request):  
+ 
+        
+        
+        # obj = boto3.client("s3")
 
-    try: 
-        location_id = request.POST.get("location")
-        if not request.POST.get("location"):
-            location_id = None 
+        # if "resume" in request.FILES:
+        #     try:
+        #         print(123)
+        #     except Exception as e:
+        #         print(str(e))
 
-        user = User.objects.create(
-        email = request.POST.get("email"), 
-        first_name = request.POST.get("first_name"), 
-        last_name = request.POST.get("last_name"), 
-        headline_id = request.POST.get("headline"), 
-        role = request.POST.get("role"),
-        company = request.POST.get("company"),
-        location_id = location_id,
-        password= make_password(request.POST.get("password"))) 
-              
-        auth_login(request,user)
+        # else:
 
-        if user.role == "recruiter":
+
+        # # try:
+        # #     obj.upload_file(
+        # #     Filename= ,
+        # #     Bucket="mygfgbucket",
+        # #     Key="firstgfgbucket.png"
+        # # )
+            
+        # # except Exception as e:
+        # #     print(str(e)) 
+
+        # print(request.FILES['resume'])
+ 
+        # return JsonResponse({"email" : "This email already exist!"} , status=400)
+
+        # if request.POST.get("email")
+ 
+        
+    u = User()
+    u.email = request.POST.get("email").strip()
+    u.first_name = request.POST.get("first_name").strip()
+    u.last_name = request.POST.get("last_name").strip()
+    
+    u.role = request.POST.get("role")
+    u.company =  request.POST.get("company")
+    u.password= make_password(request.POST.get("password")) 
+
+    if request.POST.get("location"):
+        u.location_id = request.POST.get("location") 
+    
+    if request.POST.get("headline"):
+        u.headline_id = request.POST.get("headline")
+    
+    try:
+        u.full_clean() 
+        u.save()
+
+                
+        auth_login(request,u)
+
+        if u.role == "recruiter":
             return JsonResponse({"redirect" : "/recruiter/dashboard"}) 
         else:
             return JsonResponse({"redirect" : "/jobs"})
-     
-    except IntegrityError as ie: 
-        return JsonResponse({"email" : "This email already exist!"} , status=400)
-    except Exception as e: 
-        return JsonResponse({"server" : "Something went wrong. Try Later!"} , status=400)
+      
+    except ValidationError as e:
+        print(e.message_dict)
+        return JsonResponse(e.message_dict , status=400) 
+    except Exception as e:
+        return JsonResponse({"server" : "Something went wrong. Try Later!"} , status=400) 
     
 @login_required 
 def profile(request): 
