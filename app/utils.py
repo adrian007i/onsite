@@ -1,4 +1,5 @@
 import datetime
+import random
 
 def formatNumber(value):
 
@@ -26,6 +27,12 @@ def is_empty(value):
         return True 
     return False    
 
+def generate_file_name():
+    timestamp = datetime.datetime.now().isoformat().replace("-", "").replace(":", "").replace(".", "")
+    random_number = str(random.randint(100000, 999999))
+    random_file_name = timestamp + random_number
+    return random_file_name
+ 
 error_messages =  {
     'unique': 'This email is already registered.',
     'invalid': 'Invalid',

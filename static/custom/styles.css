@@ -308,3 +308,9 @@ table thead{
         text-align: center;
     }
 }
+
+input[type=file]::file-selector-button {
+    width: 0px;
+    padding: 0px;
+
+}

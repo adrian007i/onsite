@@ -37,6 +37,7 @@ class User(auth_models.AbstractBaseUser, auth_models.PermissionsMixin):
     is_staff = models.BooleanField(default=True)
     date_joined = models.DateTimeField(auto_now_add=True) 
     role = models.CharField(max_length=10, choices=ROLE_CHOICES, default="user")
+    resume_logo = models.CharField(max_length=150, null=False, blank=False, error_messages=error_messages)
     password = models.CharField(max_length=100, null=False,blank=False, error_messages=error_messages)
 
     

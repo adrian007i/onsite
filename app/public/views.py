@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from app.decorators import role_required
 from django.db.models import Q
 from django.core.exceptions import ValidationError
+from app.utils import generate_file_name
 from dotenv import load_dotenv
 import boto3
 import os
@@ -83,46 +84,14 @@ def user_logout(request):
 def register(request): 
     return render(request , "public/register.html") 
 
-def register_ajax(request):  
- 
-        
-        
-        # obj = boto3.client("s3")
-
-        # if "resume" in request.FILES:
-        #     try:
-        #         print(123)
-        #     except Exception as e:
-        #         print(str(e))
-
-        # else:
-
-
-        # # try:
-        # #     obj.upload_file(
-        # #     Filename= ,
-        # #     Bucket="mygfgbucket",
-        # #     Key="firstgfgbucket.png"
-        # # )
-            
-        # # except Exception as e:
-        # #     print(str(e)) 
-
-        # print(request.FILES['resume'])
- 
-        # return JsonResponse({"email" : "This email already exist!"} , status=400)
-
-        # if request.POST.get("email")
- 
+def register_ajax(request):   
         
     u = User()
     u.email = request.POST.get("email").strip()
     u.first_name = request.POST.get("first_name").strip()
-    u.last_name = request.POST.get("last_name").strip()
-    
+    u.last_name = request.POST.get("last_name").strip() 
     u.role = request.POST.get("role")
-    u.company =  request.POST.get("company")
-    u.password= make_password(request.POST.get("password")) 
+    u.company =  request.POST.get("company") 
 
     if request.POST.get("location"):
         u.location_id = request.POST.get("location") 
@@ -130,11 +99,23 @@ def register_ajax(request):
     if request.POST.get("headline"):
         u.headline_id = request.POST.get("headline")
     
+    if request.POST.get("password"):
+        u.password= make_password(request.POST.get("password")) 
+
+    if "resume_logo" in request.FILES:
+        u.resume_logo = generate_file_name() +"_"+ str(request.FILES.get("resume_logo")) 
+     
     try:
-        u.full_clean() 
+        u.full_clean()  
+
+        try:
+            obj = boto3.client("s3",aws_access_key_id=os.getenv("AWS_KEY"),  aws_secret_access_key= os.getenv("AWS_SECRET"), region_name="us-east-1")  
+            obj.upload_fileobj(request.FILES.get("resume_logo"), "onsite-job", u.resume_logo)
+        except Exception as e:   
+            return JsonResponse({"resume_logo" : "Could not attach! Try Later"} , status=400)
+ 
         u.save()
 
-                
         auth_login(request,u)
 
         if u.role == "recruiter":

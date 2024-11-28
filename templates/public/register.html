@@ -2,7 +2,6 @@
 {%load static%}
 
 {% block body_block %}
-
 <div id="layoutSidenav_content">
     <main>
         <div class="container">
@@ -51,12 +50,6 @@
                                     </div>
                                 </div>
 
-                                <div class="form-floating mb-3" id="email">
-                                    <input name="email" type="email" placeholder="" class="form-control" required>
-                                    <label>Email Address</label>
-                                    <div class="invalid-feedback"></div>
-                                </div>
-
                                 <div class="form-floating mb-3" id="location">
                                     <input type="hidden" name="location">
                                     <input type="text" placeholder="" class="form-control capitalize" onfocus="focusDrop(this)" onblur="setTimeout(() => {blurDrop('location')}, 500);" onkeyup="debouncedOnInput(this, 'search_location_ajax')">
@@ -64,6 +57,20 @@
                                     <div class="dropdown">
                                         <ul class="dropdown-menu dropdown-menu-dark w-100"> </ul>
                                     </div>
+                                </div>
+
+                                <div class="input-group mb-3" id="resume_logo">
+                                    <label for="inputGroupFile01" class="input-group-text ">
+                                        Upload Resume
+                                    </label>
+                                    <input type="file" accept="application/pdf" name="resume_logo" class="form-control" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" onchange="updateFileName(this,'fileNameDisplay')" required>
+                                    <div class="invalid-feedback" id="resume_logo_error"></div>
+                                </div>
+
+                                <div class="form-floating mb-3" id="email">
+                                    <input name="email" type="email" placeholder="" class="form-control" required>
+                                    <label>Email Address</label>
+                                    <div class="invalid-feedback"></div>
                                 </div>
 
                                 <div class="form-floating mb-3" id="password">
@@ -74,14 +81,6 @@
                                     <div>
                                         <label class="text-secondary"><input type="checkbox" onchange="passwordToggle('userForm')"> Show Password</label>
                                     </div>
-                                </div>
-
-                                <div class="input-group mb-3">
-                                    <label for="inputGroupFile01" class="input-group-text bg-secondary text-white">
-                                        Upload Resume
-                                    </label>
-                                    <input type="file" accept="application/pdf" name="resume" class="form-control visually-hidden" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" onchange="updateFileName(this,'fileNameDisplay')">
-                                    <span class="form-control bg-light text-secondary" id="fileNameDisplay">No File Selected</span>
                                 </div>
 
                                 <div class="col-sm-12">
@@ -165,7 +164,7 @@
 </div>
 
 <script>
-    
+
 
     const toggleForm = (formFocused) => {
 
@@ -195,6 +194,7 @@
         headline: "Required",
         first_name: "Required",
         last_name: "Required",
+        resume_logo: "Required",
         email: "Invalid",
         password: "Required"
     }
@@ -206,7 +206,7 @@
         setErrors(errors, false, event.target.id);
 
         // check validation
-        if (event.target.checkValidity()) {
+        // if (event.target.checkValidity()) {
             pending("submit_btn", "Registering ... ", true)
 
             // ajax reqeust to submit form
@@ -230,9 +230,9 @@
                     const serverErrors = JSON.parse(err.message);
                     setErrors(serverErrors, true, event.target.id);
                 });
-        }
+        // }
 
-        event.target.classList.add('was-validated')
+        // event.target.classList.add('was-validated')
     }
 
 
