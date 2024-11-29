@@ -307,6 +307,10 @@ table thead{
         border-radius: 0px;
         text-align: center;
     }
+
+    #toggle_preview{
+        display: none;
+    }
 }
 
 input[type=file]::file-selector-button {
