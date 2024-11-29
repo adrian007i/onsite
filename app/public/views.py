@@ -110,7 +110,7 @@ def register_ajax(request):
 
         try:
             obj = boto3.client("s3",aws_access_key_id=os.getenv("AWS_KEY"),  aws_secret_access_key= os.getenv("AWS_SECRET"), region_name="us-east-1")  
-            obj.upload_fileobj(request.FILES.get("resume_logo"), "onsite-job", u.resume_logo)
+            obj.upload_fileobj(request.FILES.get("resume_logo"), "onsite-job", u.resume_logo,ExtraArgs={"ContentType": "application/pdf"})
         except Exception as e:   
             return JsonResponse({"resume_logo" : "Could not attach! Try Later"} , status=400)
  
@@ -123,15 +123,15 @@ def register_ajax(request):
         else:
             return JsonResponse({"redirect" : "/jobs"})
       
-    except ValidationError as e:
-        print(e.message_dict)
+    except ValidationError as e: 
         return JsonResponse(e.message_dict , status=400) 
     except Exception as e:
         return JsonResponse({"server" : "Something went wrong. Try Later!"} , status=400) 
     
 @login_required 
-def profile(request): 
-    return render(request , "public/profile.html")
+def profile(request):
+    
+    return render(request , "public/profile.html", {"S3_ACCESS_POINT": os.getenv("S3_ACCESS_POINT")})
 
 @login_required
 def profile_ajax(request):

@@ -104,16 +104,32 @@ const formatter = new Intl.NumberFormat('en-US', {
 });
 
 
-function updateFileName(input, display) {
-    let file_Name_Display = document.getElementById(display);
-    if (input.files.length > 0) {
-        file_Name_Display.innerText = input.files[0].name;
-        file_Name_Display.classList.remove("bg-light");
-        file_Name_Display.classList.add("bg-success", "text-white");
-    }
-    else {
-        file_Name_Display.innerText = "No File Selected";
-        file_Name_Display.classList.remove("bg-success", "text-white");
-        file_Name_Display.classList.add("bg-light", "text-secondary");
+// function updateFileName(input, display) {
+//     let file_Name_Display = document.getElementById(display);
+//     if (input.files.length > 0) {
+//         file_Name_Display.innerText = input.files[0].name;
+//         file_Name_Display.classList.remove("bg-light");
+//         file_Name_Display.classList.add("bg-success", "text-white");
+//     }
+//     else {
+//         file_Name_Display.innerText = "No File Selected";
+//         file_Name_Display.classList.remove("bg-success", "text-white");
+//         file_Name_Display.classList.add("bg-light", "text-secondary");
+//     }
+// }
+
+const setPreview = (target) => {
+   
+    
+    const file = target.files;
+
+    if(file.length === 0 ){ 
+        $("#toggle_preview label").removeClass("d-none");
+        $("#toggle_preview iframe").addClass("d-none");
+    }else{
+        const fileURL = URL.createObjectURL(file[0]);
+        document.getElementById('file_preview').src = fileURL;
+        $("#toggle_preview label").addClass("d-none");
+        $("#toggle_preview iframe").removeClass("d-none");
     }
 }

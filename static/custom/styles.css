@@ -314,3 +314,22 @@ input[type=file]::file-selector-button {
     padding: 0px;
 
 }
+
+label[for="inputGroupFile01"]{
+    cursor: pointer;
+}
+
+.preview_label{
+    background: #eee;
+    display: flex;
+    height: 100%;
+    background-image: url(/static/images/drag_drop.png); 
+    background-repeat: no-repeat;
+    background-position: 50%;
+    transition: ease-in .2s;
+}
+
+.preview_label:hover{
+    background-color: #ddd;
+    transition: ease-in .2s;
+}
