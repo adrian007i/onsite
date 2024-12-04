@@ -125,11 +125,13 @@ const setPreview = (target) => {
 
     if(file.length === 0 ){ 
         $("#toggle_preview label").removeClass("d-none");
-        $("#toggle_preview iframe").addClass("d-none");
+        $("#toggle_preview div").addClass("d-none");
+        $("#resume_logo label").text("Attach Resume");
     }else{
         const fileURL = URL.createObjectURL(file[0]);
-        document.getElementById('file_preview').src = fileURL;
+        $('#file_preview iframe').attr("src",fileURL);
         $("#toggle_preview label").addClass("d-none");
-        $("#toggle_preview iframe").removeClass("d-none");
+        $("#toggle_preview div").removeClass("d-none");
+        $("#resume_logo label").text("Change Resume Selection");
     }
 }

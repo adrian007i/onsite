@@ -313,15 +313,17 @@ table thead{
     }
 }
 
-input[type=file]::file-selector-button {
-    width: 0px;
-    padding: 0px;
-
+input[type=file] { 
+    display: none; 
 }
 
-label[for="inputGroupFile01"]{
+#resume_logo label[for="inputGroupFile01"]{
     cursor: pointer;
-}
+    width: 100%;
+    border: 1px solid white;
+    border-radius: 10px !important;
+    height: 58px;
+} 
 
 .preview_label{
     background: #eee;
@@ -336,4 +338,8 @@ label[for="inputGroupFile01"]{
 .preview_label:hover{
     background-color: #ddd;
     transition: ease-in .2s;
+} 
+
+#file_preview{
+    height: 100%;
 }

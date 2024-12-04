@@ -61,7 +61,7 @@
                                             <label for="inputGroupFile01" class="input-group-text ">
                                                 Upload Resume
                                             </label>
-                                            <input type="file" accept="application/pdf" name="resume_logo" class="form-control" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" onchange="updateFileName(this,'fileNameDisplay')" required>
+                                            <input type="file" accept="application/pdf" name="resume_logo" class="form-control" value="{{request.user.resume_logo}}" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" onchange="setPreview(this)"required>
                                             <div class="invalid-feedback" id="resume_logo_error"></div>
                                         </div>
 
