@@ -343,3 +343,11 @@ input[type=file] {
 #file_preview{
     height: 100%;
 }
+
+#resume_modal .modal-dialog{
+    height: 90vh;
+}
+
+#resume_modal .modal-content{
+    height: 100%
+}

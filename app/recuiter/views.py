@@ -8,8 +8,8 @@ from django.db.models import Count
 
 from app.models.job import JobHead, JobDetail
 from app.models.applicant import Applicant 
-from datetime import date,timedelta
-
+from datetime import date,timedelta 
+import os
 
 
 role = "recruiter"
@@ -128,7 +128,8 @@ def listings_ajax(request):
 @login_required
 @role_required(role)
 def applicants(request):
-    return render(request , "recruiter/applicants.html") 
+    
+    return render(request , "recruiter/applicants.html" , {"S3_ACCESS_POINT": os.getenv("S3_ACCESS_POINT")}) 
 
 @login_required
 @role_required(role)
@@ -149,7 +150,7 @@ def applications_ajax(request):
     columns = [
         "job_id","job__title__name","job__location__name", "job__salary_min", 
         "job__salary_max", "created_on__date","user__first_name","user__last_name",
-        "user__location__name","user__headline__name"
+        "user__location__name","user__headline__name", "user__resume_logo"
         ]
     
     # Order by the requested column and direction

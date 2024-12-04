@@ -12,13 +12,13 @@
                     <table id="listings" class="table table-striped capitalize vertical_centering" style="width:100%">
                         <thead class="thead-dark">
                             <tr>
-                                <th>APPLICANT</th> 
+                                <th>APPLICANT</th>
                                 <th>JOB_ID</th>
                                 <th>POSITION</th>
                                 <th>LOCATION</th>
                                 <th>SALARY</th>
                                 <th>APPLIED ON</th>
-                                <th>VIEW</th> 
+                                <th>VIEW</th>
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -27,6 +27,23 @@
             </div>
         </div>
     </main>
+</div>
+
+<div class="modal fade" id="resume_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <iframe src="" width="100%" height="100%" frameborder="0"></iframe>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> 
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -40,9 +57,17 @@
         serverSide: true,
         columns: [
             {
-                data: 'user__first_name', 
-                render: function (data, type, row) { 
-                    return `<b>${row.user__first_name} ${row.user__last_name}</b> </br> ${row.user__headline__name} </br> <em>${row.user__location__name}</em>`;
+                data: 'user__first_name',
+                render: function (data, type, row) {
+                    return `<div>
+                            <b>${row.user__first_name} ${row.user__last_name}</b> 
+                            </br> 
+                            ${row.user__headline__name} </br> 
+                            <em>${row.user__location__name ? row.user__location__name : "Anywhere"}</em>
+                            <br>
+                            <button class="btn btn-warning" onclick="showResumeModal('${row.user__resume_logo}','${row.user__first_name} ${row.user__last_name}')"> View Resume</button>
+                            </div>
+                        `;
                 }
             },
             { data: 'job_id' },
@@ -64,22 +89,29 @@
 
                     return salary
                 }
-            }, 
+            },
             { data: 'created_on__date' },
             {
                 data: 'job_id',
                 className: 'dt-body-right',
-                render: function (data, type, row) { 
-                    return `<a href="/jobs/listing/${data}" target="_blank">view</a>`;
+                render: function (data, type, row) {
+                    return `<a href="/jobs/job/${data}/${row.job__title__name}" target="_blank">JOB</a>`;
                 }
             }
-            
-        ],  
+
+        ],
         order: [[5, 'desc']],
         columnDefs: [
-            { orderable: false, targets: [2,3,4,6] }
-        ],         
+            { orderable: false, targets: [2, 3, 4, 6] }
+        ],
     });
+
+    function showResumeModal(resume_name, applicant) {
+    const modal = $("#resume_modal");
+    modal.find("h5").text(applicant + " Resume");
+    modal.find("iframe").attr("src","{{S3_ACCESS_POINT}}" + resume_name);
+    modal.modal('show');
+}
 </script>
 
 
