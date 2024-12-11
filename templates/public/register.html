@@ -25,8 +25,8 @@
                                 <input type="hidden" name="role" value="user">
                                 <div class="row">
                                     <div class="col-sm-6" id="toggle_preview">
-                                        <label for="inputGroupFile01" class="preview_label"></label>
-                                        <iframe frameborder="0" id="file_preview" class="d-none"   width="100%" height="100%"></iframe>
+                                        <label for="userResumeLogo" class="preview_label"></label>
+                                        <iframe frameborder="0" id="file_preview" class="d-none" width="100%" height="100%"></iframe>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-floating mb-3" id="headline">
@@ -66,10 +66,10 @@
                                         </div>
 
                                         <div class="input-group mb-3" id="resume_logo">
-                                            <label for="inputGroupFile01" class="input-group-text">
-                                                Upload Resume 
+                                            <label for="userResumeLogo" class="input-group-text">
+                                                Upload Resume
                                             </label>
-                                            <input type="file" accept="application/pdf" name="resume_logo" class="form-control" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" onchange="setPreview(this)"required>
+                                            <input type="file" accept="application/pdf" name="resume_logo" class="form-control" id="userResumeLogo" onchange="setPreview(this,'userForm')" required>
                                             <div class="invalid-feedback" id="resume_logo_error"></div>
                                         </div>
 
@@ -99,74 +99,90 @@
                             <form novalidate method="post" class=" d-none" id="recruiterForm">
                                 {% csrf_token %}
                                 <input type="hidden" name="role" value="recruiter">
-                                <div class="form-floating mb-3" id="company">
-                                    <input class="form-control" type="text" name="company" placeholder="" required />
-                                    <label>Company Name</label>
-                                    <div class="invalid-feedback"></div>
-                                </div>
-
-                                <div class="form-floating mb-3" id="headline">
-                                    <input type="hidden" name="headline">
-                                    <input type="text" placeholder="" class="form-control capitalize" onblur="setTimeout(() => {blurDrop('headline')}, 500);" onfocus="focusDrop(this)" onkeyup="debouncedOnInput(this, 'search_job_title_ajax')" required>
-                                    <label>Job Title</label>
-                                    <div class="invalid-feedback"></div>
-                                    <div class="dropdown">
-                                        <ul class="dropdown-menu dropdown-menu-dark w-100"> </ul>
+                                <div class="row">
+                                    <div class="col-sm-6" id="toggle_preview">
+                                        <label for="recruiterResumeLogo" class="preview_label"></label>
+                                        <img id="file_preview" class="d-none" width="100%" height="100%">
                                     </div>
-                                </div>
+                                    <div class="col-sm-6">
 
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <div class="form-floating mb-3 mb-md-0" id="first_name">
-                                            <input class="form-control" type="text" placeholder="" required name="first_name" />
-                                            <label>First name</label>
+                                        <div class="input-group mb-3" id="resume_logo">
+                                            <label for="recruiterResumeLogo" class="input-group-text">
+                                                Upload Logo
+                                            </label>
+                                            <input type="file" accept="image/*" name="resume_logo" class="form-control" id="recruiterResumeLogo"  onchange="setPreview(this,'recruiterForm')" required>
+                                            <div class="invalid-feedback" id="resume_logo_error"></div>
+                                        </div>
+
+                                        <div class="form-floating mb-3" id="company">
+                                            <input class="form-control" type="text" name="company" placeholder="" required />
+                                            <label>Company Name</label>
                                             <div class="invalid-feedback"></div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-floating" id="last_name">
-                                            <input class="form-control" type="text" placeholder="" required name="last_name" />
-                                            <label>Last name</label>
-                                            <div class="invalid-feedback" id="last_name_error"></div>
+
+                                        <div class="form-floating mb-3" id="headline">
+                                            <input type="hidden" name="headline">
+                                            <input type="text" placeholder="" class="form-control capitalize" onblur="setTimeout(() => {blurDrop('headline')}, 500);" onfocus="focusDrop(this)" onkeyup="debouncedOnInput(this, 'search_job_title_ajax')" required>
+                                            <label>Job Title</label>
+                                            <div class="invalid-feedback"></div>
+                                            <div class="dropdown">
+                                                <ul class="dropdown-menu dropdown-menu-dark w-100"> </ul>
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <div class="form-floating mb-3 mb-md-0" id="first_name">
+                                                    <input class="form-control" type="text" placeholder="" required name="first_name" />
+                                                    <label>First name</label>
+                                                    <div class="invalid-feedback"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-floating" id="last_name">
+                                                    <input class="form-control" type="text" placeholder="" required name="last_name" />
+                                                    <label>Last name</label>
+                                                    <div class="invalid-feedback" id="last_name_error"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-floating mb-3" id="email">
+                                            <input name="email" type="email" placeholder="" class="form-control" required>
+                                            <label>Email Address</label>
+                                            <div class="invalid-feedback"></div>
+                                        </div>
+
+                                        <div class="form-floating mb-3" id="location">
+                                            <input type="hidden" name="location">
+                                            <input type="text" placeholder="" class="form-control capitalize" onfocus="focusDrop(this)" onblur="setTimeout(() => {blurDrop('location')}, 500);" onkeyup="debouncedOnInput(this, 'search_location_ajax')">
+                                            <label>Location</label>
+                                            <div class="dropdown">
+                                                <ul class="dropdown-menu dropdown-menu-dark w-100"> </ul>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="form-floating mb-3" id="password">
+                                            <input class="form-control" name="password" type="password" placeholder="" required />
+                                            <label>Password</label>
+                                            <div class="invalid-feedback" id="password_error"></div>
+
+                                            <div>
+                                                <label class="text-secondary"><input type="checkbox" onchange="passwordToggle('recruiterForm')"> Show Password</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <button class="btn btn-primary w-100 submit_btn" type="submit">CreateAccount</button>
                                         </div>
                                     </div>
-                                </div>
-
-                                <div class="form-floating mb-3" id="email">
-                                    <input name="email" type="email" placeholder="" class="form-control" required>
-                                    <label>Email Address</label>
-                                    <div class="invalid-feedback"></div>
-                                </div>
-
-                                <div class="form-floating mb-3" id="location">
-                                    <input type="hidden" name="location">
-                                    <input type="text" placeholder="" class="form-control capitalize" onfocus="focusDrop(this)" onblur="setTimeout(() => {blurDrop('location')}, 500);" onkeyup="debouncedOnInput(this, 'search_location_ajax')">
-                                    <label>Location</label>
-                                    <div class="dropdown">
-                                        <ul class="dropdown-menu dropdown-menu-dark w-100"> </ul>
-                                    </div>
-                                </div>
-
-
-                                <div class="form-floating mb-3" id="password">
-                                    <input class="form-control" name="password" type="password" placeholder="" required />
-                                    <label>Password</label>
-                                    <div class="invalid-feedback" id="password_error"></div>
-
-                                    <div>
-                                        <label class="text-secondary"><input type="checkbox" onchange="passwordToggle('recruiterForm')"> Show Password</label>
-                                    </div>
-                                </div>
-                                <div class="col-sm-12">
-                                    <button class="btn btn-primary w-100 submit_btn" type="submit">CreateAccount</button>
-                                </div>
                             </form>
                         </div>
                         <div class="card-footer text-center py-3">
                             <div class="small"><a href="/login">Have an account? Go to login</a></div>
                         </div>
                     </div>
-                </div> 
+                </div>
                 <div class="col-xl-1"></div>
             </div>
         </div>
@@ -217,29 +233,29 @@
 
         // check validation
         if (event.target.checkValidity()) {
-        pending("submit_btn", "Registering ... ", true)
+            pending("submit_btn", "Registering ... ", true)
 
-        // ajax reqeust to submit form
-        fetch("/register_ajax",
-            {
-                body: new FormData(event.target),
-                method: 'POST'
-            }).then(res => {
+            // ajax reqeust to submit form
+            fetch("/register_ajax",
+                {
+                    body: new FormData(event.target),
+                    method: 'POST'
+                }).then(res => {
 
-                pending("submit_btn", "Create Account", false)
+                    pending("submit_btn", "Create Account", false)
 
-                if (!res.ok)
-                    return res.text().then(text => { throw new Error(text) })
-                else
-                    return res.json();
+                    if (!res.ok)
+                        return res.text().then(text => { throw new Error(text) })
+                    else
+                        return res.json();
 
-            }).then(data => {
-                window.location.href = data.redirect;
+                }).then(data => {
+                    window.location.href = data.redirect;
 
-            }).catch(err => {
-                const serverErrors = JSON.parse(err.message);
-                setErrors(serverErrors, true, event.target.id);
-            });
+                }).catch(err => {
+                    const serverErrors = JSON.parse(err.message);
+                    setErrors(serverErrors, true, event.target.id);
+                });
         }
 
         event.target.classList.add('was-validated')

@@ -308,7 +308,7 @@ table thead{
         text-align: center;
     }
 
-    #toggle_preview{
+    #toggle_previewz{
         display: none;
     }
 }
@@ -317,7 +317,7 @@ input[type=file] {
     display: none; 
 }
 
-#resume_logo label[for="inputGroupFile01"]{
+#resume_logo label[for = "recruiterResumeLogo"],#resume_logo label[for = "userResumeLogo"]{
     cursor: pointer;
     width: 100%;
     border: 1px solid white;
@@ -329,11 +329,19 @@ input[type=file] {
     background: #eee;
     display: flex;
     height: 100%;
-    background-image: url(/static/images/drag_drop.png); 
     background-repeat: no-repeat;
     background-position: 50%;
     transition: ease-in .2s;
 }
+
+#userForm .preview_label{ 
+    background-image: url(/static/images/drag_drop.png); 
+}
+
+#recruiterForm .preview_label{ 
+    background-image: url(/static/images/logo_preview.png); 
+}
+
 
 .preview_label:hover{
     background-color: #ddd;
@@ -350,4 +358,11 @@ input[type=file] {
 
 #resume_modal .modal-content{
     height: 100%
+}
+
+#toggle_preview img{
+    width: 200px;
+    height: 200px;
+    display: block;
+    margin: auto;
 }

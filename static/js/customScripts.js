@@ -118,21 +118,31 @@ const formatter = new Intl.NumberFormat('en-US', {
 //     }
 // }
 
-const setPreview = (target) => {
+const setPreview = (target, type) => {
    
     
     const file = target.files;
+    const toggle_preview = $(`#${type} #toggle_preview`);
+    let text = "Logo";
+    let output_type = "img";
+
+    if (type === "userForm"){
+        text = "Resume"
+        output_type = "iframe"
+    }
+
 
     if(file.length === 0 ){ 
-        $("#toggle_preview label").removeClass("d-none");
-        $("#toggle_preview iframe").addClass("d-none");
-        $("#resume_logo label").text("Attach Resume");
+        toggle_preview.find("label").removeClass("d-none");
+        toggle_preview.find(output_type).addClass("d-none");
+        $("#resume_logo label").text(`Attach ${text}`); 
     }else{
         const fileURL = URL.createObjectURL(file[0]);
-        document.getElementById('file_preview').src = fileURL;
-        $("#toggle_preview label").addClass("d-none");
-        $("#toggle_preview iframe").removeClass("d-none");
-        $("#resume_logo label").text("Change Resume Selection");
+
+        toggle_preview.find("#file_preview").attr("src", fileURL)
+        toggle_preview.find("label").addClass("d-none");
+        toggle_preview.find(output_type).removeClass("d-none");
+        $("#resume_logo label").text(`Change ${text} Selection`); 
     }
 }
  
