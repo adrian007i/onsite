@@ -317,7 +317,7 @@ input[type=file] {
     display: none; 
 }
 
-#resume_logo label[for = "recruiterResumeLogo"],#resume_logo label[for = "userResumeLogo"]{
+#resume_logo label[for = "recruiterResumeLogo"],#resume_logo label[for = "userResumeLogo"], #resume_logo label[for = "inputGroupFile01"]{
     cursor: pointer;
     width: 100%;
     border: 1px solid white;
