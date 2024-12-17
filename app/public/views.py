@@ -108,9 +108,14 @@ def register_ajax(request):
     try:
         u.full_clean()  
 
+        if u.role == "user":
+            contentType = "application/pdf"
+        else:
+            contentType = "image/*"
+
         try:
             obj = boto3.client("s3",aws_access_key_id=os.getenv("AWS_KEY"),  aws_secret_access_key= os.getenv("AWS_SECRET"), region_name="us-east-1")  
-            obj.upload_fileobj(request.FILES.get("resume_logo"), "onsite-job", u.resume_logo,ExtraArgs={"ContentType": "application/pdf"})
+            obj.upload_fileobj(request.FILES.get("resume_logo"), "onsite-job", u.resume_logo,ExtraArgs={"ContentType": contentType})
         except Exception as e:   
             return JsonResponse({"resume_logo" : "Could not attach! Try Later"} , status=400)
  
@@ -130,7 +135,6 @@ def register_ajax(request):
     
 @login_required 
 def profile(request):
-    
     return render(request , "public/profile.html", {"S3_ACCESS_POINT": os.getenv("S3_ACCESS_POINT")})
 
 @login_required
@@ -156,6 +160,20 @@ def profile_ajax(request):
             user.password= make_password(request.POST.get("password"))
             auth_login(request,user)
 
+        if "resume_logo" in request.FILES:
+            user.resume_logo = generate_file_name() +"_"+ str(request.FILES.get("resume_logo")) 
+
+        if user.role == "user":
+            contentType = "application/pdf"
+        else:
+            contentType = "image/*"
+
+        try:
+            obj = boto3.client("s3",aws_access_key_id=os.getenv("AWS_KEY"),  aws_secret_access_key= os.getenv("AWS_SECRET"), region_name="us-east-1")  
+            obj.upload_fileobj(request.FILES.get("resume_logo"), "onsite-job", user.resume_logo,ExtraArgs={"ContentType": contentType})
+        except Exception as e:   
+            return JsonResponse({"resume_logo" : "Could not attach! Try Later"} , status=400)
+
         user.save()
                
         return JsonResponse ({})
@@ -163,6 +181,7 @@ def profile_ajax(request):
     except IntegrityError as ie: 
         return JsonResponse({"email" : "This email already exist!"} , status=400)
     except Exception as e:
+
         return JsonResponse({"server" : "Something went wrong. Try Later!"} , status=400)
     
 

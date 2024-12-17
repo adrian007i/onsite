@@ -14,16 +14,22 @@
                             <h3 class="text-center font-weight-light my-4">Profile</h3>
                         </div>
 
-                        <div class="row">
-                            <div class="col-sm-6" id="toggle_preview" >
-                                <label for="inputGroupFile01" class="preview_label d-none"></label>
-                                <iframe  id="file_preview" src="{{S3_ACCESS_POINT}}{{request.user.resume_logo}}" frameborder="0" width="100%" height="100%"></iframe> 
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="card-body">
-                                    {% if request.user.role == "user" %}
-                                    <form novalidate method="post" id="profileForm">
-                                        {% csrf_token %}
+                        <!-- <div class="col-sm-6" id="toggle_preview">
+                            {% if request.user.role == "user" %}
+                            <label for="inputGroupFile01" class="preview_label d-none"></label>
+                            <iframe id="file_preview" src="{{S3_ACCESS_POINT}}{{request.user.resume_logo}}" frameborder="0" width="100%" height="100%"></iframe>
+                            {% else%}
+                            
+                            {% endif %}
+                        </div> -->
+                        <div class="card-body">
+                            {% if request.user.role == "user" %}
+                            <form novalidate method="post" id="profileForm">
+                                {% csrf_token %}
+
+                                <div class="row">
+
+                                    <div class="col-sm-6">
                                         <div class="form-floating mb-3" id="headline">
                                             <input type="hidden" name="headline" value="{{user.headline_id}}">
                                             <input type="text" placeholder="" value="{{user.headline.name}}" class="form-control capitalize" onblur="setTimeout(() => {blurDrop('headline')}, 500);" onfocus="focusDrop(this)" onkeyup="debouncedOnInput(this, 'search_job_title_ajax')" required>
@@ -62,7 +68,7 @@
                                             <label for="inputGroupFile01" class="input-group-text ">
                                                 Change Resume Selected
                                             </label>
-                                            <input type="file" accept="application/pdf" name="resume_logo" class="form-control" value="{{request.user.resume_logo}}" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" onchange="setPreview(this)"required>
+                                            <input type="file" accept="application/pdf" name="resume_logo" class="form-control" value="{{request.user.resume_logo}}" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" onchange="setPreview(this)" required>
                                             <div class="invalid-feedback" id="resume_logo_error"></div>
                                         </div>
 
@@ -83,11 +89,28 @@
                                         <div class="col-sm-12">
                                             <button class="btn btn-primary w-100 submit_btn" type="submit">Update Profile</button>
                                         </div>
-                                    </form>
-                                    {% else %}
-                                    <form novalidate method="post" id="profileForm">
-                                        {% csrf_token %}
-                                        <input type="hidden" name="role" value="user">
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <label for="file_preview" class="preview_label d-none"></label>
+                                        <img id="file_preview" src="{{S3_ACCESS_POINT}}{{request.user.resume_logo}}" width="100%" height="100%">
+
+                                    </div>
+
+                                </div>
+                            </form>
+                            {% else %}
+                            <form novalidate method="post" id="profileForm">
+                                {% csrf_token %}
+                                <input type="hidden" name="role" value="recruiter">
+
+                                <div class="row">
+                                    <div class="col-sm-6" id="toggle_preview">
+                                        <label for="inputGroupFile01" class="preview_label d-none"></label>
+                                        <img  id="file_preview" src="{{S3_ACCESS_POINT}}{{request.user.resume_logo}}"   width="100%" height="100%"/>
+                                    </div>
+
+                                    <div class="col-sm-6">
                                         <div class="form-floating mb-3" id="company">
                                             <input class="form-control" type="text" name="company" placeholder="" required value="{{request.user.company}}" />
                                             <label>Company Name</label>
@@ -102,55 +125,64 @@
                                             <div class="dropdown">
                                                 <ul class="dropdown-menu dropdown-menu-dark w-100"> </ul>
                                             </div>
-
-                                            <div class="row mb-3">
-                                                <div class="col-md-6">
-                                                    <div class="form-floating mb-3 mb-md-0" id="first_name">
-                                                        <input class="form-control" type="text" placeholder="" required name="first_name" value="{{request.user.first_name}}" />
-                                                        <label>First name</label>
-                                                        <div class="invalid-feedback"></div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-floating" id="last_name">
-                                                        <input class="form-control" type="text" placeholder="" required name="last_name" value="{{request.user.last_name}}" />
-                                                        <label>Last name</label>
-                                                        <div class="invalid-feedback" id="last_name_error"></div>
-                                                    </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <div class="form-floating mb-3 mb-md-0" id="first_name">
+                                                    <input class="form-control" type="text" placeholder="" required name="first_name" value="{{request.user.first_name}}" />
+                                                    <label>First name</label>
+                                                    <div class="invalid-feedback"></div>
                                                 </div>
                                             </div>
-
-                                            <div class="form-floating mb-3" id="email">
-                                                <input name="email" type="email" placeholder="" class="form-control" required value="{{request.user.email}}">
-                                                <label>Email Address</label>
-                                                <div class="invalid-feedback"></div>
-                                            </div>
-
-                                            <div class="form-floating mb-3" id="location">
-                                                <input type="hidden" name="location" value="{% if request.user.location %}{{request.user.location_id}}{%endif%}">
-                                                <input type="text" placeholder="" value="{{request.user.location.name}}" class="form-control capitalize" onfocus="focusDrop(this)" onblur="setTimeout(() => {blurDrop('location')}, 500);" onkeyup="debouncedOnInput(this, 'search_location_ajax')">
-                                                <label>Location</label>
-                                                <div class="dropdown">
-                                                    <ul class="dropdown-menu dropdown-menu-dark w-100"> </ul>
+                                            <div class="col-md-6">
+                                                <div class="form-floating" id="last_name">
+                                                    <input class="form-control" type="text" placeholder="" required name="last_name" value="{{request.user.last_name}}" />
+                                                    <label>Last name</label>
+                                                    <div class="invalid-feedback" id="last_name_error"></div>
                                                 </div>
                                             </div>
+                                        </div>
 
+                                        <div class="input-group mb-3" id="resume_logo">
+                                            <label for="inputGroupFile01" class="input-group-text ">
+                                                Change Logo Selection
+                                            </label>
+                                            <input type="file" accept="image/*" name="resume_logo" class="form-control" value="{{request.user.resume_logo}}" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" onchange="setPreview(this,'profileForm')" required>
+                                            <div class="invalid-feedback" id="resume_logo_error"></div>
+                                        </div>
 
-                                            <div class="form-floating mb-3" id="password">
-                                                <input class="form-control" name="password" type="password" placeholder="" />
-                                                <label>Password</label>
+                                        <div class="form-floating mb-3" id="email">
+                                            <input name="email" type="email" placeholder="" class="form-control" required value="{{request.user.email}}">
+                                            <label>Email Address</label>
+                                            <div class="invalid-feedback"></div>
+                                        </div>
 
-                                                <div>
-                                                    <label class="text-secondary"><input type="checkbox" onchange="passwordToggle('profileForm')"> Show Password</label>
-                                                </div>
+                                        <div class="form-floating mb-3" id="location">
+                                            <input type="hidden" name="location" value="{% if request.user.location %}{{request.user.location_id}}{%endif%}">
+                                            <input type="text" placeholder="" value="{{request.user.location.name}}" class="form-control capitalize" onfocus="focusDrop(this)" onblur="setTimeout(() => {blurDrop('location')}, 500);" onkeyup="debouncedOnInput(this, 'search_location_ajax')">
+                                            <label>Location</label>
+                                            <div class="dropdown">
+                                                <ul class="dropdown-menu dropdown-menu-dark w-100"> </ul>
                                             </div>
-                                            <div class="col-sm-12">
-                                                <button class="btn btn-primary w-100 submit_btn" type="submit">Update Profile</button>
+                                        </div>
+
+
+                                        <div class="form-floating mb-3" id="password">
+                                            <input class="form-control" name="password" type="password" placeholder="" />
+                                            <label>Password</label>
+
+                                            <div>
+                                                <label class="text-secondary"><input type="checkbox" onchange="passwordToggle('profileForm')"> Show Password</label>
                                             </div>
-                                    </form>
-                                    {% endif %}
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <button class="btn btn-primary w-100 submit_btn" type="submit">Update Profile</button>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+
+                            </form>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

@@ -123,6 +123,8 @@ const setPreview = (target, type) => {
     
     const file = target.files;
     const toggle_preview = $(`#${type} #toggle_preview`);
+    console.log(toggle_preview.html());
+    
     let text = "Logo";
     let output_type = "img";
 
@@ -131,6 +133,8 @@ const setPreview = (target, type) => {
         output_type = "iframe"
     }
 
+    
+    
 
     if(file.length === 0 ){ 
         toggle_preview.find("label").removeClass("d-none");
