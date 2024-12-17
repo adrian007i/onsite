@@ -14,20 +14,16 @@
                             <h3 class="text-center font-weight-light my-4">Profile</h3>
                         </div>
 
-                        <!-- <div class="col-sm-6" id="toggle_preview">
-                            {% if request.user.role == "user" %}
-                            <label for="inputGroupFile01" class="preview_label d-none"></label>
-                            <iframe id="file_preview" src="{{S3_ACCESS_POINT}}{{request.user.resume_logo}}" frameborder="0" width="100%" height="100%"></iframe>
-                            {% else%}
-                            
-                            {% endif %}
-                        </div> -->
                         <div class="card-body">
                             {% if request.user.role == "user" %}
                             <form novalidate method="post" id="profileForm">
-                                {% csrf_token %}
-
+                                {% csrf_token %} 
+                                
                                 <div class="row">
+                                    <div class="col-sm-6" id="toggle_preview">
+                                        <label for="file_preview" class="preview_label d-none"></label>
+                                        <iframe frameborder="0" src="{{S3_ACCESS_POINT}}{{request.user.resume_logo}}" id="file_preview" width="100%" height="100%"></iframe>
+                                    </div>
 
                                     <div class="col-sm-6">
                                         <div class="form-floating mb-3" id="headline">
@@ -68,7 +64,7 @@
                                             <label for="inputGroupFile01" class="input-group-text ">
                                                 Change Resume Selected
                                             </label>
-                                            <input type="file" accept="application/pdf" name="resume_logo" class="form-control" value="{{request.user.resume_logo}}" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" onchange="setPreview(this)" required>
+                                            <input type="file" accept="application/pdf" name="resume_logo" class="form-control" value="{{request.user.resume_logo}}" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" onchange="setPreview(this,'profileForm')" required>
                                             <div class="invalid-feedback" id="resume_logo_error"></div>
                                         </div>
 
@@ -91,11 +87,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-sm-6">
-                                        <label for="file_preview" class="preview_label d-none"></label>
-                                        <img id="file_preview" src="{{S3_ACCESS_POINT}}{{request.user.resume_logo}}" width="100%" height="100%">
 
-                                    </div>
 
                                 </div>
                             </form>
@@ -107,7 +99,7 @@
                                 <div class="row">
                                     <div class="col-sm-6" id="toggle_preview">
                                         <label for="inputGroupFile01" class="preview_label d-none"></label>
-                                        <img  id="file_preview" src="{{S3_ACCESS_POINT}}{{request.user.resume_logo}}"   width="100%" height="100%"/>
+                                        <img id="file_preview" src="{{S3_ACCESS_POINT}}{{request.user.resume_logo}}" width="100%" height="100%" />
                                     </div>
 
                                     <div class="col-sm-6">
