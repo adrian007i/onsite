@@ -53,7 +53,7 @@
                         </div>
 
                         <div class="row mb-3">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-floating" id="experience_level">
                                     <select class="form-control form-select" name="experience_level">
                                         <option {% if job.experience_level == 'any' %}selected{% endif %} value="any">Any</option>
@@ -68,7 +68,7 @@
                                     <label>Experience</label>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-floating" id="salary_min" >
                                     <input class="form-control" type="number" placeholder="" name="salary_min" value="{{job.salary_min|default_if_none:''}}"/>
                                     <label>Min Salary</label>
@@ -76,11 +76,22 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-floating" id="salary_max" >
                                     <input class="form-control" type="number" placeholder="" name="salary_max" value="{{job.salary_max|default_if_none:''}}" />
                                     <label>Max Salary </label>
                                     <div class="invalid-feedback"></div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-floating" id="hybrid">
+                                    <select class="form-control form-select" name="hybrid">
+                                        <option value="0">Onsite</option>
+                                        <option {% if job.hybrid %}selected{% endif %} value="1">Hybrid</option>
+                                        
+                                    </select>
+                                    <label>Type</label>
                                 </div>
                             </div>
                         </div>

@@ -30,6 +30,7 @@ class JobHead(models.Model):
     active_to = models.DateField(null=True)
     draft = models.BooleanField(default=False)
     created_by =  models.ForeignKey(User, on_delete=models.SET_NULL,null=True,  related_name="created_by")
+    hybrid = models.BooleanField(default=False)
     
     # def __str__(self):
     #     return self.title

@@ -200,6 +200,7 @@ def new_job_ajax(request):
         jh.active_from = formatDate(request.POST.get('active_from'))
         jh.active_to = formatDate(request.POST.get('active_to'))
         jh.created_by_id = request.user.id
+        jh.hybrid = request.POST.get('hybrid')
             
         jh.save()
         
@@ -220,5 +221,6 @@ def new_job_ajax(request):
  
 
     except Exception as e:  
+        print(str(e))
         return JsonResponse({"server" : "Something went wrong. Try Later!"} , status=400)
  
