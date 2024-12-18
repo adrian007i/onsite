@@ -30,7 +30,7 @@
                         <div class="col-sm-2">
                             <br>
                             <div>
-                                <select name="hybrid" id="hybrid"  class="form-control p-2">
+                                <select name="hybrid" id="hybrid"  class="form-control form-select p-2">
                                     <option value="">Type</option>
                                     <option value="0" {% if request.GET.hybrid == '0' %}selected{% endif %}>Onsite Only</option>
                                     <option value="1" {% if request.GET.hybrid == '1' %}selected{% endif %}>Hybrid Only</option>
