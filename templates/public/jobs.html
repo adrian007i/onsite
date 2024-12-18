@@ -7,7 +7,7 @@
     <main>
 
         <div class="bg-dark">
-            <div style="max-width: 800px; margin:auto;">
+            <div style="max-width: 900px; margin:auto;">
                 <form action="/jobs">
                     <input type="hidden" name="page" value="1">
                     <div class="row">
@@ -17,7 +17,7 @@
                                 <input type="text" name="job_title" class="form-control p-2" placeholder="Job Title or Keywords" value="{{request.GET.job_title}}">
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-4">
                             <br>
                             <div id="location">
                                 <input type="hidden" name="location" value="{{request.GET.location}}">
@@ -25,6 +25,17 @@
                                 <div class="dropdown">
                                     <ul class="dropdown-menu dropdown-menu-dark w-100"> </ul>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <br>
+                            <div>
+                                <select name="hybrid" id="hybrid"  class="form-control p-2">
+                                    <option value="">Type</option>
+                                    <option value="0" {% if request.GET.hybrid == '0' %}selected{% endif %}>Onsite Only</option>
+                                    <option value="1" {% if request.GET.hybrid == '1' %}selected{% endif %}>Hybrid Only</option>
+                                </select>
+                                
                             </div>
                         </div>
                         <div class="col-sm-2">

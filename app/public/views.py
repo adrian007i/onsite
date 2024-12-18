@@ -206,6 +206,9 @@ def jobs(request):
         
         if "page" in request.GET: 
             page = int(request.GET["page"]) - 1
+
+        if "hybrid" in request.GET and request.GET["hybrid"] != "": 
+            query &= Q(hybrid=request.GET["hybrid"])
  
 
         jobs = JobHead.objects.filter(query).order_by('id')
@@ -213,7 +216,7 @@ def jobs(request):
         jobs = jobs[page * 10 : (page * 10) + 10]
 
     except Exception as e:   
-        return HttpResponseRedirect('/jobs?page=1&job_title=&location=')
+        return HttpResponseRedirect('/jobs?page=1&job_title=&location=&hybrid=')
  
     if len(jobs) != 0:
         
