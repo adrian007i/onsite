@@ -31,11 +31,17 @@
                     <button class="text-primary btn border-primary"> <i class="fas fa-star"></i> Saved </button>
                     {% endif %}
 
-                    {% if not applied %}
-                    <button class="btn btn-success" onclick="apply_save('apply')">Apply</button>
+                    {% if jd.job_head.external_link %} 
+                            <a href="{{jd.job_head.external_link}}" class="btn btn-success" role="button" target="_blank" rel="noopener noreferrer">Apply Externally</a>
                     {% else %}
-                    <button class="text-success btn border-success"> <i class="fas fa-check-circle"></i> Applied </button>
+
+                        {% if not applied %}
+                            <button class="btn btn-success" onclick="apply_save('apply')">Apply</button> 
+                        {% else %}
+                            <button class="text-success btn border-success"> <i class="fas fa-check-circle"></i> Applied </button>
+                        {% endif %}
                     {% endif %}
+                    
                     {% endif %}
 
 

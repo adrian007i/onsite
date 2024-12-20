@@ -201,6 +201,12 @@ def new_job_ajax(request):
         jh.active_to = formatDate(request.POST.get('active_to'))
         jh.created_by_id = request.user.id
         jh.hybrid = request.POST.get('hybrid')
+
+        if request.POST.get('external_link').strip() == "":
+            jh.external_link = None
+        else:
+            jh.external_link = request.POST.get('external_link')
+
             
         jh.save()
         

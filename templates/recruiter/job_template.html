@@ -96,6 +96,12 @@
                             </div>
                         </div>
 
+                        <div class="form-floating mb-3" id="external_link">
+                            <input type="text" class="form-control" name="external_link" placeholder="External Application Link" value = "{% if job.external_link %}{{job.external_link}}{% endif %}"/>
+                            <label for="external_link">External Application Link</label>
+                            <div class="invalid-feedback"></div>
+                        </div>
+
                         <div class="form-floating mb-3" id="summary">
                             <textarea class="form-control" name="summary" placeholder="Job Summary" style="height: 150px;">{{job.details.summary}}</textarea>
                             <label for="summary">Job Summary</label>
