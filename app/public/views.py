@@ -259,6 +259,7 @@ def job(request,id,title):
 
     job_saved = False
     job_applied = False 
+    external_clicks = 0
 
     if request.user.is_authenticated:
         saved = Saved.objects.filter(Q(user_id = request.user.id) & Q(job_id = id)).first() 
@@ -268,14 +269,14 @@ def job(request,id,title):
         applied = Applicant.objects.filter(Q(user_id = request.user.id) & Q(job_id = id)).first()
         if applied:
             job_applied = True
-
+            external_clicks = applied.external_clicks
     try:
         job = JobDetail.objects.get(job_head_id = id)
     except Exception as e:
         job = None  
  
  
-    return render(request , "public/job.html", {"jd" : job, "applied" : job_applied, "saved":job_saved}) 
+    return render(request , "public/job.html", {"jd" : job, "applied" : job_applied, "saved":job_saved, "external_clicks": external_clicks}) 
 
 def companies_ajax(request): 
     

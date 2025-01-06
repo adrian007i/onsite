@@ -28,11 +28,16 @@
                     {% if not saved %}
                     <button class="btn btn-primary" onclick="apply_save('save')"> Save </button>
                     {% else %} 
-                    <button class="text-primary btn border-primary"> <i class="fas fa-star"></i> Saved </button>
+                    <button class="text-primary btn border-primary"> <i class="fas fa-star"></i> 
+                        Saved 
+                    </button>
                     {% endif %}
 
-                    {% if jd.job_head.external_link %} 
-                            <a href="{{jd.job_head.external_link}}" class="btn btn-success" role="button" target="_blank" rel="noopener noreferrer">Apply Externally</a>
+                    {% if jd.job_head.external_link %}  
+                            <button href="{{jd.job_head.external_link}}" class="btn btn-success" onclick="apply_save('apply')" >
+                                Apply Externally <small class="text-warning">clicked {{external_clicks}} times</small>
+                                <small><i class="fa-solid fa-arrow-up-right-from-square"></i></small>
+                            </button> 
                     {% else %}
 
                         {% if not applied %}
@@ -69,7 +74,8 @@
 
 
     const apply_save = type => {
-        fetch("/user/" + type + "_ajax/{{jd.job_head.id}}",
+        const isExternalLink = "{% if jd.job_head.external_link %}1{% else %}0{% endif %}";
+        fetch("/user/" + type + "_ajax/{{jd.job_head.id}}/"+isExternalLink,
             {
                 method: 'GET'
             }).then(res => {
@@ -80,10 +86,14 @@
                     return res.json();
 
             }).then(data => {
+                
+                if (isExternalLink){
+                    window.open("{{jd.job_head.external_link}}",'_blank');
+                }
                 location.reload()
-
             })
     }
+ 
 
     const back = () => {
         let referrer = document.referrer;

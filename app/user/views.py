@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from app.decorators import role_required
 from django.http import JsonResponse
-
+from django.db.models import Q
 
 from app.models.applicant import Applicant
 from app.models.saved import Saved
@@ -108,20 +108,31 @@ def saved_ajax(request):
 
 @login_required
 @role_required(role)
-def apply_ajax(request,id):
+def apply_ajax(request,id,isExternalLink):
 
     try:
-        app = Applicant()
+        if isExternalLink:
+            app = Applicant.objects.filter(Q(job_id = id) & Q(user_id = request.user.id)).first()
+        
+            if app:
+                app.external_clicks = app.external_clicks + 1
+            else:
+                app = Applicant()
+                app.external_clicks = 1
+        else:
+            app = Applicant()
+ 
         app.user_id = request.user.id
         app.job_id = id
         app.save()
         return JsonResponse({}, status=200)
     except Exception as e:
+        print(str(e))
         return JsonResponse({"server" : "Something went wrong. Try Later!"} , status=400)
      
 @login_required
 @role_required(role)
-def save_ajax(request,id):
+def save_ajax(request,id,isExternalLink):
 
     try:
         app = Saved()
