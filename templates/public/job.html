@@ -35,9 +35,11 @@
 
                     {% if jd.job_head.external_link %}  
                             <button href="{{jd.job_head.external_link}}" class="btn btn-success" onclick="apply_save('apply')" >
-                                Apply Externally <small class="text-warning">clicked {{external_clicks}} times</small>
+                                Apply Externally
                                 <small><i class="fa-solid fa-arrow-up-right-from-square"></i></small>
                             </button> 
+                            <br>
+                            <small class="text-danger">You clicked the applied button {{external_clicks}} times</small>
                     {% else %}
 
                         {% if not applied %}
